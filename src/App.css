@@ -40,12 +40,17 @@ header{
 .container{
   background-color: lightgray;
 }
-.set_list, .song-form{
+.set_list, .song-form, .gig-form{
   background-color: #92aac5;
   min-height:85vh;
 }
-.song-form{
+.song-form, .gig-form{
   padding:15px;
+}
+.gig-form{
+}
+.gig-form h2{
+  margin-top: 0px;
 }
 /*.form-group *{
   padding-bottom:10px;

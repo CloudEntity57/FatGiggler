@@ -43,7 +43,8 @@ class SongForm extends Component{
         <div className="row">
           <div className="col-sm-2 hidden-xs"></div>
             <div className="col-sm-8">
-              <form className="song-form form form-default wrapper" action="#" >
+              <form className="song-form form form-default" action="#" >
+                <h1>Add a Song</h1>
                 <div className="form-group">
                   <label for="title-input">Song Title</label>
                   <input id="title-input" ref="songtitle" type="text" className="form-control">
