@@ -43,7 +43,7 @@ class Dashboard extends Component {
 
   }
   componentDidMount(){
-    let time1 = moment.duration('00:05:30');
+    let time1 = moment.duration('00:6:30');
     let time2 = moment.duration('00:05:30');
     let result = time1+time2
     result = moment(result).format("m:ss");
