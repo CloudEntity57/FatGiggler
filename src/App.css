@@ -6,7 +6,7 @@ html{
 }
 body{
   padding:0px;
-  background-color:skyblue;
+  background-color:#998d69;
 }
 h1{
   margin-top: 0px;
@@ -16,13 +16,28 @@ header{
   height:15vh;
   padding: 0px 25px;
 }
-.wrapper{
-  border-left:35px solid #9cdef7;
-  border-right:35px solid #9cdef7;
+.clearfix:after {
+     visibility: hidden;
+     display: block;
+     font-size: 0;
+     content: " ";
+     clear: both;
+     height: 0;
+     }
+.clearfix { display: inline-block; }
+/* start commented backslash hack \*/
+* html .clearfix { height: 1%; }
+.clearfix { display: block; }
+/*.wrapper{
+  border-left:5px solid #f5ffbd;
+  border-right:5px solid #f5ffbd;
 
-}
+}*/
 .title{
   font-size: 3em;
+}
+.main_nav a:hover{
+  color:#f5ffbd;
 }
 .main_nav{
   float: right;
@@ -44,10 +59,34 @@ header{
   background-color: #92aac5;
   min-height:85vh;
 }
+.time-entry{
+  display:block;
+}
+.time-entry *{
+  float:left;
+  display:inline-block;
+  max-width:40px;
+}
 .song-form, .gig-form{
   padding:15px;
 }
+.gig-form *,.song-form *{
+  text-align: center;
+}
+.gig-form-container{
+  margin-left:0px;
+}
+.form-container{
+  max-width: 600px;
+}
+.form-group{
+  margin-bottom:5px;
+}
+.gig-form-container{
+  padding-left: 0px;
+}
 .gig-form{
+  margin-left:0px;
 }
 .gig-form h2{
   margin-top: 0px;

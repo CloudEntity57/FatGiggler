@@ -20,7 +20,7 @@ class GigForm extends Component {
       user => {
         let uid=0;
         if(user){
-          console.log('uid: ',user.uid);
+          // console.log('uid: ',user.uid);
           this.setState({
             uid:user.uid
           });
@@ -33,7 +33,7 @@ class GigForm extends Component {
                   this.setState({
                     songs:songs
                   });
-                  console.log('the Dash CWM songs: ',this.state.songs);
+                  // console.log('the Dash CWM songs: ',this.state.songs);
                 });
         }else{
           hashHistory.push('/');
@@ -76,7 +76,7 @@ class GigForm extends Component {
        //compare each genre in form:
        vibes.forEach((feel) =>{
           //compare to each genre in song mood(s):
-          console.log('this songs moods are: ',val.moods);
+          // console.log('this songs moods are: ',val.moods);
            val.moods.forEach((foo)=>{
               //if song mood = form genre
                if(foo==feel){
@@ -161,6 +161,7 @@ class GigForm extends Component {
     //  let results = this.shuffle(this.state.songs);
     //  console.log('shuffled results are: ',results);
      console.log('the current genres in state are: ',this.state.genres);
+     console.log('the current songs in state are: ',this.state.songs);
      let moodfiltered = this.filterByMood(this.state.songs,this.state.genres);
      console.log('after mood filter:',moodfiltered);
      this.setState({
@@ -244,7 +245,7 @@ class GigForm extends Component {
 
         <div className="row">
           {/* <div className="col-sm-2 hidden-xs"></div> */}
-            <div className="col-sm-6">
+            <div className="gig-form-container col-sm-6">
 
               <form className="gig-form form form-default" action="#" >
                 <h2>Create a Gig</h2>

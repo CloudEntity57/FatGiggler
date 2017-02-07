@@ -3,6 +3,7 @@ import SongArea from './SongArea';
 import SetList from './SetList';
 import { firebase, firebaseListToArray } from '../utils/firebase';
 import { hashHistory } from 'react-router';
+import moment from 'moment';
 
 class Dashboard extends Component {
   constructor(props){
@@ -42,7 +43,11 @@ class Dashboard extends Component {
 
   }
   componentDidMount(){
-
+    let time1 = moment.duration('00:05:30');
+    let time2 = moment.duration('00:05:30');
+    let result = time1+time2
+    result = moment(result).format("m:ss");
+    console.log('time is: ',result);
   }
 
 

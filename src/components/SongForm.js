@@ -29,14 +29,20 @@ class SongForm extends Component{
     const title = this.refs.songtitle.value;
     const artist = this.refs.artist.value;
     const lyrics = this.refs.lyrics.value;
-    const moods = this.refs.genresdesired.value;
-    console.log('title: ',title);
+    const moods = this.state.genres;
+    //handle parsing of time
+    // const minutes =
+    // const seconds =
+
+    //
+    console.log('moods: ',moods);
     const uid = this.state.uid;
     firebase.database()
     .ref('/'+uid+'/songs')
     .push({
       title:title,
       artist:artist,
+      // time:time,
       lyrics:lyrics,
       moods:moods
     }).then((data)=>{
@@ -88,20 +94,40 @@ class SongForm extends Component{
     return(
       <div>
         <div className="row">
-          <div className="col-sm-2 hidden-xs"></div>
-            <div className="col-sm-8">
+          <div className="col-sm-2 col-md-3 hidden-xs"></div>
+            <div className="col-sm-8 col-md-6">
               <form className="song-form form form-default" action="#" >
                 <h1>Add a Song</h1>
                 <div className="form-group">
-                  <label for="title-input">Song Title</label>
-                  <input id="title-input" ref="songtitle" type="text" className="form-control">
+                  <div className="row">
+                    <div className="col-sm-6">
+                    <div className="col-sm-12">
+                      <label for="title-input">Song Title</label>
+                      <input id="title-input" ref="songtitle" type="text" className="form-control">
 
-                  </input>
-                  <label for="artist-input">Artist</label>
-                  <input id="artist-input" ref="artist" type="text" className="form-control">
+                      </input>
+                    </div>
+                    <div className="col-sm-12">
+                      <label for="artist-input">Artist</label>
+                      <input id="artist-input" ref="artist" type="text" className="form-control">
+                      </input>
+                    </div>
+                    <div className="col-sm-12 time-entry">
+                      <input id="minutes" placeholder="min" type="number" ></input>
+                      <input id="seconds" placeholder="sec" type="number" ></input>
+                    </div>
+                  </div>
+                  <div className="col-sm-6">
+                    <img />
+                  </div>
+                  </div>
 
-                  </input>
+                </div>
 
+                <div className="form-group clearfix">
+
+                </div>
+                <div className="form-group">
                   <label for="lyrics-input">Lyrics</label>
                   <textarea id="lyrics-input" ref="lyrics" type="text" className="form-control">
                   </textarea>
@@ -121,11 +147,11 @@ class SongForm extends Component{
                 </div>
                 <div className="form-group">
                   <button type="submit" onClick={this.handleClick.bind(this)} className="btn btn-primary">Submit</button>
-                  <button type="submit" onClick={this.goBack.bind(this)} className="btn btn-primary">Done</button>
+                  <button type="submit" onClick={this.goBack.bind(this)} className="btn btn-primary">Go Back</button>
                 </div>
               </form>
             </div>
-          <div className="col-sm-2 hidden-xs"></div>
+          <div className="col-sm-2 col-md-3 hidden-xs"></div>
         </div>
       </div>
     );
