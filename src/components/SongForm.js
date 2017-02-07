@@ -31,8 +31,9 @@ class SongForm extends Component{
     const lyrics = this.refs.lyrics.value;
     const moods = this.state.genres;
     //handle parsing of time
-    const minutes =
-    const seconds =
+    const minutes =this.refs.minutes.value;
+    const seconds =this.refs.seconds.value;
+    minutes = moment.duration('00:05:30');
 
     //
     console.log('moods: ',moods);
@@ -113,8 +114,8 @@ class SongForm extends Component{
                       </input>
                     </div>
                     <div className="col-sm-12 time-entry">
-                      <input id="minutes" placeholder="min" type="number" ></input>
-                      <input id="seconds" placeholder="sec" type="number" ></input>
+                      <input id="minutes" ref="minutes" placeholder="min" type="number" ></input>
+                      <input id="seconds" ref="seconds" placeholder="sec" type="number" ></input>
                     </div>
                   </div>
                   <div className="col-sm-6">
