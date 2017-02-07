@@ -10,7 +10,8 @@ class GigForm extends Component {
     this.state={
       uid:0,
       genres:[],
-      gig:{}
+      gig:{},
+      show:false
     }
   }
   componentWillMount(){
@@ -41,10 +42,10 @@ class GigForm extends Component {
       });
 
   }
-  goBack(e){
-    e.preventDefault();
-    hashHistory.goBack();
-  }
+
+
+  //=====================GIG CREATION FUNCTIONS==========================
+
 
   shuffle(array){
    var currentIndex = array.length, temporaryValue, randomIndex;
@@ -67,19 +68,28 @@ class GigForm extends Component {
 
   filterByMood(songs,feels){
      this.shuffle(songs);
-     let moods = feels;
-     console.log('songs are:', songs, 'mood is: ',moods);
+     let vibes = feels;
      let results = [];
+     //go through each song:
      songs.forEach((val) =>{
        // console.log('val: ',val);
-       moods.forEach((mood) =>{
-         if(val.mood===mood){
-           console.log('this song is: ',val.title,',',val.id);
-           results.push(val);
-         }
+       //compare each genre in form:
+       vibes.forEach((feel) =>{
+          //compare to each genre in song mood(s):
+          console.log('this songs moods are: ',val.moods);
+           val.moods.forEach((foo)=>{
+              //if song mood = form genre
+               if(foo==feel){
+                 console.log('feeling match song is: ',val.title,',',val.id);
+                 results.push(val);
+               }
+
+           });
+
        });
 
      });
+
      console.log('results',results);
      return results;
    }
@@ -122,6 +132,9 @@ class GigForm extends Component {
       console.log('sets: ',results);
       return results;
    }
+
+   //=====================GIG DISPLAY FUNCTIONS==========================
+
    makeSets(e){
      e.preventDefault();
      let gigtitle = this.refs.gigtitle.value;
@@ -139,15 +152,35 @@ class GigForm extends Component {
      this.updateGig(gigtitle,maxminutes,genresdesired,setsdesired);
    }
    updateGig(title,minutes,genres,sets){
-     var newgig={
+     let newgig={
        title:title,
        genres:genres,
        sets:sets,
        maxminutes:minutes
      };
+    //  let results = this.shuffle(this.state.songs);
+    //  console.log('shuffled results are: ',results);
+     console.log('the current genres in state are: ',this.state.genres);
+     let moodfiltered = this.filterByMood(this.state.songs,this.state.genres);
+     console.log('after mood filter:',moodfiltered);
      this.setState({
        gig:newgig
+     },
+     this.previewGig
+   );
+
+   }
+   previewGig(){
+     console.log(this.state.gig);
+     this.setState({
+       show:true
      });
+   }
+   //==============================FORM FUNCTIONS=================
+
+   goBack(e){
+     e.preventDefault();
+     hashHistory.goBack();
    }
    testValue(x,array){
      for(let i=0; i<array.length; i++){
@@ -189,18 +222,23 @@ class GigForm extends Component {
      current_genres = current_genres.join(', ');
      this.refs.genresdesired.value=current_genres;
    }
-   previewGig(e){
-     e.preventDefault();
-     this.
-     console.log(this.state.gig)
-   }
 
   render(){
 
     const songs = (this.state.songs) ? this.state.songs.map(song => {
           return <SongButton songObject={ song } /> }) : '';
           console.log('songz: ',songs);
+    // var gigList = this.state.gig.map((val)=>{
+    //   return (<li>val.</li>);
+    // });
+    const gigInfo = (this.state.show) ? (
+      <div>
+      <h3>{this.state.gig.title}</h3>
+      <ul>
 
+      </ul>
+    </div>
+    ) :'';
     return(
       <div className="wrapper container">
 
@@ -230,23 +268,25 @@ class GigForm extends Component {
 
 
                   </div>
-                  <button ref="genre" id="blues" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs" >Blues</button>
-                  <button ref="genre" id="slow" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Slow</button>
-                  <button ref="genre" id="funk" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Funk</button>
-                  <button ref="genre" id="sublime" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Sublime</button>
-                  <button ref="genre" id="alternative" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Alternative</button>
-                  <button ref="genre" id="other" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Other</button>
+                  <button id="blues" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs" >Blues</button>
+                  <button id="slow" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Slow</button>
+                  <button id="upbeat" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Upbeat</button>
+                  <button id="funk" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Funk</button>
+                  <button id="sublime" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Sublime</button>
+                  <button id="alternative" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Alternative</button>
+                  <button id="other" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Other</button>
                 </div>
                 <div className="form-group">
                   <button type="submit" onClick={this.makeSets.bind(this)} className="btn btn-primary">Submit</button>
                   <button type="submit" onClick={this.goBack.bind(this)} className="btn btn-primary">Go Back</button>
-                  <button type="submit" onClick={this.previewGig.bind(this)} className="btn btn-primary">Preview</button>
+                  <button type="submit" onClick={this.makeSets.bind(this)} className="btn btn-primary">Preview</button>
                 </div>
               </form>
 
             </div>
             <div className="col-sm-6">
               <h2>Gig Preview</h2>
+              { gigInfo }
             </div>
           {/* <div className="col-sm-2 hidden-xs"></div> */}
         </div>
