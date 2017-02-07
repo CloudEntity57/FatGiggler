@@ -48,6 +48,15 @@ class Dashboard extends Component {
     let result = time1+time2
     result = moment(result).format("m:ss");
     console.log('time is: ',result);
+    let minutes = 6;
+    let seconds = 30;
+    minutes = moment.duration('00:'+minutes+':00');
+    seconds = moment.duration('00:00:'+seconds);
+    console.log('the minutes are: ',minutes);
+    console.log('the seconds are: ',seconds);
+    let result2 = minutes+seconds;
+    result2 = moment(result2).format("m:ss");
+    console.log('time2 is: ',result2);
   }
 
 
