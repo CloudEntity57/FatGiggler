@@ -31,8 +31,8 @@ class SongForm extends Component{
     const lyrics = this.refs.lyrics.value;
     const moods = this.state.genres;
     //handle parsing of time
-    // const minutes =
-    // const seconds =
+    const minutes =
+    const seconds =
 
     //
     console.log('moods: ',moods);
@@ -42,7 +42,7 @@ class SongForm extends Component{
     .push({
       title:title,
       artist:artist,
-      // time:time,
+      time:time,
       lyrics:lyrics,
       moods:moods
     }).then((data)=>{
