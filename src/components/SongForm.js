@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { firebase } from '../utils/firebase';
 import { hashHistory } from 'react-router';
+import moment from 'moment';
 
 
 class SongForm extends Component{
@@ -31,10 +32,13 @@ class SongForm extends Component{
     const lyrics = this.refs.lyrics.value;
     const moods = this.state.genres;
     //handle parsing of time
-    const minutes =this.refs.minutes.value;
-    const seconds =this.refs.seconds.value;
-    minutes = moment.duration('00:05:30');
-
+    let minutes =this.refs.minutes.value;
+    let seconds =this.refs.seconds.value;
+    minutes = moment.duration('00:'+minutes+':00');
+    seconds = moment.duration('00:00:'+seconds);
+    let time= minutes+seconds;
+    time= moment(time).format("m:ss");
+    console.log('time2 is: ',time);
     //
     console.log('moods: ',moods);
     const uid = this.state.uid;
