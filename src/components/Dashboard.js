@@ -34,6 +34,8 @@ class Dashboard extends Component {
                   });
                   console.log('the Dash CWM songs: ',this.state.songs);
                 });
+
+
         }else{
           hashHistory.push('/');
         }
@@ -46,6 +48,7 @@ class Dashboard extends Component {
     let time1 = moment.duration('00:6:30');
     let time2 = moment.duration('00:05:30');
     let result = time1+time2
+    console.log('milisec: ',time2);
     result = moment(result).format("m:ss");
     console.log('time is: ',result);
     let minutes = 6;
@@ -57,6 +60,11 @@ class Dashboard extends Component {
     let result2 = minutes+seconds;
     result2 = moment(result2).format("m:ss");
     console.log('time2 is: ',result2);
+    let testtime = '6:30';
+    testtime = moment(testtime,"m:ss");
+    console.log('testtime *2 = ',testtime+testtime);
+
+
   }
 
 

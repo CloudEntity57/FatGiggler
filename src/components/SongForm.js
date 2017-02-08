@@ -31,6 +31,10 @@ class SongForm extends Component{
     const artist = this.refs.artist.value;
     const lyrics = this.refs.lyrics.value;
     const moods = this.state.genres;
+    if(!title || !artist || !lyrics || !moods){
+      alert("All fields must be entered");
+      return null;
+    }
     //handle parsing of time
     let minutes =this.refs.minutes.value;
     let seconds =this.refs.seconds.value;

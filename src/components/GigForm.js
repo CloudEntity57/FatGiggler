@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { firebase, firebaseListToArray } from '../utils/firebase';
 import { hashHistory } from 'react-router';
+import moment from 'moment';
 
 import SongButton from './SongButton';
 
@@ -80,7 +81,7 @@ class GigForm extends Component {
            val.moods.forEach((foo)=>{
               //if song mood = form genre
                if(foo==feel){
-                 console.log('feeling match song is: ',val.title,',',val.id);
+                //  console.log('feeling match song is: ',val.title,',',val.id);
                  results.push(val);
                }
 
@@ -90,20 +91,30 @@ class GigForm extends Component {
 
      });
 
-     console.log('results',results);
+    //  console.log('results',results);
      return results;
    }
 
   sortByTime(songs,maxtime){
-     // songs.forEach((val)=>{
-     //   console.log('songs: ',val.title,',',val.length);
-     // });
-     let gigtime = 0;
-     songs.forEach((val)=>{
-       gigtime+=val.length;
-     });
-     console.log('total time: ',gigtime);
-     while(gigtime-maxtime > 5){
+    //  songs.forEach((val)=>{
+    //    console.log('songs: ',val.title,',',val.time);
+    //  });
+     let gigtime = [];
+
+     console.log('zero time is: ',gigtime);
+
+     for (let i=0; i<songs.length; i++){
+       let timeval = moment.duration(songs[i].time)._milliseconds;
+       console.log('timeval is: ',timeval);
+        gigtime.push(timeval);
+     }
+     console.log('the total added time: ',gigtime);
+     let total=0;
+     for(let i=0; i<gigtime.length; i++){
+       total+=gigtime[i];
+     }
+     console.log('the TOTAL: ',total);
+     while(total-maxtime > 5){
        songs.pop();
        this.sortByTime(songs,maxtime);
        break;
@@ -129,7 +140,7 @@ class GigForm extends Component {
         }
 
       }
-      console.log('sets: ',results);
+      // console.log('sets: ',results);
       return results;
    }
 
@@ -139,31 +150,40 @@ class GigForm extends Component {
      e.preventDefault();
      let gigtitle = this.refs.gigtitle.value;
      let maxminutes = this.refs.maxminutes.value;
+     //format in moment.js
+     maxminutes = moment.duration(maxminutes+':00')._milliseconds;
+     console.log('the maximum number of minutes allowed:',maxminutes);
+     //
      let genresdesired = this.state.genres;
      let setsdesired = this.refs.setsdesired.value;
      if(!gigtitle || !maxminutes || !genresdesired || !setsdesired){
        alert("All fields must be entered");
        return null;
      }
-     console.log('Gig title: ',gigtitle);
-     console.log('max time: ',maxminutes);
-     console.log('genres desired: ',genresdesired);
-     console.log('sets desired: ',setsdesired);
+    //  console.log('Gig title: ',gigtitle);
+    //  console.log('max time: ',maxminutes);
+    //  console.log('genres desired: ',genresdesired);
+    //  console.log('sets desired: ',setsdesired);
      this.updateGig(gigtitle,maxminutes,genresdesired,setsdesired);
    }
    updateGig(title,minutes,genres,sets){
+
+    //  let results = this.shuffle(this.state.songs);
+    //  console.log('shuffled results are: ',results);
+    //  console.log('the current genres in state are: ',this.state.genres);
+    //  console.log('the current songs in state are: ',this.state.songs);
+     let moodfiltered = this.filterByMood(this.state.songs,this.state.genres);
+     console.log('after mood filter:',moodfiltered);
+     let timefiltered = this.sortByTime(moodfiltered,minutes);
+     console.log('after time filter: ',timefiltered);
+     let setfiltered = this.filterBySets(timefiltered,sets);
+     console.log('after set filter: ',setfiltered);
      let newgig={
        title:title,
        genres:genres,
-       sets:sets,
+       sets:setfiltered,
        maxminutes:minutes
      };
-    //  let results = this.shuffle(this.state.songs);
-    //  console.log('shuffled results are: ',results);
-     console.log('the current genres in state are: ',this.state.genres);
-     console.log('the current songs in state are: ',this.state.songs);
-     let moodfiltered = this.filterByMood(this.state.songs,this.state.genres);
-     console.log('after mood filter:',moodfiltered);
      this.setState({
        gig:newgig
      },
@@ -172,9 +192,20 @@ class GigForm extends Component {
 
    }
    previewGig(){
-     console.log(this.state.gig);
+     console.log('current gig: ',this.state.gig);
      this.setState({
        show:true
+     });
+   }
+   submitGig(e){
+     e.preventDefault();
+     let uid = this.state.uid;
+     console.log('aaaaand: ',uid);
+     console.log('gig to firebase: ',this.state.gig);
+     firebase.database()
+     .ref('/'+uid+'/gigs')
+     .push({
+       gig:this.state.gig
      });
    }
    //==============================FORM FUNCTIONS=================
@@ -210,7 +241,7 @@ class GigForm extends Component {
         }else{
          //if no, push it to genres:
          current_genres.push(genre);
-         console.log('current genres: ',current_genres);
+        //  console.log('current genres: ',current_genres);
          this.setState({
            genres:current_genres
          });
@@ -228,15 +259,40 @@ class GigForm extends Component {
 
     const songs = (this.state.songs) ? this.state.songs.map(song => {
           return <SongButton songObject={ song } /> }) : '';
-          console.log('songz: ',songs);
+          // console.log('songz: ',songs);
     // var gigList = this.state.gig.map((val)=>{
     //   return (<li>val.</li>);
     // });
+    let frame=[];
+    let setnum=1;
+    console.log('our gig saved in state: ',this.state.gig);
+    for (var property in this.state.gig.sets) {
+
+    if (this.state.gig.sets.hasOwnProperty(property)) {
+      let  goods=[];
+      this.state.gig.sets[property].map((val)=>{
+        // console.log('the setss song is: ',val);
+        goods.push(<li>{val.title}</li>);
+      });
+        frame.push(
+          <div>
+          <h3>Set {setnum}</h3>
+          <ul>
+            {goods}
+          </ul>
+        </div>
+        );
+        setnum++;
+        // console.log('html: ',html);
+
+          // console.log('property is: ',property);
+    }
+}
     const gigInfo = (this.state.show) ? (
       <div>
-      <h3>{this.state.gig.title}</h3>
+      <h2>{this.state.gig.title}</h2>
       <ul>
-
+        { frame }
       </ul>
     </div>
     ) :'';
@@ -246,29 +302,29 @@ class GigForm extends Component {
         <div className="row">
           {/* <div className="col-sm-2 hidden-xs"></div> */}
             <div className="gig-form-container col-sm-6">
-
               <form className="gig-form form form-default" action="#" >
                 <h2>Create a Gig</h2>
                 <div className="form-group">
                   <label for="title-input">Gig Name</label>
-                  <input id="title-input" ref="gigtitle" type="text" className="form-control">
+                  <input id="title-input" ref="gigtitle" value="Fitzgerald's Gig" type="text" className="form-control">
 
                   </input>
                   <label for="set-input">Sets Desired</label>
-                  <input id="set-input" ref="setsdesired" type="number" placeholder="enter a number here" className="form-control"></input>
+                  <input id="set-input" ref="setsdesired" type="number" value="2" placeholder="enter a number here" className="form-control"></input>
                   <label for="maxmin-input">Max Minutes</label>
-                  <input id="maxmin-input" ref="maxminutes" type="number" placeholder="enter a number here" className="form-control"></input>
+                  <input id="maxmin-input" ref="maxminutes" type="number" value = "45" placeholder="enter a number here" className="form-control"></input>
                   {/* <label for="lyrics-input">Songs</label>
                   {songs} */}
                 </div>
 
-                <div className="form-group genres">
+                <div className="form-group">
                   <label for="genre-input">Genres Desired</label>
                   <input className="form-control" ref="genresdesired" type="text" placeholder="click genres below" id="add-genre"></input>
                   <div className="form-group add-genres">
 
 
                   </div>
+                  <div className="buttons">
                   <button id="blues" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs" >Blues</button>
                   <button id="slow" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Slow</button>
                   <button id="upbeat" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Upbeat</button>
@@ -277,10 +333,12 @@ class GigForm extends Component {
                   <button id="alternative" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Alternative</button>
                   <button id="other" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Other</button>
                 </div>
-                <div className="form-group">
-                  <button type="submit" onClick={this.makeSets.bind(this)} className="btn btn-primary">Submit</button>
+                </div>
+                <div className="form-group submit-buttons">
+                  <button type="submit" onClick={this.makeSets.bind(this)} className="btn btn-sm btn-primary">Preview</button>
+                  <button type="submit" onClick={this.submitGig.bind(this)} className="btn btn-primary">Submit</button>
                   <button type="submit" onClick={this.goBack.bind(this)} className="btn btn-primary">Go Back</button>
-                  <button type="submit" onClick={this.makeSets.bind(this)} className="btn btn-primary">Preview</button>
+
                 </div>
               </form>
 
