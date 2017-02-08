@@ -23,18 +23,18 @@ class Dashboard extends Component {
           this.setState({
             uid:user.uid
           });
-          // uid=user.uid;
-          //     firebase.database()
-          //     .ref('/'+uid+'/gigs')
-          //     .on('value',(data)=>{
-          //       let snapshot = data.val();
-          //       console.log('the gig is: ',snapshot);
-          //       let gig = firebaseListToArray(snapshot);
-          //       this.setState({
-          //         gig:gig
-          //       });
-          //       console.log('the Dash CWM gigs: ',this.state.gig);
-          //     });
+          uid=user.uid;
+              firebase.database()
+              .ref('/'+uid+'/gigs')
+              .on('value',(data)=>{
+                let snapshot = data.val();
+                console.log('the gig is: ',snapshot);
+                let gig = firebaseListToArray(snapshot);
+                this.setState({
+                  gig:gig
+                });
+                console.log('the Dash CWM gigs: ',this.state.gig);
+              });
 
 
         }else{
@@ -71,13 +71,15 @@ class Dashboard extends Component {
 
 
   render(){
-    let mysongs = this.state.gig.sets[0]
+    let mysongs = this.state.gig;
+    console.log('this.state.gig in render: ',mysongs);
     let html = (mysongs) ?
     <div className="row">
     <SetList />
-    <SongArea songs={mysongs} />
+    <SongArea songs={mysongs[0].gig.sets[0]} />
     </div>
     : '';
+
     console.log('dashboard render songs: ',mysongs);
     // let songs = this.state.songs;
     return(
