@@ -101,19 +101,19 @@ class GigForm extends Component {
     //  });
      let gigtime = [];
 
-     console.log('zero time is: ',gigtime);
+    //  console.log('zero time is: ',gigtime);
 
      for (let i=0; i<songs.length; i++){
        let timeval = moment.duration(songs[i].time)._milliseconds;
-       console.log('timeval is: ',timeval);
+      //  console.log('timeval is: ',timeval);
         gigtime.push(timeval);
      }
-     console.log('the total added time: ',gigtime);
+    //  console.log('the total added time: ',gigtime);
      let total=0;
      for(let i=0; i<gigtime.length; i++){
        total+=gigtime[i];
      }
-     console.log('the TOTAL: ',total);
+    //  console.log('the TOTAL: ',total);
      while(total-maxtime > 5){
        songs.pop();
        this.sortByTime(songs,maxtime);
@@ -152,7 +152,7 @@ class GigForm extends Component {
      let maxminutes = this.refs.maxminutes.value;
      //format in moment.js
      maxminutes = moment.duration(maxminutes+':00')._milliseconds;
-     console.log('the maximum number of minutes allowed:',maxminutes);
+    //  console.log('the maximum number of minutes allowed:',maxminutes);
      //
      let genresdesired = this.state.genres;
      let setsdesired = this.refs.setsdesired.value;
@@ -173,11 +173,11 @@ class GigForm extends Component {
     //  console.log('the current genres in state are: ',this.state.genres);
     //  console.log('the current songs in state are: ',this.state.songs);
      let moodfiltered = this.filterByMood(this.state.songs,this.state.genres);
-     console.log('after mood filter:',moodfiltered);
+    //  console.log('after mood filter:',moodfiltered);
      let timefiltered = this.sortByTime(moodfiltered,minutes);
-     console.log('after time filter: ',timefiltered);
+    //  console.log('after time filter: ',timefiltered);
      let setfiltered = this.filterBySets(timefiltered,sets);
-     console.log('after set filter: ',setfiltered);
+    //  console.log('after set filter: ',setfiltered);
      let newgig={
        title:title,
        genres:genres,
@@ -192,7 +192,7 @@ class GigForm extends Component {
 
    }
    previewGig(){
-     console.log('current gig: ',this.state.gig);
+    //  console.log('current gig: ',this.state.gig);
      this.setState({
        show:true
      });
@@ -200,8 +200,8 @@ class GigForm extends Component {
    submitGig(e){
      e.preventDefault();
      let uid = this.state.uid;
-     console.log('aaaaand: ',uid);
-     console.log('gig to firebase: ',this.state.gig);
+    //  console.log('aaaaand: ',uid);
+    //  console.log('gig to firebase: ',this.state.gig);
      firebase.database()
      .ref('/'+uid+'/gigs')
      .push({
@@ -265,7 +265,7 @@ class GigForm extends Component {
     // });
     let frame=[];
     let setnum=1;
-    console.log('our gig saved in state: ',this.state.gig);
+    // console.log('our gig saved in state: ',this.state.gig);
     for (var property in this.state.gig.sets) {
 
     if (this.state.gig.sets.hasOwnProperty(property)) {

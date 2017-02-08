@@ -17,11 +17,11 @@ class SongArea extends Component{
   }
   componentWillMount(){
     let theSongs=this.props.songs;
-    console.log('songarea CWM songs: ',theSongs);
+    // console.log('songarea CWM songs: ',theSongs);
     this.setState({
       songs:theSongs
     });
-    console.log('the songarea state songs: ',this.state.songs);
+    // console.log('the songarea state songs: ',this.state.songs);
   //       });
   //
   //     });
@@ -30,16 +30,16 @@ class SongArea extends Component{
   //
   componentDidMount(){
     let theSongs=this.state.songs;
-    console.log('current songs in CDM database: ',theSongs);
+    // console.log('current songs in CDM database: ',theSongs);
     let results = [];
     theSongs.forEach((val)=>{
       let target = '#'+val.id;
-      console.log('target: ',target);
+      // console.log('target: ',target);
       let pos = jQuery(target).position().top;
       results.push(pos);
     }
   );
-    console.log('array: ',results);
+    // console.log('array: ',results);
       this.setState({
         scrollIndexes:results
       });
@@ -71,10 +71,11 @@ class SongArea extends Component{
 
 
   render(){
-    console.log('songarea render song value: ',this.state.songs);
-    console.log('songarea render scrollIndexes value: ',this.state.scrollIndexes);
+    // console.log('songarea render song value: ',this.state.songs);
+    // console.log('songarea render scrollIndexes value: ',this.state.scrollIndexes);
+
     let html = this.state.songs.map((val)=>{
-      console.log('the vals id: ',val.id);
+      // console.log('the vals id: ',val.id);
       return(
       <div className="song">
         <h1 id={val.id}>{val.title}</h1>

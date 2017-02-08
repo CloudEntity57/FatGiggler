@@ -3,14 +3,15 @@ import SongArea from './SongArea';
 import SetList from './SetList';
 import { firebase, firebaseListToArray } from '../utils/firebase';
 import { hashHistory } from 'react-router';
-import moment from 'moment';
+// import moment from 'moment';
 
 class Dashboard extends Component {
   constructor(props){
     super(props);
     this.state={
-      set:"My favorite Set's ID",
-      uid:0
+      defaultset:"My favorite Set's ID",
+      uid:0,
+      showdefault:true
     }
   }
   componentWillMount(){
@@ -19,21 +20,32 @@ class Dashboard extends Component {
       user => {
         let uid=0;
         if(user){
-          console.log('uid: ',user.uid);
+          // console.log('uid: ',user.uid);
           this.setState({
             uid:user.uid
           });
           uid=user.uid;
+              //retrieve all existing gigs from the database:
               firebase.database()
               .ref('/'+uid+'/gigs')
               .on('value',(data)=>{
                 let snapshot = data.val();
-                console.log('the gig is: ',snapshot);
-                let gig = firebaseListToArray(snapshot);
-                this.setState({
-                  gig:gig
+                let gigs = firebaseListToArray(snapshot);
+                console.log('the gigs we are working with are: ',gigs);
+
+                // Compile a single array of all the songs in the user's default gig:
+                let usr_default_gig = gigs[0].gig;
+                console.log('the default gig we are working with is: ',usr_default_gig);
+                let usr_default = [];
+                usr_default_gig.sets.forEach((val)=>{
+                  usr_default = usr_default.concat(val);
                 });
-                console.log('the Dash CWM gigs: ',this.state.gig);
+                // Pass both the song and set arrays to the state:
+                this.setState({
+                  songs:usr_default,
+                  gig:usr_default_gig
+                });
+                console.log('the Dash CWM songs: ',this.state.songs);
               });
 
 
@@ -46,6 +58,9 @@ class Dashboard extends Component {
 
   }
   componentDidMount(){
+
+    //TESTING THE FUNCTIONS AND FEATURES OF MOMENT.JS FOR TIME ADDITION/COMPARISON:
+
     // let time1 = moment.duration('00:6:30');
     // let time2 = moment.duration('00:05:30');
     // let result = time1+time2
@@ -71,17 +86,21 @@ class Dashboard extends Component {
 
 
   render(){
-    let mysongs = this.state.gig;
-    console.log('this.state.gig in render: ',mysongs);
-    let html = (mysongs) ?
+    //create JSX for songs to pass to SongArea:
+    let mysongs = this.state.songs;
+    // console.log('this.state.gig in render: ',mysongs);
+    //create JSX for separate set lists to pass to SetList:
+    let mygig = this.state.gig;
+    let html = (mysongs && mygig) ?
     <div className="row">
-    <SetList />
-    <SongArea songs={mysongs[0].gig.sets[0]} />
+    <SetList gig={mygig}/>
+    <SongArea songs={mysongs} />
     </div>
     : '';
-
-    console.log('dashboard render songs: ',mysongs);
+    console.log('dashboard render gig: ',mygig);
     // let songs = this.state.songs;
+
+
     return(
       <div>
       <div className="wrapper container">

@@ -42,9 +42,9 @@ class SongForm extends Component{
     seconds = moment.duration('00:00:'+seconds);
     let time= minutes+seconds;
     time= moment(time).format("m:ss");
-    console.log('time2 is: ',time);
+    // console.log('time2 is: ',time);
     //
-    console.log('moods: ',moods);
+    // console.log('moods: ',moods);
     const uid = this.state.uid;
     firebase.database()
     .ref('/'+uid+'/songs')
@@ -55,7 +55,7 @@ class SongForm extends Component{
       lyrics:lyrics,
       moods:moods
     }).then((data)=>{
-      console.log('success!',data);
+      // console.log('success!',data);
     });
   }
   testValue(x,array){
@@ -78,7 +78,7 @@ class SongForm extends Component{
     // e.target == document.querySelector(), $('').text()
     let genre = e.target.id;
     let current_genres = this.state.genres;
-    console.log('the genres: ',current_genres);
+    // console.log('the genres: ',current_genres);
         //loop through array and test if genre is already there
         //if yes, remove it:
        if(this.testValue(genre,current_genres)){
@@ -86,7 +86,7 @@ class SongForm extends Component{
        }else{
         //if no, push it to genres:
         current_genres.push(genre);
-        console.log('current genres: ',current_genres);
+        // console.log('current genres: ',current_genres);
         this.setState({
           genres:current_genres
         });
@@ -109,7 +109,7 @@ class SongForm extends Component{
                 <h1>Add a Song</h1>
                 <div className="form-group">
                   <div className="row">
-                    <div className="col-sm-6">
+                    <div className="col-xs-6">
                     <div className="col-sm-12">
                       <label for="title-input">Song Title</label>
                       <input id="title-input" ref="songtitle" type="text" className="form-control">
@@ -126,7 +126,7 @@ class SongForm extends Component{
                       <input id="seconds" ref="seconds" placeholder="sec" type="number" ></input>
                     </div>
                   </div>
-                  <div className="col-sm-6">
+                  <div className="col-xs-6">
                     <img />
                   </div>
                   </div>
