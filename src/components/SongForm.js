@@ -103,8 +103,8 @@ class SongForm extends Component{
     return(
       <div>
         <div className="row">
-          <div className="col-sm-2 col-md-3 hidden-xs"></div>
-            <div className="col-sm-8 col-md-6">
+          <div className="col-sm-1 col-md-2 hidden-xs"></div>
+            <div className="col-sm-10 col-md-8">
               <form className="song-form form form-default" action="#" >
                 <h1>Add a Song</h1>
                 <div className="form-group">
@@ -160,7 +160,7 @@ class SongForm extends Component{
                 </div>
               </form>
             </div>
-          <div className="col-sm-2 col-md-3 hidden-xs"></div>
+          <div className="col-sm-1 col-md-2 hidden-xs"></div>
         </div>
       </div>
     );

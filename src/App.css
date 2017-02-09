@@ -70,7 +70,7 @@ header{
 .container{
   background-color: lightgray;
 }
-.set_list, .song-form, .gig-form{
+.set_list, .song-form, .gig-form, .gig-display{
   background-color: #92aac5;
   min-height:85vh;
 }
@@ -119,8 +119,8 @@ header{
 .gig-form h2{
   margin-top: 0px;
 }
-/*.form-group *{
-  padding-bottom:10px;
+/*.gig-display{
+  min-height: 85vh;
 }*/
 .add-genres{
   display:flex;

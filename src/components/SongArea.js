@@ -83,7 +83,7 @@ class SongArea extends Component{
       </div>)
     });
     return(
-      <div className="col-sm-7 song_area">
+      <div className="col-sm-6 song_area">
         <div className="song_scroll">
         { html }
       </div>

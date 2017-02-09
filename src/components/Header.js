@@ -21,7 +21,7 @@ class Header extends Component {
           <li><NavLink to="/addgig"><a href="#">Add Gig</a></NavLink></li>
           <li><NavLink to="/addsong"><a href="#">Add Song</a></NavLink></li>
           <li><a href="#">Songs</a></li>
-          <li><a href="#">Gigs</a></li>
+          <li><NavLink to="/gigs"><a href="#">Gigs</a></NavLink></li>
 
         </ul>
       </header>

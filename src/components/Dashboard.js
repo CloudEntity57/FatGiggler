@@ -25,30 +25,60 @@ class Dashboard extends Component {
             uid:user.uid
           });
           uid=user.uid;
+          let playing ='';
+          firebase.database()
+            .ref('/users/'+uid+'/playing/')
+            .on('value',(data)=>{
+              let result = data.val();
+              console.log('now actually playing: ',result);
+              this.setState({
+                playing:result
+              });
+            });
+              playing = this.state.playing;
+              console.log('playing has been reset to: ',playing);
               //retrieve all existing gigs from the database:
               firebase.database()
-              .ref('/'+uid+'/gigs')
+              .ref('/'+uid)
               .on('value',(data)=>{
-                let snapshot = data.val();
-                let gigs = firebaseListToArray(snapshot);
-                console.log('the gigs we are working with are: ',gigs);
+                    let snapshot = data.val();
+                    let user = firebaseListToArray(snapshot);
+                    console.log('user: ',user);
+                    let gigs = firebaseListToArray(snapshot.gigs);
+                    console.log('the gigs we are working with are: ',gigs);
 
-                // Compile a single array of all the songs in the user's default gig:
-                let usr_default_gig = gigs[0].gig;
-                console.log('the default gig we are working with is: ',usr_default_gig);
-                let usr_default = [];
-                usr_default_gig.sets.forEach((val)=>{
-                  usr_default = usr_default.concat(val);
-                });
-                // Pass both the song and set arrays to the state:
-                this.setState({
-                  songs:usr_default,
-                  gig:usr_default_gig
-                });
-                console.log('the Dash CWM songs: ',this.state.songs);
+
+                    // Compile a single array of all the songs in the user's default gig:
+                    let usr_default_gig = [];
+
+                    if(!playing) {
+                      usr_default_gig = gigs[0].gig
+                      console.log('were setting it to default');
+                    }else{
+                      console.log('theres something playing',gigs);
+                          gigs.forEach((val)=>{
+                            console.log('playin id: ',val.id);
+                            console.log('playing: ',playing);
+
+                                if(playing===val.id){
+                                  console.log('match!!!!!');
+                                  console.log('this gig is: ',val);
+                                  usr_default_gig = val.gig;
+                                }
+                          });
+                    }
+                    console.log('the default gig we are working with is: ',usr_default_gig);
+                    let usr_default = [];
+                    usr_default_gig.sets.forEach((val)=>{
+                      usr_default = usr_default.concat(val);
+                    });
+                    // Pass both the song and set arrays to the state:
+                    this.setState({
+                      songs:usr_default,
+                      gig:usr_default_gig
+                    });
+                    console.log('the Dash CWM songs: ',this.state.songs);
               });
-
-
         }else{
           hashHistory.push('/');
         }
@@ -97,7 +127,7 @@ class Dashboard extends Component {
     <SongArea songs={mysongs} />
     </div>
     : '';
-    console.log('dashboard render gig: ',mygig);
+    // console.log('dashboard render gig: ',mygig);
     // let songs = this.state.songs;
 
 
