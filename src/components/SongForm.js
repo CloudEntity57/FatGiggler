@@ -13,9 +13,16 @@ class SongForm extends Component{
     }
   }
   componentDidMount(){
-    const uid = firebase.auth().currentUser.uid;
+    const user = firebase.auth().currentUser;
+    console.log('current user: ',user);
+    const uid = user.uid;
+    const username = user.displayName;
+    const userpic = user.photoURL;
+    // const username =
     this.setState({
-      uid:uid
+      uid:uid,
+      username:username,
+      userpic:userpic
     });
   }
   goBack(e){
@@ -99,7 +106,10 @@ class SongForm extends Component{
     current_genres = current_genres.join(', ');
     this.refs.genresdesired.value=current_genres;
   }
+  //================================
+
   render(){
+    let image = (<img src = {this.state.userpic} />)
     return(
       <div>
         <div className="row">
@@ -127,7 +137,7 @@ class SongForm extends Component{
                     </div>
                   </div>
                   <div className="col-xs-6">
-                    <img />
+                    { image }
                   </div>
                   </div>
 

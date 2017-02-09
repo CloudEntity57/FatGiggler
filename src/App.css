@@ -50,6 +50,12 @@ header{
 .title{
   font-size: 3em;
   color:gray;
+  display:flex;
+  justify-content: space-between;
+}
+.user-pic{
+  height:40px;
+  margin-top:auto;
 }
 .main_nav a:hover{
   color:#f5ffbd;
@@ -73,6 +79,13 @@ header{
 .set_list, .song-form, .gig-form, .gig-display{
   background-color: #92aac5;
   min-height:85vh;
+}
+.set a{
+  text-decoration: none;
+  color:black;
+}
+.set a:hover{
+  color:#633f12;
 }
 .time-entry{
   display:block;
@@ -143,14 +156,13 @@ header{
   height:85vh;
 }
 .scroll_area{
-  width:15%;
+  width:10%;
   height:100%;
   float:right;
   text-align: center;
 }
 .scroll_bar{
-  color:#f9fbd8;
-  float: right;
+  float:right;
   margin-top: 25vh;
   padding:5px 0px;
   width:30px;
@@ -158,9 +170,14 @@ header{
   flex-direction: column;
   justify-content: space-between;
   background-color: #b7a18e;
+  /*background-color: #92aac5;*/
   text-align: center;
-  height: 33vh;
+  /*height: 33vh;*/
   border-radius: 45px;
+}
+.scroll_bar a{
+  text-decoration: none;
+    color:#b7a18e;
 }
 
 .song{

@@ -17,11 +17,12 @@ class SongArea extends Component{
   }
   componentWillMount(){
     let theSongs=this.props.songs;
+
     // console.log('songarea CWM songs: ',theSongs);
     this.setState({
       songs:theSongs
     });
-    // console.log('the songarea state songs: ',this.state.songs);
+
   //       });
   //
   //     });
@@ -30,6 +31,7 @@ class SongArea extends Component{
   //
   componentDidMount(){
     let theSongs=this.state.songs;
+      let target=this.props.target;
     // console.log('current songs in CDM database: ',theSongs);
     let results = [];
     theSongs.forEach((val)=>{
@@ -41,12 +43,13 @@ class SongArea extends Component{
   );
     // console.log('array: ',results);
       this.setState({
-        scrollIndexes:results
+        scrollIndexes:results,
+        target:target
       });
+      console.log('the songarea state target: ',this.state.target);
   }
 
   scroll(e){
-
         e.preventDefault();
         let foo = e.target.innerHTML;
         let songs = this.state.songs;
@@ -66,7 +69,6 @@ class SongArea extends Component{
 
           // window.location = jQuery(this).attr('href');
         };
-
     };
 
 
@@ -82,6 +84,7 @@ class SongArea extends Component{
         {val.lyrics}
       </div>)
     });
+    
     return(
       <div className="col-sm-6 song_area">
         <div className="song_scroll">
@@ -90,6 +93,8 @@ class SongArea extends Component{
       <section className="scroll_area">
         <div className="scroll_bar">
         <a href="#" ref="up" onClick={this.scroll.bind(this)}>+</a>
+      </div>
+        <div className="scroll_bar">
         <a href="#" ref="down" onClick={this.scroll.bind(this)}>-</a>
         </div>
       </section>

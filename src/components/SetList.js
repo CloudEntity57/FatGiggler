@@ -15,6 +15,12 @@ class SetList extends Component {
     });
     // console.log('the SetList gig: ',this.state.gig);
   }
+  handleClick(e){
+    e.preventDefault();
+    let id = e.target.id;
+    console.log('id in setlist: ',id);
+    this.props.scroll(id);
+  }
   render(){
     let gigInfo = '';
 
@@ -26,23 +32,22 @@ class SetList extends Component {
         // console.log('our sets saved in state: ',this.state.sets);
         for (var property in gig.sets) {
             if (gig.sets.hasOwnProperty(property)) {
-              let  goods=[];
+              let  songs=[];
               gig.sets[property].map((val)=>{
                 // console.log('the setss song is: ',val);
-                goods.push(<li id={val.id}>{val.title}</li>);
+                songs.push(<a href="#" onClick={this.handleClick.bind(this)}><li id={val.id}>{val.title}</li></a>);
               });
                 frame.push(
                   <div className="set">
                   <h3>Set {setnum}</h3>
                   <ul>
-                    {goods}
+                    {songs}
                   </ul>
                 </div>
                 );
                 setnum++;
             }
         }
-
         gigInfo = (
           <div className="col-sm-6 set_list">
           <h1>{this.state.gig.title}</h1>

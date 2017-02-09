@@ -20,9 +20,10 @@ class Dashboard extends Component {
       user => {
         let uid=0;
         if(user){
-          // console.log('uid: ',user.uid);
+          // console.log('user: ',user);
           this.setState({
             uid:user.uid
+            // userpic:user.photoURL
           });
           uid=user.uid;
           let playing ='';
@@ -30,22 +31,22 @@ class Dashboard extends Component {
             .ref('/users/'+uid+'/playing/')
             .on('value',(data)=>{
               let result = data.val();
-              console.log('now actually playing: ',result);
+              // console.log('now actually playing: ',result);
               this.setState({
                 playing:result
               });
             });
               playing = this.state.playing;
-              console.log('playing has been reset to: ',playing);
+              // console.log('playing has been reset to: ',playing);
               //retrieve all existing gigs from the database:
               firebase.database()
               .ref('/'+uid)
               .on('value',(data)=>{
                     let snapshot = data.val();
                     let user = firebaseListToArray(snapshot);
-                    console.log('user: ',user);
+                    // console.log('user: ',user);
                     let gigs = firebaseListToArray(snapshot.gigs);
-                    console.log('the gigs we are working with are: ',gigs);
+                    // console.log('the gigs we are working with are: ',gigs);
 
 
                     // Compile a single array of all the songs in the user's default gig:
@@ -53,21 +54,21 @@ class Dashboard extends Component {
 
                     if(!playing) {
                       usr_default_gig = gigs[0].gig
-                      console.log('were setting it to default');
+                      // console.log('were setting it to default');
                     }else{
-                      console.log('theres something playing',gigs);
+                      // console.log('theres something playing',gigs);
                           gigs.forEach((val)=>{
-                            console.log('playin id: ',val.id);
-                            console.log('playing: ',playing);
+                            // console.log('playin id: ',val.id);
+                            // console.log('playing: ',playing);
 
                                 if(playing===val.id){
-                                  console.log('match!!!!!');
-                                  console.log('this gig is: ',val);
+                                  // console.log('match!!!!!');
+                                  // console.log('this gig is: ',val);
                                   usr_default_gig = val.gig;
                                 }
                           });
                     }
-                    console.log('the default gig we are working with is: ',usr_default_gig);
+                    // console.log('the default gig we are working with is: ',usr_default_gig);
                     let usr_default = [];
                     usr_default_gig.sets.forEach((val)=>{
                       usr_default = usr_default.concat(val);
@@ -77,7 +78,7 @@ class Dashboard extends Component {
                       songs:usr_default,
                       gig:usr_default_gig
                     });
-                    console.log('the Dash CWM songs: ',this.state.songs);
+                    // console.log('the Dash CWM songs: ',this.state.songs);
               });
         }else{
           hashHistory.push('/');
@@ -112,19 +113,26 @@ class Dashboard extends Component {
 
 
   }
-
+  navigate(id){
+    console.log('navigating!!!!');
+    console.log('id clicked: ',id);
+    this.setState({
+      target:id
+    });
+  }
 
 
   render(){
     //create JSX for songs to pass to SongArea:
     let mysongs = this.state.songs;
-    // console.log('this.state.gig in render: ',mysongs);
+    let target = this.state.target;
+    console.log('target in render: ',target);
     //create JSX for separate set lists to pass to SetList:
     let mygig = this.state.gig;
     let html = (mysongs && mygig) ?
     <div className="row">
-    <SetList gig={mygig}/>
-    <SongArea songs={mysongs} />
+    <SetList scroll={this.navigate.bind(this)} gig={mygig}/>
+    <SongArea songs={mysongs} target={target}/>
     </div>
     : '';
     // console.log('dashboard render gig: ',mygig);

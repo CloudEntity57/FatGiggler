@@ -11,9 +11,14 @@ class Gigs extends Component{
     }
   }
   componentDidMount(){
-    const uid = firebase.auth().currentUser.uid;
+    const user = firebase.auth().currentUser;
+    console.log('current user: ',user);
+    const uid = user.uid;
+    const username = user.displayName;
+    // const username =
     this.setState({
-      uid:uid
+      uid:uid,
+      username:username
     });
     firebase.database()
     .ref('/'+uid+'/gigs')
@@ -86,7 +91,7 @@ class Gigs extends Component{
   }
   render(){
     let gigsInfo = '';
-
+    let username = this.state.username;
     if(this.state.gigs){
       let gigs = this.state.gigs;
       // console.log('the gigs in Gigs.js: ',gigs);
@@ -99,7 +104,7 @@ class Gigs extends Component{
 
         gigsInfo = (
           <div className="col-sm-6 gig-display">
-          <h1>My Gigs</h1>
+          <h3>{username}'s Gigs</h3>
           <ul>
             { frame }
           </ul>
