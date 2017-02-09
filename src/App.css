@@ -124,7 +124,6 @@ body{
   float:right;
 }
 .container{
-  background-color: lightgray;
 }
 .set_list, .song-form, .gig-form, .gig-display{
   background-color: #92aac5;

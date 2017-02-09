@@ -32,14 +32,11 @@ class LandingPage extends Component {
             </ul>  */}
         </div>
       </header>
-
-      <body>
       <div className="container landing_content">
         <div className="row">
 
         </div>
       </div>
-    </body>
     </div>
     );
   }
