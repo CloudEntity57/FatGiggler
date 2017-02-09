@@ -1,6 +1,9 @@
 
 
 
+
+
+
 html{
 
 }
@@ -29,7 +32,48 @@ header{
   height:15vh;
   padding: 0px 25px;
 }
+.landing_header{
+  background-image: url(../public/images/pexels-photo-196652.jpeg);
+  background-size:cover;
+  background-attachment: fixed;
+  background-position: center;
+}
 
+.landing_overlay{
+  padding:0em 2em;
+  z-index: 3;
+}
+.landing_background{
+  background-color: gray;
+  opacity: .55;
+  z-index: 2;
+}
+.landing_header,.landing_background,.landing_overlay{
+  height:100vh;
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+}
+.landing_header_txt{
+  color:white;
+  text-align: center;
+  font-size: 2em;
+  height:65vh;
+  margin-top:35vh;
+}
+.landing_header_txt p{
+  padding:0% 25%;
+  color:#fdfdf6;
+  font-size: .6em;
+}
+.landing_content{
+  height:200vh;
+  background-color:black;
+}
+body{
+  background-color:black;
+}
 .clearfix:after {
      visibility: hidden;
      display: block;
@@ -50,6 +94,12 @@ header{
 .title{
   font-size: 3em;
   color:gray;
+  display:flex;
+  justify-content: space-between;
+}
+.landing_title{
+  font-size: 3em;
+  color:white;
   display:flex;
   justify-content: space-between;
 }
@@ -188,6 +238,16 @@ header{
 
 footer{
   height: 5vh;
+}
+
+/*@media(max-width:768px){
+  .gig-form{
+    margin:0em 2em;
+  }
+}*/
+
+.landed_content{
+  background-color: lightgray;
 }
 
 /*@media(max-width:768px){

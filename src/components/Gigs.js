@@ -115,7 +115,7 @@ class Gigs extends Component{
     }
 
     return(
-      <div className="wrapper container">
+      <div className="wrapper container landed_content">
 
         <div className="row">
           { gigsInfo }

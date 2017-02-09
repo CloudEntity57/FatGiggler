@@ -141,7 +141,7 @@ class Dashboard extends Component {
 
     return(
       <div>
-      <div className="wrapper container">
+      <div className="wrapper container landed_content">
         { html }
       </div>
 

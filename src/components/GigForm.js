@@ -297,7 +297,7 @@ class GigForm extends Component {
     </div>
     ) :'';
     return(
-      <div className="wrapper container">
+      <div className="wrapper container landed_content">
 
         <div className="row">
           {/* <div className="col-sm-2 hidden-xs"></div> */}
