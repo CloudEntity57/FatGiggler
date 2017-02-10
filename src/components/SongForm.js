@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { firebase } from '../utils/firebase';
 import { hashHistory } from 'react-router';
 import moment from 'moment';
+import jQuery from 'jquery';
 
 
 class SongForm extends Component{
@@ -63,6 +64,12 @@ class SongForm extends Component{
       moods:moods
     }).then((data)=>{
       // console.log('success!',data);
+      jQuery('.form-control').val('');
+      jQuery('.time-enter').val('');
+      this.setState({
+        genres:[]
+      });
+
     });
   }
   testValue(x,array){
@@ -109,7 +116,8 @@ class SongForm extends Component{
   //================================
 
   render(){
-    let image = (<img src = {this.state.userpic} />)
+    let lnk = "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTuXHksRLoduQ-_f8EGSEIsvCCIXKgtEhpQHm-Y3pTMrK5I86kD";
+    let image = (<img className="img-responsive" src={lnk} />);
     return(
       <div>
         <div className="row">
@@ -122,18 +130,21 @@ class SongForm extends Component{
                     <div className="col-xs-6">
                     <div className="col-sm-12">
                       <label for="title-input">Song Title</label>
-                      <input id="title-input" ref="songtitle" type="text" className="form-control">
+                      <input id="title-input" ref="songtitle" placeholder="Add song title" type="text" className="form-control">
 
                       </input>
                     </div>
                     <div className="col-sm-12">
                       <label for="artist-input">Artist</label>
-                      <input id="artist-input" ref="artist" type="text" className="form-control">
+                      <input id="artist-input" ref="artist" placeholder="Add artist" type="text" className="form-control">
                       </input>
                     </div>
+                    <div className="col-sm-12">
+                    <label>Song Length</label>
+                    </div>
                     <div className="col-sm-12 time-entry">
-                      <input id="minutes" ref="minutes" placeholder="min" type="number" ></input>
-                      <input id="seconds" ref="seconds" placeholder="sec" type="number" ></input>
+                      <input id="minutes" ref="minutes" placeholder="min" className="time-enter" type="number" ></input>
+                      <input id="seconds" ref="seconds" placeholder="sec" className="time-enter" type="number" ></input>
                     </div>
                   </div>
                   <div className="col-xs-6">
@@ -146,15 +157,17 @@ class SongForm extends Component{
                 <div className="form-group clearfix">
 
                 </div>
-                <div className="form-group">
+                <div className="form-group row">
+                  <div className="col-sm-12">
                   <label for="lyrics-input">Lyrics</label>
-                  <textarea id="lyrics-input" ref="lyrics" type="text" className="form-control">
+                  <textarea id="lyrics-input" placeholder="Add lyrics" ref="lyrics" type="text" className="form-control">
                   </textarea>
+                  </div>
                 </div>
 
                 <div className="form-group genres">
                   <div className="form-group add-genres">
-                    <input ref="genresdesired" className="form-control" type="text" placeholder="Add a Genre" id="add-genre"></input>
+                    <input ref="genresdesired" className="form-control" type="text" placeholder="Click genres below" id="add-genre"></input>
                   </div>
                   <button id="blues" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Blues</button>
                   <button id="slow" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Slow</button>
@@ -162,7 +175,14 @@ class SongForm extends Component{
                   <button id="funk" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Funk</button>
                   <button id="sublime" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Sublime</button>
                   <button id="alternative" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Alternative</button>
+                  <button id="rock" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Rock</button>
+                  <button id="folk" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Folk</button>
+                  <button id="country" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Country</button>
+                  <button id="jazz" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Jazz</button>
                   <button id="other" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Other</button>
+                  <button id="rnb" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Hip Hop/R&B</button>
+                  <button id="rap" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Rap</button>
+                  <button id="soul" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Soul</button>
                 </div>
                 <div className="form-group">
                   <button type="submit" onClick={this.handleClick.bind(this)} className="btn btn-primary">Submit</button>

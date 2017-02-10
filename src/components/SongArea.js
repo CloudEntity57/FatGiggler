@@ -12,6 +12,7 @@ class SongArea extends Component{
       song:"this.props.songs[1]",
       index:0,
       scrollIndexes:[],
+      navIndexes:[],
       songs:[]
     }
   }
@@ -33,7 +34,9 @@ class SongArea extends Component{
     let theSongs=this.state.songs;
       let target=this.props.target;
     // console.log('current songs in CDM database: ',theSongs);
+
     let results = [];
+    let navs = {};
     theSongs.forEach((val)=>{
       let target = '#'+val.id;
       // console.log('target: ',target);
@@ -41,12 +44,27 @@ class SongArea extends Component{
       results.push(pos);
     }
   );
+  theSongs.forEach((val)=>{
+    let target = '#'+val.id;
+    // console.log('target: ',target);
+    let pos = jQuery(target).position().top;
+    navs[target]=pos;
+  });
+  let index=navs[theSongs[0]]
+  console.log('navs: ',navs);
     // console.log('array: ',results);
       this.setState({
+        navIndexes:navs,
         scrollIndexes:results,
         target:target
       });
-      console.log('the songarea state target: ',this.state.target);
+  }
+  componentDidUpdate(){
+    console.log('the target in Songarea: ',this.props.target);
+    console.log('the navs in Songarea: ',this.state.navIndexes);
+    jQuery('.song_scroll').stop().animate({
+        'scrollTop': this.state.navIndexes['#'+this.props.target]
+    }, 900, 'swing');
   }
 
   scroll(e){
@@ -80,13 +98,18 @@ class SongArea extends Component{
       // console.log('the vals id: ',val.id);
       return(
       <div className="song">
-        <h1 id={val.id}>{val.title}</h1>
+        <div className="song-top">
+        <h3 id={val.id}>{val.title}</h3> - <h4>{val.artist}</h4>
+        </div>
+        <p>
         {val.lyrics}
+        </p>
       </div>)
     });
-    
+
     return(
-      <div className="col-sm-6 song_area">
+      <div className="col-sm-6 gig-preview song_area">
+        <div className="gig-cover"></div>
         <div className="song_scroll">
         { html }
       </div>

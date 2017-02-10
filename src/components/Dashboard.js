@@ -114,8 +114,6 @@ class Dashboard extends Component {
 
   }
   navigate(id){
-    console.log('navigating!!!!');
-    console.log('id clicked: ',id);
     this.setState({
       target:id
     });

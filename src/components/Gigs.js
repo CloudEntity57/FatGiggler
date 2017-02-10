@@ -32,6 +32,19 @@ class Gigs extends Component{
     });
 
   }
+  deleteGig(e){
+    let uid=this.state.uid;
+    e.preventDefault();
+    let id=e.target.id;
+    let target = firebase.database()
+    .ref('/'+uid+'/gigs/'+id);
+    console.log('target to delete: ',target);
+    if(confirm('Are you sure?')){
+      target.remove();
+    }
+
+  }
+
   displayGig(e){
     e.preventDefault();
     let id = e.target.id;
@@ -67,8 +80,10 @@ class Gigs extends Component{
           <ul>
             { frame }
           </ul>
-          <button className="btn btn-primary">Delete</button>
+          <div className="gig-buttons">
+          <button onClick={this.deleteGig.bind(this)} id={val.id} className="btn btn-primary">Delete</button>
           <button onClick={this.playGig.bind(this)} id={val.id} className="btn btn-primary">Play</button>
+          </div>
         </div>
       );
         this.setState({
@@ -99,7 +114,7 @@ class Gigs extends Component{
         // console.log('our sets saved in state: ',this.state.sets);
         gigs.forEach((val)=>{
           let gig = val.gig;
-                frame.push(<a href="#" ><li onClick={this.displayGig.bind(this)} id={val.id}>{gig.title}</li></a>);
+                frame.push(<a href="#" ><li onClick={this.displayGig.bind(this)} id={val.id}>{gig.title} </li></a>);
         });
 
         gigsInfo = (
@@ -119,7 +134,8 @@ class Gigs extends Component{
 
         <div className="row">
           { gigsInfo }
-          <div className="gig-view col-sm-6">
+          <div className="gig-preview col-sm-6">
+            <div className="gig-cover"></div>
             {this.state.gigview}
           </div>
         </div>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { firebase, firebaseListToArray } from '../utils/firebase';
 import { hashHistory } from 'react-router';
 import moment from 'moment';
-
+import jQuery from 'jquery';
 import SongButton from './SongButton';
 
 class GigForm extends Component {
@@ -67,30 +67,30 @@ class GigForm extends Component {
    return array;
  }
 
+
   filterByMood(songs,feels){
      this.shuffle(songs);
      let vibes = feels;
      let results = [];
+     function compare(vibes,moods,song){
+       for(let n=0; n<vibes.length; n++){
+         //to each mood in song:
+         for(let i=0; i<moods.length; i++){
+           //add the song to results if its mood matches
+           if(moods[i]===vibes[n]){
+             results.push(song);
+             return null;
+           }
+         }
+       }
+     }
      //go through each song:
      songs.forEach((val) =>{
        // console.log('val: ',val);
        //compare each genre in form:
-       vibes.forEach((feel) =>{
-          //compare to each genre in song mood(s):
-          // console.log('this songs moods are: ',val.moods);
-           val.moods.forEach((foo)=>{
-              //if song mood = form genre
-               if(foo==feel){
-                //  console.log('feeling match song is: ',val.title,',',val.id);
-                 results.push(val);
-               }
-
-           });
-
-       });
+       compare(feels,val.moods,val);
 
      });
-
     //  console.log('results',results);
      return results;
    }
@@ -165,6 +165,7 @@ class GigForm extends Component {
     //  console.log('genres desired: ',genresdesired);
     //  console.log('sets desired: ',setsdesired);
      this.updateGig(gigtitle,maxminutes,genresdesired,setsdesired);
+
    }
    updateGig(title,minutes,genres,sets){
 
@@ -189,7 +190,9 @@ class GigForm extends Component {
      },
      this.previewGig
    );
-
+  //  this.setState({
+  //    genres:[]
+  //  });
    }
    previewGig(){
     //  console.log('current gig: ',this.state.gig);
@@ -207,6 +210,7 @@ class GigForm extends Component {
      .push({
        gig:this.state.gig
      });
+     jQuery('.form-control').val('');
    }
    //==============================FORM FUNCTIONS=================
 
@@ -330,12 +334,17 @@ class GigForm extends Component {
                   <button id="upbeat" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Upbeat</button>
                   <button id="funk" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Funk</button>
                   <button id="sublime" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Sublime</button>
+                  <button id="rock" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Rock</button>
                   <button id="alternative" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Alternative</button>
+                  <button id="jazz" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Jazz</button>
+                  <button id="rnb" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Hip Hop/R&B</button>
+                  <button id="rap" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Rap</button>
+                  <button id="soul" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Soul</button>
                   <button id="other" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Other</button>
                 </div>
                 </div>
                 <div className="form-group submit-buttons">
-                  <button type="submit" onClick={this.makeSets.bind(this)} className="btn btn-sm btn-primary">Preview</button>
+                  <button type="submit" onClick={this.makeSets.bind(this)} className="btn btn btn-primary">Preview</button>
                   <button type="submit" onClick={this.submitGig.bind(this)} className="btn btn-primary">Submit</button>
                   <button type="submit" onClick={this.goBack.bind(this)} className="btn btn-primary">Go Back</button>
 
@@ -343,7 +352,8 @@ class GigForm extends Component {
               </form>
 
             </div>
-            <div className="col-sm-6">
+            <div className="gig-preview col-sm-6">
+              <div className="gig-cover"></div>
               <h2>Gig Preview</h2>
               { gigInfo }
             </div>
