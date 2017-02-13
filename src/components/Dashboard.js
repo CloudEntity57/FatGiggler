@@ -99,49 +99,7 @@ class Dashboard extends Component {
     totaltime = moment(totaltime).format("m:ss");
     console.log('total: ',totaltime);
     //----====================MUSIXMATCH API CONNECTION TEST======================================//
-    let musix = process.env.REACT_APP_MUSIX_APP_API;
-    console.log('my api key is: ',musix);
-
-    let artists = [
-      "bob dylan",
-      "jeff buckley",
-      "ed sheeran",
-      "bruno mars",
-      "leonard cohen",
-      "B.B. King",
-      "grateful dead",
-      "beatles",
-      "elvis presley",
-      "ray charles",
-      "stevie wonder",
-      "steely dan",
-      "david bowie",
-      "prince",
-      "frank sinatra",
-      "aretha franklin",
-      "tori amos"
-    ];
-    let artists_htmlstring= artists.map((val)=>{
-      var mod = val.replace(/ /g,'%20');
-      return mod;
-    });
-
-    let artists_query_array = artists_htmlstring.map((val)=>{
-      let api_top10_search_str = "http://api.musixmatch.com/ws/1.1/track.search?apikey="+musix+"&q_artist="+val+"&page_size=10&page=1&s_track_rating=desc";
-      // console.log('search string: ',api_top10_search_str);
-      return api_top10_search_str;
-    });
-    // console.log('modified array: ',artists_query_array);
-    let result_array = [];
-
-    for(let i=0; i< artists_query_array.length; i++){
-    let request = jquery.get(artists_query_array[i],(val)=>{
-      var output = JSON.parse(val);
-      console.log('we are getting for output: ',output.message.body.track_list);
-      result_array.push(output.message.body.track_list);
-        });
-    }
-    console.log('result array!!! => ', result_array);
+    
     //===================================//
 
   }
