@@ -40,7 +40,7 @@ class LandingPage extends Component {
         <div className="row">
           <div className="col-xs-1"></div>
           <div className="col-xs-10 landing_text">
-            With Fat Giggler, take your gigs to the next level. Want to play a short gig with only upbeat funky tunes? A long gig with three slow blues sets? Just adjust your settings and generate the new gig - endless possibilities are at your fingertips, so you can spend more time playing and less time planning.
+            With Fat Giggler, take your gigs to the next level. Want to play a short gig with only upbeat funky tunes? A long gig with three slow blues sets? Just adjust your settings and generate the perfect new gig - endless possibilities are at your fingertips, so you can spend more time playing and less time planning.
           </div>
           <FBLoginBtn />
           <div className="col-xs-1"></div>

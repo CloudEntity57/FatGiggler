@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { firebase } from '../utils/firebase';
 import { hashHistory } from 'react-router';
 import moment from 'moment';
-import jQuery from 'jquery';
 
 
 class SongForm extends Component{
@@ -64,8 +63,8 @@ class SongForm extends Component{
       moods:moods
     }).then((data)=>{
       // console.log('success!',data);
-      jQuery('.form-control').val('');
-      jQuery('.time-enter').val('');
+      // jQuery('.form-control').val('');
+      // jQuery('.time-enter').val('');
       this.setState({
         genres:[]
       });

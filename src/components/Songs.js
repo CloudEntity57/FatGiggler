@@ -52,7 +52,7 @@ class Songs extends Component{
       return(
       <div className="col-sm-4">
         <a href="#" onClick={this.playSong.bind(this)}>
-        <div  ref="songname" id={val.id} className="col-sm-4 song-box">
+        <div  ref="songname" id={val.id} className="col-xs-4 song-box">
         <div>{val.title}</div> - <p>{val.artist}</p>
       </div>
       </a>
@@ -62,8 +62,10 @@ class Songs extends Component{
 
     return(
         <div className="song-pg">
-
-          <div className="row">
+          <container className="song-titlebar">
+            <h1>Songs</h1>
+          </container>
+          <div className="container">
             <div className="songs-view">
               {html}
             </div>

@@ -114,7 +114,7 @@ class Gigs extends Component{
         // console.log('our sets saved in state: ',this.state.sets);
         gigs.forEach((val)=>{
           let gig = val.gig;
-                frame.push(<a href="#" ><li onClick={this.displayGig.bind(this)} id={val.id}>{gig.title} </li></a>);
+                frame.push(<a href="#" ><li onClick= {this.displayGig.bind(this)} id={val.id}>{gig.title} </li></a>);
         });
 
         gigsInfo = (

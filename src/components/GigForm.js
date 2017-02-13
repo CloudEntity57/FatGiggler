@@ -113,13 +113,18 @@ class GigForm extends Component {
      for(let i=0; i<gigtime.length; i++){
        total+=gigtime[i];
      }
+
     //  console.log('the TOTAL: ',total);
      while(total-maxtime > 5){
        songs.pop();
        this.sortByTime(songs,maxtime);
        break;
      }
-     // console.log('finally: ');
+
+    //  test = moment(test).format("m:ss");
+    let test = total;
+    test = moment(test).format("m:ss");
+    console.log('TOTAL: ',test);
      return songs;
      // songs.forEach((val)=>{
      //   console.log('songs: ',val.title,',',val.length);
@@ -152,7 +157,7 @@ class GigForm extends Component {
      let maxminutes = this.refs.maxminutes.value;
      //format in moment.js
      maxminutes = moment.duration(maxminutes+':00')._milliseconds;
-    //  console.log('the maximum number of minutes allowed:',maxminutes);
+     console.log('the maximum number of minutes allowed:',maxminutes);
      //
      let genresdesired = this.state.genres;
      let setsdesired = this.refs.setsdesired.value;
@@ -293,7 +298,7 @@ class GigForm extends Component {
     }
 }
     const gigInfo = (this.state.show) ? (
-      <div>
+      <div className="gig-info">
       <h2>{this.state.gig.title}</h2>
       <ul>
         { frame }
