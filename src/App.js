@@ -26,7 +26,7 @@ class App extends Component {
         });
         uid=user.uid;
         console.log('uid: ',uid);
-        console.log('app user: ',user.photoURL);
+        // console.log('app user: ',user.photoURL);
         this.setState({
           userpic:user.photoURL
         });

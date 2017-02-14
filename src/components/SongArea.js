@@ -51,7 +51,7 @@ class SongArea extends Component{
     navs[target]=pos;
   });
   let index=navs[theSongs[0]]
-  console.log('navs: ',navs);
+  // console.log('navs: ',navs);
     // console.log('array: ',results);
       this.setState({
         navIndexes:navs,
@@ -60,8 +60,8 @@ class SongArea extends Component{
       });
   }
   componentDidUpdate(){
-    console.log('the target in Songarea: ',this.props.target);
-    console.log('the navs in Songarea: ',this.state.navIndexes);
+    // console.log('the target in Songarea: ',this.props.target);
+    // console.log('the navs in Songarea: ',this.state.navIndexes);
     jQuery('.song_scroll').stop().animate({
         'scrollTop': this.state.navIndexes['#'+this.props.target]
     }, 900, 'swing');

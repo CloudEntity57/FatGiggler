@@ -91,30 +91,97 @@ class Dashboard extends Component {
 
       });
 
-  }
-  componentDidMount(){
+      //----====================MUSIXMATCH API CONNECTION TEST======================================//
 
-    let totaltime = 152520000;
-    console.log('totaltime: ',totaltime);
-    totaltime = moment(totaltime).format("m:ss");
-    console.log('total: ',totaltime);
-    //----====================MUSIXMATCH API CONNECTION TEST======================================//
-    
-    //===================================//
+        let musix = process.env.REACT_APP_MUSIX_APP_API;
+        console.log('my api key is: ',musix);
+
+        let artists = [
+          "bob dylan",
+          "jeff buckley",
+          "ed sheeran",
+          "bruno mars",
+          "leonard cohen",
+          "B.B. King",
+          "grateful dead",
+          "beatles",
+          "elvis presley",
+          "ray charles",
+          "stevie wonder",
+          "steely dan",
+          "david bowie",
+          "prince",
+          "frank sinatra",
+          "aretha franklin",
+          "tori amos"
+        ];
+        let artists_htmlstring= artists.map((val)=>{
+          var mod = val.replace(/ /g,'%20');
+          return mod;
+        });
+
+        let artists_query_array = artists_htmlstring.map((val)=>{
+          let api_top10_search_str = "http://api.musixmatch.com/ws/1.1/track.search?apikey="+musix+"&q_artist="+val+"&page_size=10&page=1&s_track_rating=desc";
+          // console.log('search string: ',api_top10_search_str);
+          return api_top10_search_str;
+        });
+        // console.log('modified array: ',artists_query_array);
+        let result_array = [];
+        let defaultsongs = [];
+        for(let i=0; i<artists_query_array.length; i++){
+          jquery.get(artists_query_array[i],(val)=>{
+            var output = JSON.parse(val);
+            // console.log('we are getting for output: ',output.message.body.track_list);
+            result_array.push(output.message.body.track_list);
+                if(result_array.length === artists.length){
+                  console.log('result arrays length: ',result_array.length);
+                  for(let i=0; i<result_array.length; i++){
+                    // console.log('result_array item: ',result_array[i]);
+                  // go through every song in the list
+                    for(let n=0; n<result_array[i].length; n++){
+                  // for each song save the title, artist, length, lyrics and genres inside an object identical to song database
+                      let mysong = result_array[i][n];
+                      // console.log('my song: ',mysong);
+                      defaultsongs.push(mysong);
+                  // push that object to the default song array and set the default state to that array
+                    }
+                  //pass those songs to the two dashboard components for display
+                  }
+                }
+          });
+        }
+
+        this.setState({
+          defaultsongs:defaultsongs
+        });
+        console.log('the defaultsongs state: ',defaultsongs);
+
+
+        // console.log('result array!!! => ', result_array);
+
+
+      //===================================//
 
   }
+  // componentDidMount(){
+  //
+  //   let totaltime = 152520000;
+  //   console.log('totaltime: ',totaltime);
+  //   totaltime = moment(totaltime).format("m:ss");
+  //   console.log('total: ',totaltime);
+  //
+  // }
   navigate(id){
     this.setState({
       target:id
     });
   }
 
-
   render(){
     //create JSX for songs to pass to SongArea:
     let mysongs = this.state.songs;
     let target = this.state.target;
-    console.log('target in render: ',target);
+    // console.log('target in render: ',target);
     //create JSX for separate set lists to pass to SetList:
     let mygig = this.state.gig;
     let html = (mysongs && mygig) ?

@@ -15,7 +15,7 @@ componentWillMount(){
     user => {
       let uid=0;
       if(user){
-        console.log('header user: ',user);
+        // console.log('header user: ',user);
         this.setState({
           userpic:user.photoURL
           // userpic:user.photoURL
