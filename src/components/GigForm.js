@@ -131,34 +131,16 @@ class GigForm extends Component {
      // });
    }
 //ORIGINAL FILTER BY SETS:
-  filterBySets(songs,numsets){
-    let setlen=songs.length/numsets;
-      let results={};
-
-      for(let i=0; i<numsets; i++){
-        results[i]=[];
-        for(let x=0; x<setlen; x++){
-          let song = songs.pop();
-          if (song){
-            results[i].push(song);
-          }
-        }
-
-      }
-      // console.log('sets: ',results);
-      return results;
-   }
-
-//EXPERIMENTAL FILTER BY SETS attempting to group all songs in single array with their set numbers attached to them
   // filterBySets(songs,numsets){
   //   let setlen=songs.length/numsets;
-  //   let results = [];
-  //     for(let i=1; i<=numsets; i++){
+  //     let results={};
+  //
+  //     for(let i=0; i<numsets; i++){
+  //       results[i]=[];
   //       for(let x=0; x<setlen; x++){
   //         let song = songs.pop();
   //         if (song){
-  //           song.set=i;
-  //           results.push(song);
+  //           results[i].push(song);
   //         }
   //       }
   //
@@ -166,6 +148,24 @@ class GigForm extends Component {
   //     // console.log('sets: ',results);
   //     return results;
   //  }
+
+//EXPERIMENTAL FILTER BY SETS attempting to group all songs in single array with their set numbers attached to them
+  filterBySets(songs,numsets){
+    let setlen=songs.length/numsets;
+    let results = [];
+      for(let i=1; i<=numsets; i++){
+        for(let x=0; x<setlen; x++){
+          let song = songs.pop();
+          if (song){
+            song.set=i;
+            results.push(song);
+          }
+        }
+
+      }
+      // console.log('sets: ',results);
+      return results;
+   }
 
    //=====================GIG DISPLAY FUNCTIONS==========================
 
@@ -292,29 +292,39 @@ class GigForm extends Component {
     // });
     let frame=[];
     let setnum=1;
-    // console.log('our gig saved in state: ',this.state.gig);
-    for (var property in this.state.gig.sets) {
 
-    if (this.state.gig.sets.hasOwnProperty(property)) {
-      let  goods=[];
-      this.state.gig.sets[property].map((val)=>{
-        // console.log('the setss song is: ',val);
-        goods.push(<li>{val.title}</li>);
-      });
-        frame.push(
-          <div>
-          <h3>Set {setnum}</h3>
-          <ul>
-            {goods}
-          </ul>
-        </div>
-        );
-        setnum++;
+    // go through every song in the gig:
+    for (var song in this.state.gig.sets) {
+
+
+      if (this.state.gig.sets.hasOwnProperty(song)) {
+
+      // check if song has current gig number
+      if(song.set===setnum){
+        //create the ESX for that set
+        let  goods=[];
+        this.state.gig.sets.forEach((val)=>{
+          // console.log('the setss song is: ',val);
+          goods.push(<li>{val.title}</li>);
+        });
+          frame.push(
+            <div>
+            <h3>Set {setnum}</h3>
+            <ul>
+              {goods}
+            </ul>
+          </div>
+          );
+          //increase the set number
+          setnum++;
+      }
         // console.log('html: ',html);
 
-          // console.log('property is: ',property);
-    }
-}
+          // console.log('song is: ',property);
+
+
+      }
+  }
     const gigInfo = (this.state.show) ? (
       <div className="gig-info">
       <h2>{this.state.gig.title}</h2>
