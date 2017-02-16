@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {firebase} from '../utils/firebase';
+import {firebase, firebaseListToArray} from '../utils/firebase';
 import NavLink from './NavLink';
 import LogoutButton from './LogoutButton';
 
@@ -7,7 +7,8 @@ class Header extends Component {
   constructor(props){
     super(props);
     this.state={
-      userpic:''
+      userpic:'',
+      clicks:0
     }
   }
 componentWillMount(){
@@ -23,6 +24,19 @@ componentWillMount(){
       }
     });
 
+
+  }
+  componentWillMount(){
+    firebase.database()
+    .ref('/users/clicks')
+    .on('value',(data)=>{
+      let clicks = firebaseListToArray(data);
+      let amount = clicks[0]['B'];
+      console.log('clicks are: ',amount);
+      this.setState({
+        clicks:amount
+      });
+    });
   }
 
   sessionButton() {
@@ -39,6 +53,7 @@ componentWillMount(){
       <header>
         <div className="title">
           Fat Giggler
+          <div className="click-meter">Number of clicks: {this.state.clicks} </div>
           { pic }
         </div>
         <ul className="main_nav">

@@ -130,7 +130,7 @@ class GigForm extends Component {
      //   console.log('songs: ',val.title,',',val.length);
      // });
    }
-
+//ORIGINAL FILTER BY SETS:
   filterBySets(songs,numsets){
     let setlen=songs.length/numsets;
       let results={};
@@ -148,6 +148,24 @@ class GigForm extends Component {
       // console.log('sets: ',results);
       return results;
    }
+
+//EXPERIMENTAL FILTER BY SETS attempting to group all songs in single array with their set numbers attached to them
+  // filterBySets(songs,numsets){
+  //   let setlen=songs.length/numsets;
+  //   let results = [];
+  //     for(let i=1; i<=numsets; i++){
+  //       for(let x=0; x<setlen; x++){
+  //         let song = songs.pop();
+  //         if (song){
+  //           song.set=i;
+  //           results.push(song);
+  //         }
+  //       }
+  //
+  //     }
+  //     // console.log('sets: ',results);
+  //     return results;
+  //  }
 
    //=====================GIG DISPLAY FUNCTIONS==========================
 

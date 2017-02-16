@@ -5,7 +5,8 @@ import { firebase, firebaseListToArray } from '../utils/firebase';
 import { hashHistory } from 'react-router';
 import moment from 'moment';
 import jquery from 'jquery';
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
+import makesets from '../utils/makesets';
 dotenv.config({silent:true});
 
 
@@ -15,10 +16,98 @@ class Dashboard extends Component {
     this.state={
       defaultset:"My favorite Set's ID",
       uid:0,
-      showdefault:true
+      showdefault:true,
+      genres:['rock','pop','Singer/Songwriter']
     }
   }
+
   componentWillMount(){
+
+
+          //----====================MUSIXMATCH API CONNECTION TEST======================================//
+
+            // let musix = process.env.REACT_APP_MUSIX_APP_API;
+            // console.log('my api key is: ',musix);
+
+            // let artists = [
+            //   "bob dylan",
+            //   "jeff buckley",
+            //   "ed sheeran",
+            //   "bruno mars",
+            //   "leonard cohen",
+            //   "B.B. King",
+            //   "grateful dead",
+            //   "beatles",
+            //   "elvis presley",
+            //   "ray charles",
+            //   "stevie wonder",
+            //   "steely dan",
+            //   "david bowie",
+            //   "prince",
+            //   "frank sinatra",
+            //   "aretha franklin",
+            //   "tori amos"
+            // ];
+            // let artists = [
+            //   "bob dylan",
+            //   "jeff buckley",
+            //   "ed sheeran",
+            //   "bruno mars",
+            //   "leonard cohen"
+            // ];
+            // let artists_htmlstring= artists.map((val)=>{
+            //   var mod = val.replace(/ /g,'%20');
+            //   return mod;
+            // });
+            //
+            // let artists_query_array = artists_htmlstring.map((val)=>{
+            //   let api_top10_search_str = "http://api.musixmatch.com/ws/1.1/track.search?apikey="+musix+"&q_artist="+val+"&page_size=10&page=1&s_track_rating=desc";
+            //   // console.log('search string: ',api_top10_search_str);
+            //   return api_top10_search_str;
+            // });
+            // // console.log('modified array: ',artists_query_array);
+            // let result_array = [];
+            // let defaultsongs = [];
+            // for(let i=0; i<artists_query_array.length; i++){
+            //   jquery.get(artists_query_array[i],(val)=>{
+            //     var output = JSON.parse(val);
+            //     console.log('we are getting for output: ',output.message.body.track_list);
+            //     result_array.push(output.message.body.track_list);
+            //         if(result_array.length === artists.length){
+            //           console.log('result arrays length: ',result_array.length);
+            //           console.log('result array: ',result_array);
+            //           for(let i=0; i<result_array.length; i++){
+            //             console.log('result_array item: ',result_array[i]);
+            //           // go through every song in the list
+            //             for(let n=0; n<result_array[i].length; n++){
+            //           // for each song save the title, artist, length, lyrics and genres inside an object identical to song database
+            //               let mysong = result_array[i][n];
+            //               // console.log('my song: ',mysong);
+            //               defaultsongs.push(mysong);
+            //           // push that object to the default song array and set the default state to that array
+            //             }
+            //           //pass those songs to the two dashboard components for display
+            //           }
+            //         }
+            //   });
+            // }
+            // this.setState({
+            //   songs:defaultsongs
+            // });
+
+
+
+            //create default gig for user from the site's default artist database
+
+            // let defaultgig={
+            //   title:'My Gig',
+            //   genres:this.state.genres,
+            //   sets:setfiltered,
+            //   maxminutes:216000000
+            // };
+
+
+          //===================================//
   //
     firebase.auth().onAuthStateChanged(
       user => {
@@ -58,9 +147,7 @@ class Dashboard extends Component {
 
                     if(!playing) {
                       usr_default_gig = gigs[0].gig
-                      // console.log('were setting it to default');
                     }else{
-                      // console.log('theres something playing',gigs);
                           gigs.forEach((val)=>{
                             // console.log('playin id: ',val.id);
                             // console.log('playing: ',playing);
@@ -91,86 +178,36 @@ class Dashboard extends Component {
 
       });
 
-      //----====================MUSIXMATCH API CONNECTION TEST======================================//
-
-        let musix = process.env.REACT_APP_MUSIX_APP_API;
-        console.log('my api key is: ',musix);
-
-        let artists = [
-          "bob dylan",
-          "jeff buckley",
-          "ed sheeran",
-          "bruno mars",
-          "leonard cohen",
-          "B.B. King",
-          "grateful dead",
-          "beatles",
-          "elvis presley",
-          "ray charles",
-          "stevie wonder",
-          "steely dan",
-          "david bowie",
-          "prince",
-          "frank sinatra",
-          "aretha franklin",
-          "tori amos"
-        ];
-        let artists_htmlstring= artists.map((val)=>{
-          var mod = val.replace(/ /g,'%20');
-          return mod;
-        });
-
-        let artists_query_array = artists_htmlstring.map((val)=>{
-          let api_top10_search_str = "http://api.musixmatch.com/ws/1.1/track.search?apikey="+musix+"&q_artist="+val+"&page_size=10&page=1&s_track_rating=desc";
-          // console.log('search string: ',api_top10_search_str);
-          return api_top10_search_str;
-        });
-        // console.log('modified array: ',artists_query_array);
-        let result_array = [];
-        let defaultsongs = [];
-        for(let i=0; i<artists_query_array.length; i++){
-          jquery.get(artists_query_array[i],(val)=>{
-            var output = JSON.parse(val);
-            // console.log('we are getting for output: ',output.message.body.track_list);
-            result_array.push(output.message.body.track_list);
-                if(result_array.length === artists.length){
-                  console.log('result arrays length: ',result_array.length);
-                  for(let i=0; i<result_array.length; i++){
-                    // console.log('result_array item: ',result_array[i]);
-                  // go through every song in the list
-                    for(let n=0; n<result_array[i].length; n++){
-                  // for each song save the title, artist, length, lyrics and genres inside an object identical to song database
-                      let mysong = result_array[i][n];
-                      // console.log('my song: ',mysong);
-                      defaultsongs.push(mysong);
-                  // push that object to the default song array and set the default state to that array
-                    }
-                  //pass those songs to the two dashboard components for display
-                  }
-                }
-          });
-        }
-
-        this.setState({
-          defaultsongs:defaultsongs
-        });
-        console.log('the defaultsongs state: ',defaultsongs);
-
-
-        // console.log('result array!!! => ', result_array);
-
-
-      //===================================//
-
   }
-  // componentDidMount(){
-  //
-  //   let totaltime = 152520000;
-  //   console.log('totaltime: ',totaltime);
-  //   totaltime = moment(totaltime).format("m:ss");
-  //   console.log('total: ',totaltime);
-  //
-  // }
+
+
+  componentDidMount(){
+
+    // let totaltime = 152520000;
+    // console.log('totaltime: ',totaltime);
+    // totaltime = moment(totaltime).format("m:ss");
+    // console.log('total: ',totaltime);
+    // let defaultsongs2 = this.state.songs;
+    // let defaultsongs = [];
+    // for(let i=0; i<defaultsongs2.length; i++){
+    //   defaultsongs.push(defaultsongs2[i]);
+    // }
+
+    // console.log('the defaultsongs state: ',defaultsongs2);
+    //
+    // let gigtitle = 'My Fat Gig';
+    // let maxminutes = 35;
+    // //format in moment.js
+    // maxminutes = moment.duration(maxminutes+':00')._milliseconds;
+    // console.log('the maximum number of minutes allowed:',maxminutes);
+    // //
+    // let genresdesired = this.state.genres;
+    // console.log('genres are: ',genresdesired);
+    // let setsdesired = 3;
+    // makesets.updateGig(defaultsongs2,gigtitle,maxminutes,genresdesired,setsdesired);
+    // console.log('the default gig on Dashboard: ',this.state.gig);
+
+}
   navigate(id){
     this.setState({
       target:id

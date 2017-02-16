@@ -7,7 +7,8 @@ class Gigs extends Component{
     super(props);
     this.state={
       uid:0,
-      gigview:(<h3>Select a gig and see it here</h3>)
+      gigview:(<h3>Select a gig and see it here</h3>),
+      gigedit:false
     }
   }
   componentDidMount(){
@@ -32,16 +33,24 @@ class Gigs extends Component{
     });
 
   }
-  deleteGig(e){
-    let uid=this.state.uid;
+  deleteSong(e){
     e.preventDefault();
-    let id=e.target.id;
-    let target = firebase.database()
-    .ref('/'+uid+'/gigs/'+id);
-    console.log('target to delete: ',target);
-    if(confirm('Are you sure?')){
-      target.remove();
-    }
+    let uid=this.state.uid;
+    let songid = e.target.parentNode.parentNode.previousSibling.getAttribute('id');
+    let gigid = e.target.parentNode.getAttribute('id');
+    console.log('song id: ',songid);
+    console.log('gig id: ',gigid);
+    let target = '';
+    firebase.database()
+    .ref('/'+uid+'/gigs/'+gigid+'/gig/sets')
+    .on('value',(data)=>{
+      target = data;
+    });
+    let obj = firebaseListToArray(target).length;
+    console.log('target to delete: ',obj);
+    // if(confirm('Are you sure?')){
+    //   target.remove();
+    // }
 
   }
 
@@ -56,12 +65,15 @@ class Gigs extends Component{
       if(gigid===id){
         let frame = [];
         let setnum = 1;
+        let deleteButton = (<a href='#' id={gigid} onClick={this.deleteSong.bind(this)}><i className='fa fa-minus-circle' aria-hidden="true"></i></a>);
+        let editButton = (<a href='#' onClick={this.deleteGig.bind(this)}><i className='fa fa-pencil' aria-hidden="true"></i></a>);
 
         val.gig.sets.map((set)=>{
           let goods = [];
           set.map((val)=>{
             // console.log('the setss song is: ',val);
-            goods.push(<li id={val.id}>{val.title}</li>);
+            goods.push(<div className="gig-item-contain"><li id={val.id}>{val.title}</li><div className="gig-item">{deleteButton}{editButton}</div></div>);
+
           });
           // console.log('heres a set! ',set);
           frame.push(
@@ -76,14 +88,13 @@ class Gigs extends Component{
         });
         let gigview = (
           <div>
+          <div className="gig-buttons">
+          <button onClick={this.playGig.bind(this)} id={val.id} className="btn btn-primary">Play</button>
+          </div>
           <h1>{val.gig.title}</h1>
           <ul>
             { frame }
           </ul>
-          <div className="gig-buttons">
-          <button onClick={this.deleteGig.bind(this)} id={val.id} className="btn btn-primary">Delete</button>
-          <button onClick={this.playGig.bind(this)} id={val.id} className="btn btn-primary">Play</button>
-          </div>
         </div>
       );
         this.setState({
@@ -104,9 +115,40 @@ class Gigs extends Component{
       hashHistory.push('/dashboard');
     });;
   }
+  editGigs(e){
+    e.preventDefault();
+    if(!this.state.gigedit){
+      this.setState({
+        gigedit:true
+      });
+    }else{
+      this.setState({
+        gigedit:false
+      });
+    }
+  }
+  deleteGigTarget(e){
+    e.preventDefault();
+    let item = e.target.parentNode.parentNode.getAttribute('data-subject');
+    this.deleteGig(e,item);
+  }
+  deleteGig(e,obj){
+
+    e.preventDefault();
+    let uid=this.state.uid;
+    let id= obj || e.target.id;
+    let target = firebase.database()
+    .ref('/'+uid+'/gigs/'+id);
+    console.log('target to delete: ',target);
+    if(confirm('Are you sure?')){
+      target.remove();
+    }
+
+  }
   render(){
     let gigsInfo = '';
     let username = this.state.username;
+    let deleteButton = (<a href='#' onClick={this.deleteGigTarget.bind(this)}><i className='fa fa-minus-circle' aria-hidden="true"></i></a>);
     if(this.state.gigs){
       let gigs = this.state.gigs;
       // console.log('the gigs in Gigs.js: ',gigs);
@@ -114,7 +156,7 @@ class Gigs extends Component{
         // console.log('our sets saved in state: ',this.state.sets);
         gigs.forEach((val)=>{
           let gig = val.gig;
-                frame.push(<a href="#" ><li onClick= {this.displayGig.bind(this)} id={val.id}>{gig.title} </li></a>);
+                frame.push(<div className="gig-item-contain"><a href="#" id={val.id}><li onClick= {this.displayGig.bind(this)} id={val.id}>{gig.title} </li></a><div data-subject={val.id} className="gig-item">{deleteButton}</div></div>);
         });
 
         gigsInfo = (

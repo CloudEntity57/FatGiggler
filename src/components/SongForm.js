@@ -113,7 +113,12 @@ class SongForm extends Component{
     this.refs.genresdesired.value=current_genres;
   }
   //================================
-
+  picShow(files,e){
+    // let imgurl=files[0].name;
+    let imgurl=files[0];
+    console.log('image url: ',imgurl);
+    return(<img src={imgurl} />);
+  }
   render(){
     let lnk = "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTuXHksRLoduQ-_f8EGSEIsvCCIXKgtEhpQHm-Y3pTMrK5I86kD";
     let image = (<img className="img-responsive" src={lnk} />);
