@@ -152,6 +152,7 @@ class GigForm extends Component {
 //EXPERIMENTAL FILTER BY SETS attempting to group all songs in single array with their set numbers attached to them
   filterBySets(songs,numsets){
     let setlen=songs.length/numsets;
+    console.log('set length: ',songs.length);
     let results = [];
       for(let i=1; i<=numsets; i++){
         for(let x=0; x<setlen; x++){
@@ -163,7 +164,7 @@ class GigForm extends Component {
         }
 
       }
-      // console.log('sets: ',results);
+      console.log('sets: ',results);
       return results;
    }
 
@@ -206,6 +207,7 @@ class GigForm extends Component {
        title:title,
        genres:genres,
        sets:setfiltered,
+       setnum:sets,
        maxminutes:minutes
      };
      this.setState({
@@ -291,40 +293,47 @@ class GigForm extends Component {
     //   return (<li>val.</li>);
     // });
     let frame=[];
+    console.log('the gig is: ',this.state.gig);
+    let maxsets = parseInt(this.state.gig.setnum);
+    console.log('max sets: ',maxsets);
     let setnum=1;
+    let sets = this.state.gig.sets
+    console.log('the sets are: ',sets);
 
-    // go through every song in the gig:
-    for (var song in this.state.gig.sets) {
+    if(sets){
 
 
-      if (this.state.gig.sets.hasOwnProperty(song)) {
-
-      // check if song has current gig number
-      if(song.set===setnum){
-        //create the ESX for that set
+      //go through for each set:
+      for(let x=0; x<maxsets; x++){
         let  goods=[];
-        this.state.gig.sets.forEach((val)=>{
-          // console.log('the setss song is: ',val);
-          goods.push(<li>{val.title}</li>);
-        });
-          frame.push(
-            <div>
-            <h3>Set {setnum}</h3>
-            <ul>
-              {goods}
-            </ul>
-          </div>
-          );
-          //increase the set number
-          setnum++;
+        // go through every song in the gig:
+        for (var song =0; song<sets.length; song++) {
+          // console.log('the song to iterate through: ',sets[song]);
+          if (sets.hasOwnProperty(song)) {
+          // check if song has current gig number
+            if(sets[song].set===setnum){
+              console.log('yes its running');
+              //create the ESX for that set
+              goods.push(<li>{sets[song].title}</li>);
+
+            }
+          }
+        }
+        frame.push(
+          <div>
+          <h3>Set {setnum}</h3>
+          <ul>
+            {goods}
+          </ul>
+        </div>
+        );
+        //increase the set number
+        setnum++;
       }
-        // console.log('html: ',html);
-
-          // console.log('song is: ',property);
 
 
-      }
-  }
+
+    }
     const gigInfo = (this.state.show) ? (
       <div className="gig-info">
       <h2>{this.state.gig.title}</h2>
