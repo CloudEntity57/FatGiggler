@@ -28,33 +28,29 @@ class Dashboard extends Component {
 
             // let musix = process.env.REACT_APP_MUSIX_APP_API;
             // console.log('my api key is: ',musix);
-
+            //
+            // // let artists = [
+            // //   "bob dylan",
+            // //   "jeff buckley",
+            // //   "ed sheeran",
+            // //   "bruno mars",
+            // //   "leonard cohen",
+            // //   "B.B. King",
+            // //   "grateful dead",
+            // //   "beatles",
+            // //   "elvis presley",
+            // //   "ray charles",
+            // //   "stevie wonder",
+            // //   "steely dan",
+            // //   "david bowie",
+            // //   "prince",
+            // //   "frank sinatra",
+            // //   "aretha franklin",
+            // //   "tori amos"
+            // // ];
             // let artists = [
-            //   "bob dylan",
-            //   "jeff buckley",
-            //   "ed sheeran",
-            //   "bruno mars",
-            //   "leonard cohen",
-            //   "B.B. King",
-            //   "grateful dead",
-            //   "beatles",
-            //   "elvis presley",
-            //   "ray charles",
-            //   "stevie wonder",
-            //   "steely dan",
-            //   "david bowie",
-            //   "prince",
-            //   "frank sinatra",
-            //   "aretha franklin",
-            //   "tori amos"
-            // ];
-            // let artists = [
-            //   "bob dylan",
-            //   "jeff buckley",
-            //   "ed sheeran",
-            //   "bruno mars",
-            //   "leonard cohen"
-            // ];
+            //   "bob dylan"
+            //  ];
             // let artists_htmlstring= artists.map((val)=>{
             //   var mod = val.replace(/ /g,'%20');
             //   return mod;
@@ -82,19 +78,25 @@ class Dashboard extends Component {
             //             for(let n=0; n<result_array[i].length; n++){
             //           // for each song save the title, artist, length, lyrics and genres inside an object identical to song database
             //               let mysong = result_array[i][n];
-            //               // console.log('my song: ',mysong);
-            //               defaultsongs.push(mysong);
+            //               console.log('my song: ',mysong);
+            //               let songObject = {};
+            //               songObject.title = mysong.track.track_name;
+            //               songObject.artist = mysong.track.artist_name;
+            //               songObject.trackid = mysong.track.track_id;
+            //               defaultsongs.push(songObject);
             //           // push that object to the default song array and set the default state to that array
             //             }
             //           //pass those songs to the two dashboard components for display
             //           }
+            //           console.log('default songs: ',defaultsongs);
+            //           this.setState({
+            //             defaultsongs:defaultsongs
+            //           });
             //         }
             //   });
             // }
-            // this.setState({
-            //   songs:defaultsongs
-            // });
-
+            //
+            //
 
 
             //create default gig for user from the site's default artist database
@@ -119,6 +121,15 @@ class Dashboard extends Component {
             // userpic:user.photoURL
           });
           uid=user.uid;
+          firebase.database()
+            .ref('/defaultgig/-Kd90Ia98VNCn8Gh9jty')
+            .on('value',(data)=>{
+              let result = data.val();
+              // console.log('now actually playing: ',result);
+              this.setState({
+                defaultset:result
+              });
+            });
           let playing ='';
           firebase.database()
             .ref('/users/'+uid+'/playing/')
@@ -132,6 +143,8 @@ class Dashboard extends Component {
               playing = this.state.playing;
               // console.log('playing has been reset to: ',playing);
               //retrieve all existing gigs from the database:
+
+
               firebase.database()
               .ref('/'+uid)
               .on('value',(data)=>{
@@ -146,7 +159,7 @@ class Dashboard extends Component {
                     let usr_default_gig = [];
 
                     if(!playing) {
-                      usr_default_gig = gigs[0].gig
+                      usr_default_gig = this.state.defaultset;
                     }else{
                           gigs.forEach((val)=>{
                             // console.log('playin id: ',val.id);
@@ -183,10 +196,43 @@ class Dashboard extends Component {
 
   componentDidMount(){
 
-    // let totaltime = 152520000;
+    // let totaltime = 163520000;
     // console.log('totaltime: ',totaltime);
     // totaltime = moment(totaltime).format("m:ss");
     // console.log('total: ',totaltime);
+
+
+    let hrs = 4;
+    let min = 35;
+    let sec = 23;
+
+    let newmin = 30;
+    newmin = moment.duration({minutes:newmin})._milliseconds;
+    // let sec = 23;
+    hrs = moment.duration({hours:hrs})._milliseconds;
+    min = moment.duration({minutes:min})._milliseconds;
+    sec = moment.duration({seconds:sec})._milliseconds;
+    // sec = moment.duration({seconds: sec})._milliseconds;
+    console.log('hrs: ',hrs);
+    console.log('min: ',min);
+    console.log('sec: ',sec);
+    let final = hrs + min + sec;
+    console.log('final: ',final);
+    final+=newmin;
+    // console.log('sec: ',sec);
+    // let full = hrs+sec;
+    let full = moment.duration(final);
+    let y = full.hours() + ':'+ full.minutes() + ':' + full.seconds();
+    // hrs = moment(hrs).format("h:mm:ss");
+    // full = moment(full).format("m:ss");
+    console.log('final hrs: ',y);
+
+
+    // console.log('final full time: ',full);
+    // full = moment.duration({minutes: full})._milliseconds;
+    // console.log('full to milliseconds: ',full);
+
+
     // let defaultsongs2 = this.state.songs;
     // let defaultsongs = [];
     // for(let i=0; i<defaultsongs2.length; i++){

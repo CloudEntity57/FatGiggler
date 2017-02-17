@@ -43,28 +43,33 @@ class Songs extends Component{
     .set({
       playing:song
     });
-    hashHistory.push('/dashboard');
+    // hashHistory.push('/dashboard');
   }
   render(){
 
     let html = this.state.songs.map((val)=>{
       // console.log('the vals id: ',val.id);
       return(
-      <div className="col-sm-4">
+      <div className="song-icon col-xs-4">
         <a href="#" onClick={this.playSong.bind(this)}>
-        <div  ref="songname" id={val.id} className="col-xs-4 song-box">
-        <div>{val.title}</div> - <p>{val.artist}</p>
+          <div className="song-box row">
+            <div  ref="songname" id={val.id} className="col-xs-6">
+            <div>{val.title}</div><p>{val.artist}</p>
+            </div>
+            <div className="song-img col-xs-6">
+              <img className="img-responsive" src="https://scontent.xx.fbcdn.net/v/t1.0-1/p100x100/14671214_10153740440602581_5134318248703944000_n.jpg?oh=70a7e6efb8f88248eae37253c8e05aa6&oe=59166FEB" />
+            </div>
+          </div>
+        </a>
       </div>
-      </a>
-    </div>
         )
     });
 
     return(
         <div className="song-pg">
-          <container className="song-titlebar">
+          <div className="song-titlebar">
             <h1>Songs</h1>
-          </container>
+          </div>
           <div className="container">
             <div className="songs-view">
               {html}

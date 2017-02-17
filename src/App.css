@@ -185,7 +185,7 @@ header{
   padding:15px;
 }
 .gig-display{
-  font-size: 1em;
+  font-size: 1.15em;
   padding-top:1.5em;
   overflow: scroll;
 }
@@ -195,6 +195,17 @@ header{
 }
 .gig-view{
   padding-top:1em;
+}
+.gig-preview-title{
+  font-size: 2em;
+}
+.gig-preview-header{
+  display:flex;
+  justify-content: space-between;
+  margin:0em 3em;
+}
+.gig-est-time{
+  margin-top:1em;
 }
 .gig-del{
   height:1.15em;
@@ -357,6 +368,7 @@ header{
 }
 .song-titlebar{
   text-align: center;
+  margin-bottom:2em;
 }
 .song{
   text-align: center;
@@ -369,11 +381,22 @@ header{
   flex-wrap: wrap;
 }
 .song-box{
+  color: #9a5601;
   border-radius: 10px;
-  background-color:lightgrey;
+  background-color:#1c1c1d;
   max-height: 15vh;
-  width:100%;
-  margin-bottom:2em;
+  margin-right:.15em;
+  margin-left:.15em;
+  margin-bottom:1em;
+  padding-bottom:8em;
+  padding-top:1em;
+}
+.song-icon{
+  padding-bottom:0em;
+}
+.song-img{
+  margin-bottom:15%;
+  height:75%;
 }
 .song-top{
   line-height: .25em !important;

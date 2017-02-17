@@ -99,32 +99,53 @@ class GigForm extends Component {
     //  songs.forEach((val)=>{
     //    console.log('songs: ',val.title,',',val.time);
     //  });
-     let gigtime = [];
+    console.log('maxtime is: ',maxtime);
+    // let max = moment.(maxtime).format('m:ss');
+    console.log('max in minutes: ',maxtime);
+     let totalSongs=(tunes)=>{
+       let gigtime = [];
 
-    //  console.log('zero time is: ',gigtime);
-
-     for (let i=0; i<songs.length; i++){
-       let timeval = moment.duration(songs[i].time)._milliseconds;
-      //  console.log('timeval is: ',timeval);
-        gigtime.push(timeval);
+      //  console.log('zero time is: ',gigtime);
+        let results=0;
+       for (let i=0; i<tunes.length; i++){
+        //  console.log('this time: ',tunes[i].time);
+        //  let timeval = moment.duration(tunes[i].time)._milliseconds;
+         let timeval = tunes[i].time;
+        //  console.log('timeval is: ',timeval);
+          gigtime.push(timeval);
+          results+=timeval
+       }
+      //  console.log('the total added time: ',results);
+      //   let results = 0;
+      //  for(let i=0; i<gigtime.length; i++){
+      //    let amt = moment(gigtime[i]).format("m:ss");
+      //    console.log('this song is ',amt,' minutes long');
+      //    results+=gigtime[i];
+      //  }
+       return results;
      }
-    //  console.log('the total added time: ',gigtime);
-     let total=0;
-     for(let i=0; i<gigtime.length; i++){
-       total+=gigtime[i];
-     }
-
+     let total = totalSongs(songs);
     //  console.log('the TOTAL: ',total);
-     while(total-maxtime > 5){
+     while(total-maxtime > 250000){
+      //  console.log('popping song!');
        songs.pop();
-       this.sortByTime(songs,maxtime);
-       break;
+       total = totalSongs(songs);
      }
 
     //  test = moment(test).format("m:ss");
-    let test = total;
-    test = moment(test).format("m:ss");
-    console.log('TOTAL: ',test);
+
+    console.log('TOTAL MILLISECS: ',total);
+    let temp = moment.duration(total);
+    let final;
+    if(temp.hours()>0){
+      final = temp.hours() + ' hr ' + temp.minutes() + ' min '+ temp.seconds()+' sec';
+    }else{
+      final = temp.minutes() + ' min '+ temp.seconds()+' sec';
+    }
+    // console.log('TOTAL: ',final);
+    // this.setState({
+    //   gigtime:final
+    // });
      return songs;
      // songs.forEach((val)=>{
      //   console.log('songs: ',val.title,',',val.length);
@@ -151,8 +172,8 @@ class GigForm extends Component {
 
 //EXPERIMENTAL FILTER BY SETS attempting to group all songs in single array with their set numbers attached to them
   filterBySets(songs,numsets){
-    let setlen=songs.length/numsets;
-    console.log('set length: ',songs.length);
+    let setlen=Math.floor(songs.length/numsets);
+    console.log('set length: ',setlen);
     let results = [];
       for(let i=1; i<=numsets; i++){
         for(let x=0; x<setlen; x++){
@@ -165,6 +186,44 @@ class GigForm extends Component {
 
       }
       console.log('sets: ',results);
+
+      let totalSongs=(tunes)=>{
+        let gigtime = [];
+
+       //  console.log('zero time is: ',gigtime);
+         let results=0;
+        for (let i=0; i<tunes.length; i++){
+         //  console.log('this time: ',tunes[i].time);
+         //  let timeval = moment.duration(tunes[i].time)._milliseconds;
+          let timeval = tunes[i].time;
+         //  console.log('timeval is: ',timeval);
+           gigtime.push(timeval);
+           results+=timeval
+        }
+       //  console.log('the total added time: ',results);
+       //   let results = 0;
+       //  for(let i=0; i<gigtime.length; i++){
+       //    let amt = moment(gigtime[i]).format("m:ss");
+       //    console.log('this song is ',amt,' minutes long');
+       //    results+=gigtime[i];
+       //  }
+        return results;
+      }
+
+      let total = totalSongs(results);
+
+      let temp = moment.duration(total);
+      let final;
+      if(temp.hours()>0){
+        final = temp.hours() + ' hr ' + temp.minutes() + ' min '+ temp.seconds()+' sec';
+      }else{
+        final = temp.minutes() + ' min '+ temp.seconds()+' sec';
+      }
+      console.log('TOTAL: ',final);
+      this.setState({
+        gigtime:final
+      });
+
       return results;
    }
 
@@ -174,9 +233,27 @@ class GigForm extends Component {
      e.preventDefault();
      let gigtitle = this.refs.gigtitle.value;
      let maxminutes = this.refs.maxminutes.value;
+     let maxhrs;
+     if(maxminutes>60){
+       maxhrs = 0;
+       while(maxminutes>60){
+         maxminutes = maxminutes-60;
+         maxhrs++;
+       }
+       maxhrs = moment.duration({hours:maxhrs})._milliseconds;
+       console.log('maxhours value entered by user: ',maxhrs);
+     }
      //format in moment.js
-     maxminutes = moment.duration(maxminutes+':00')._milliseconds;
-     console.log('the maximum number of minutes allowed:',maxminutes);
+
+     console.log('maxminutes value entered by user: ',maxminutes);
+     maxminutes = moment.duration({minutes:maxminutes})._milliseconds;
+     let max;
+     if(maxhrs){
+       max = maxminutes + maxhrs;
+     }else{
+       max = maxminutes;
+     }
+     console.log('the max minutes converted to millisecs using duration:',max);
      //
      let genresdesired = this.state.genres;
      let setsdesired = this.refs.setsdesired.value;
@@ -188,7 +265,7 @@ class GigForm extends Component {
     //  console.log('max time: ',maxminutes);
     //  console.log('genres desired: ',genresdesired);
     //  console.log('sets desired: ',setsdesired);
-     this.updateGig(gigtitle,maxminutes,genresdesired,setsdesired);
+     this.updateGig(gigtitle,max,genresdesired,setsdesired);
 
    }
    updateGig(title,minutes,genres,sets){
@@ -336,7 +413,10 @@ class GigForm extends Component {
     }
     const gigInfo = (this.state.show) ? (
       <div className="gig-info">
-      <h2>{this.state.gig.title}</h2>
+      <div className="gig-preview-header">
+        <div className="gig-preview-title">{this.state.gig.title}</div>
+        <div className="gig-est-time">{this.state.gigtime}</div>
+      </div>
       <ul>
         { frame }
       </ul>
@@ -352,11 +432,11 @@ class GigForm extends Component {
                 <h2>Create a Gig</h2>
                 <div className="form-group">
                   <label for="title-input">Gig Name</label>
-                  <input id="title-input" ref="gigtitle" type="text" className="form-control">
+                  <input id="title-input" value="testgig" ref="gigtitle" type="text" className="form-control">
 
                   </input>
                   <label for="set-input">Sets Desired</label>
-                  <input id="set-input" ref="setsdesired" type="number" placeholder="enter a number here" className="form-control"></input>
+                  <input id="set-input" value="3" ref="setsdesired" type="number" placeholder="enter a number here" className="form-control"></input>
                   <label for="maxmin-input">Max Minutes</label>
                   <input id="maxmin-input" ref="maxminutes" type="number" placeholder="enter a number here" className="form-control"></input>
                   {/* <label for="lyrics-input">Songs</label>

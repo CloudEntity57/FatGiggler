@@ -53,7 +53,7 @@ componentWillMount(){
       <header>
         <div className="title">
           Fat Giggler
-          <div className="click-meter">Number of clicks: {this.state.clicks} </div>
+          {/* <div className="click-meter">Number of clicks: {this.state.clicks} </div> */}
           { pic }
         </div>
         <ul className="main_nav">

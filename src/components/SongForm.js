@@ -45,10 +45,10 @@ class SongForm extends Component{
     //handle parsing of time
     let minutes =this.refs.minutes.value;
     let seconds =this.refs.seconds.value;
-    minutes = moment.duration('00:'+minutes+':00');
-    seconds = moment.duration('00:00:'+seconds);
+    minutes = moment.duration({minutes: minutes})._milliseconds;
+    seconds = moment.duration({seconds: seconds})._milliseconds;
     let time= minutes+seconds;
-    time= moment(time).format("m:ss");
+    // time= moment(time).format("m:ss");
     // console.log('time2 is: ',time);
     //
     // console.log('moods: ',moods);
