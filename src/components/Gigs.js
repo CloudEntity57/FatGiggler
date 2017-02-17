@@ -63,29 +63,85 @@ class Gigs extends Component{
     gig.forEach((val)=>{
       let gigid = val.id;
       if(gigid===id){
+        console.log('our gig to preview: ',val.gig);
         let frame = [];
         let setnum = 1;
         let deleteButton = (<a href='#' id={gigid} onClick={this.deleteSong.bind(this)}><i className='fa fa-minus-circle' aria-hidden="true"></i></a>);
         let editButton = (<a href='#' onClick={this.deleteGig.bind(this)}><i className='fa fa-pencil' aria-hidden="true"></i></a>);
 
-        val.gig.sets.map((set)=>{
-          let goods = [];
-          set.map((val)=>{
-            // console.log('the setss song is: ',val);
-            goods.push(<div className="gig-item-contain"><li id={val.id}>{val.title}</li><div className="gig-item">{deleteButton}{editButton}</div></div>);
+        let maxsets = parseInt(val.gig.setnum);
+        console.log('maxsets: ',maxsets);
+        let sets = val.gig.sets;
 
-          });
-          // console.log('heres a set! ',set);
+        // val.gig.sets.map((set)=>{
+        //   let goods = [];
+        //   set.map((val)=>{
+        //     // console.log('the setss song is: ',val);
+        //     goods.push(<div className="gig-item-contain"><li id={val.id}>{val.title}</li><div className="gig-item">{deleteButton}{editButton}</div></div>);
+        //
+        //   });
+        //   // console.log('heres a set! ',set);
+        //   frame.push(
+        //     <div className="set">
+        //     <h3>Set {setnum}</h3>
+        //     <ul>
+        //       {goods}
+        //     </ul>
+        //   </div>
+        //   );
+        //   setnum++;
+        // });
+
+        //=======================================================
+        for(let x=0; x<maxsets; x++){
+          let  goods=[];
+          // go through every song in the gig:
+          for (var song =0; song<sets.length; song++) {
+            console.log('the song to iterate through: ',sets[song]);
+            if (sets.hasOwnProperty(song)) {
+            // check if song has current gig number
+              if(sets[song].set===setnum){
+                console.log('yes its running');
+                //create the ESX for that set
+                // goods.push(<li>{sets[song].title}</li>);
+                goods.push(<div className="gig-item-contain"><li id={sets[song].id}>{sets[song].title}</li><div className="gig-item">{deleteButton}{editButton}</div></div>);
+
+              }
+            }
+          }
           frame.push(
-            <div className="set">
+            <div>
             <h3>Set {setnum}</h3>
             <ul>
               {goods}
             </ul>
           </div>
           );
+          //increase the set number
           setnum++;
-        });
+        }
+        //=======================================================
+
+        // val.gig.sets.map((set)=>{
+        //   let goods = [];
+        //   set.map((val)=>{
+        //     // console.log('the setss song is: ',val);
+        //     goods.push(<div className="gig-item-contain"><li id={val.id}>{val.title}</li><div className="gig-item">{deleteButton}{editButton}</div></div>);
+        //
+        //   });
+        //   // console.log('heres a set! ',set);
+        //   frame.push(
+        //     <div className="set">
+        //     <h3>Set {setnum}</h3>
+        //     <ul>
+        //       {goods}
+        //     </ul>
+        //   </div>
+        //   );
+        //   setnum++;
+        // });
+
+
         let gigview = (
           <div>
           <div className="gig-buttons">
