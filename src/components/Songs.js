@@ -62,7 +62,7 @@ class Songs extends Component{
      : this.state.songs.map((val)=>{
       // console.log('the vals id: ',val.id);
       return(
-      <div onClick={this.playSong.bind(this)} className="song-icon col-xs-4">
+      <div onClick={this.playSong.bind(this)} className="song-icon col-xs-6 col-sm-4">
         <a href="#" >
           <div id={val.id} className="song-box row">
             <div ref="songname" className="col-xs-6">
