@@ -115,7 +115,7 @@ class SongArea extends Component{
         <div className="song_scroll">
         { html }
       </div>
-      <section className="scroll_area">
+      <section className="scroll_area hidden-xs">
         <div className="scroll_bar">
         <a href="#" ref="up" onClick={this.scroll.bind(this)}>+</a>
       </div>
