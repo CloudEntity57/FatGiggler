@@ -158,9 +158,17 @@ header{
 .song-show{
   background-color: #1c1c1d;
   color:#9a5601;
+  min-height:65vh;
 }
 .song{
   padding-top:1.5em;
+}
+.song-btn-row{
+  display:flex;
+  justify-content: flex-end;
+}
+.song-close{
+  margin-top:1.5em;
 }
 .set_list{
   font-size: 1.25em;

@@ -35,11 +35,13 @@ class Song extends Component {
     let song = this.state.song;
     let html = (
       <div id={song.id}>
+        <div className="song-btn-row">
+        <button onClick={this.cancel.bind(this)} className="btn btn-success song-close">Close</button>
+      </div>
         <h2>{song.title}</h2>
         <div>
           {song.lyrics}
         </div>
-        <button onClick={this.cancel.bind(this)} className="btn btn-success">Close</button>
       </div>
     );
     return(

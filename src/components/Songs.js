@@ -43,7 +43,7 @@ class Songs extends Component{
     let uid=this.state.uid;
     let song = e.target.id;
     let target = e.target;
-    console.log('song id in playsong: ',song);
+    console.log('song in playsong: ',song);
     console.log('target: ',target);
     this.setState({
       isplaying:true,
@@ -62,13 +62,13 @@ class Songs extends Component{
      : this.state.songs.map((val)=>{
       // console.log('the vals id: ',val.id);
       return(
-      <div onClick={this.playSong.bind(this)} className="song-icon col-xs-6 col-sm-4">
-        <a href="#" >
+      <div onClick={this.playSong.bind(this)} id={val.id} className="song-icon col-xs-6 col-sm-4">
+        <a id={val.id} href="#" >
           <div id={val.id} className="song-box row">
-            <div ref="songname" className="col-xs-6">
+            <div id={val.id} className="col-xs-6">
             <div id={val.id}>{val.title}</div><p id={val.id}>{val.artist}</p>
             </div>
-            <div className="song-img col-xs-6">
+            <div id={val.id} className="song-img col-xs-6">
               <img id={val.id} className="img-responsive" src="https://scontent.xx.fbcdn.net/v/t1.0-1/p100x100/14671214_10153740440602581_5134318248703944000_n.jpg?oh=70a7e6efb8f88248eae37253c8e05aa6&oe=59166FEB" />
             </div>
           </div>
