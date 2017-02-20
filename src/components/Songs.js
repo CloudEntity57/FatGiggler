@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { firebase, firebaseListToArray } from '../utils/firebase';
 import { hashHistory } from 'react-router';
+import Song from 'Song';
 
 class Songs extends Component{
   constructor(props){
     super(props);
     this.state={
-      songs:[]
+      songs:[],
+      isplaying:false
     }
   }
   componentWillMount(){
@@ -41,13 +43,15 @@ class Songs extends Component{
     firebase.database()
     .ref('/users'+uid)
     .set({
+      isplaying:true,
       playing:song
     });
     // hashHistory.push('/dashboard');
   }
   render(){
 
-    let html = this.state.songs.map((val)=>{
+    let html = (this.state.isplaying) ? <Song song={this.state.playing}/>
+     : this.state.songs.map((val)=>{
       // console.log('the vals id: ',val.id);
       return(
       <div className="song-icon col-xs-4">

@@ -11,6 +11,7 @@ class Gigs extends Component{
       gigedit:false
     }
   }
+
   componentDidMount(){
     const user = firebase.auth().currentUser;
     console.log('current user: ',user);
@@ -21,6 +22,10 @@ class Gigs extends Component{
       uid:uid,
       username:username
     });
+    this.gigReset(uid);
+
+  }
+  gigReset(uid){
     firebase.database()
     .ref('/'+uid+'/gigs')
     .on('value',(data)=>{
@@ -30,40 +35,46 @@ class Gigs extends Component{
       this.setState({
         gigs:gigs
       });
-    });
-
-  }
+      return gigs;
+  });
+}
   deleteSong(e){
     e.preventDefault();
+    let gigs = this.state.gigs;
     let uid=this.state.uid;
     let songid = e.target.parentNode.parentNode.previousSibling.getAttribute('id');
     let gigid = e.target.parentNode.getAttribute('id');
     console.log('song id: ',songid);
     console.log('gig id: ',gigid);
-    let target = '';
     firebase.database()
-    .ref('/'+uid+'/gigs/'+gigid+'/gig/sets')
-    .on('value',(data)=>{
-      target = data;
+    .ref('/'+uid+'/gigs/'+gigid+'/gig/sets/')
+    .orderByChild('id')
+    .equalTo(songid)
+    .on('child_added',(data)=>{
+      console.log('the target to delete: ',data);
+      let reset = ()=>{
+        let gigs=this.state.gigs;
+        this.gigReset(uid);
+        this.postGig(gigs,gigid);
+      }
+        if(confirm('Are you sure?')){
+          data.ref.remove();
+          hashHistory.push('/gigs');
+
+          setTimeout(reset,500);
+
+        }
+
+
+
+
     });
-    let obj = firebaseListToArray(target).length;
-    console.log('target to delete: ',obj);
-    // if(confirm('Are you sure?')){
-    //   target.remove();
-    // }
-
   }
-
-  displayGig(e){
-    e.preventDefault();
-    let id = e.target.id;
-    // console.log('you clicked: ',id);
-    let gig = this.state.gigs;
-
+  postGig(gig,id){
     gig.forEach((val)=>{
       let gigid = val.id;
       if(gigid===id){
-        console.log('our gig to preview: ',val.gig);
+        // console.log('our gig to preview: ',val.gig);
         let frame = [];
         let setnum = 1;
         let deleteButton = (<a href='#' id={gigid} onClick={this.deleteSong.bind(this)}><i className='fa fa-minus-circle' aria-hidden="true"></i></a>);
@@ -73,38 +84,19 @@ class Gigs extends Component{
         console.log('maxsets: ',maxsets);
         let sets = val.gig.sets;
 
-        // val.gig.sets.map((set)=>{
-        //   let goods = [];
-        //   set.map((val)=>{
-        //     // console.log('the setss song is: ',val);
-        //     goods.push(<div className="gig-item-contain"><li id={val.id}>{val.title}</li><div className="gig-item">{deleteButton}{editButton}</div></div>);
-        //
-        //   });
-        //   // console.log('heres a set! ',set);
-        //   frame.push(
-        //     <div className="set">
-        //     <h3>Set {setnum}</h3>
-        //     <ul>
-        //       {goods}
-        //     </ul>
-        //   </div>
-        //   );
-        //   setnum++;
-        // });
-
         //=======================================================
         for(let x=0; x<maxsets; x++){
           let  goods=[];
           // go through every song in the gig:
           for (var song =0; song<sets.length; song++) {
-            console.log('the song to iterate through: ',sets[song]);
+            // console.log('the song to iterate through: ',sets[song]);
             if (sets.hasOwnProperty(song)) {
             // check if song has current gig number
               if(sets[song].set===setnum){
                 console.log('yes its running');
                 //create the ESX for that set
                 // goods.push(<li>{sets[song].title}</li>);
-                goods.push(<div className="gig-item-contain"><li id={sets[song].id}>{sets[song].title}</li><div className="gig-item">{deleteButton}{editButton}</div></div>);
+                goods.push(<div className="gig-item-contain"><li id={sets[song].id}>{sets[song].title}</li><div className="gig-item">{deleteButton}</div></div>);
 
               }
             }
@@ -120,26 +112,6 @@ class Gigs extends Component{
           //increase the set number
           setnum++;
         }
-        //=======================================================
-
-        // val.gig.sets.map((set)=>{
-        //   let goods = [];
-        //   set.map((val)=>{
-        //     // console.log('the setss song is: ',val);
-        //     goods.push(<div className="gig-item-contain"><li id={val.id}>{val.title}</li><div className="gig-item">{deleteButton}{editButton}</div></div>);
-        //
-        //   });
-        //   // console.log('heres a set! ',set);
-        //   frame.push(
-        //     <div className="set">
-        //     <h3>Set {setnum}</h3>
-        //     <ul>
-        //       {goods}
-        //     </ul>
-        //   </div>
-        //   );
-        //   setnum++;
-        // });
 
 
         let gigview = (
@@ -160,11 +132,20 @@ class Gigs extends Component{
 
     });
   }
+
+  displayGig(e){
+    e.preventDefault();
+    let id = e.target.id;
+    // console.log('you clicked: ',id);
+    let gigs = this.state.gigs;
+    this.postGig(gigs,id);
+
+  }
   playGig(e){
     e.preventDefault();
     let gigid = e.target.id;
     // console.log('you clicked the gig: ',gigid);
-    firebase.database().ref('users/' + this.state.uid).set({
+    firebase.database().ref('users/' + this.state.uid+'/').set({
       playing:gigid
     }).then((data)=>{
       console.log('success!');
@@ -207,7 +188,7 @@ class Gigs extends Component{
     let deleteButton = (<a href='#' onClick={this.deleteGigTarget.bind(this)}><i className='fa fa-minus-circle' aria-hidden="true"></i></a>);
     if(this.state.gigs){
       let gigs = this.state.gigs;
-      // console.log('the gigs in Gigs.js: ',gigs);
+      console.log('the gigs in Gigs.js: ',gigs);
         let frame=[];
         // console.log('our sets saved in state: ',this.state.sets);
         gigs.forEach((val)=>{

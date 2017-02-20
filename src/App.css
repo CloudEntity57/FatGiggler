@@ -431,4 +431,12 @@ footer{
     margin-right: 15px;
     float:right;
   }
+  .set_list, .song_area,.gig-preview, .song-form, .gig-form, .gig-display{
+    max-height:45vh;
+  }
+  .gig-cover{
+    position:absolute;
+    top:0px;
+    height:100%;
+  }
 }

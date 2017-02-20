@@ -32,6 +32,9 @@ class SetList extends Component {
         let maxsets = parseInt(gig.setnum);
         console.log('maxsets: ',maxsets);
         let sets = gig.sets;
+
+        // ========SET CREATION ALGORITHM BASED ON STORING SONGS IN SEPARATE SET ARRAYS:
+
         // console.log('our sets saved in state: ',this.state.sets);
         // for (var property in gig.sets) {
         //     if (gig.sets.hasOwnProperty(property)) {
@@ -52,12 +55,14 @@ class SetList extends Component {
         //     }
         // }
 
-        //=======================================================
+        //======================SET CREATION ALGORITHM BASED ON STORING ALL SONGS IN THE SAME ARRAY=================================
+
+        //Iterate once through the songs for each set:
         for(let x=0; x<maxsets; x++){
           let  goods=[];
           // go through every song in the gig:
           for (var song =0; song<sets.length; song++) {
-            console.log('the song to iterate through: ',sets[song]);
+            // console.log('the song to iterate through: ',sets[song]);
             if (sets.hasOwnProperty(song)) {
             // check if song has current gig number
               if(sets[song].set===setnum){
