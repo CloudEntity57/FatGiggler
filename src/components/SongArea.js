@@ -72,7 +72,9 @@ class SongArea extends Component{
         let foo = e.target.innerHTML;
         let songs = this.state.songs;
         if(foo==='-'){
-          if(this.state.index===songs.length-1){return null}
+          if(this.state.index===songs.length-1){
+            return null;
+          }
           this.state.index++;
           jQuery('.song_scroll').stop().animate({
               'scrollTop': this.state.scrollIndexes[this.state.index]

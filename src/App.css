@@ -155,6 +155,10 @@ header{
   color:#9a5601;
   height:85vh;
 }
+.song-show{
+  background-color: #1c1c1d;
+  color:#9a5601;
+}
 .song{
   padding-top:1.5em;
 }
