@@ -332,7 +332,7 @@ class Dashboard extends Component {
     let mygig = this.state.gig;
     let html = (mysongs && mygig) ?
     <div className="row">
-    <SetList scroll={this.navigate.bind(this)} gig={mygig}/>
+    <SetList scroll={this.navigate.bind(this)} id={this.state.uid} gig={mygig}/>
     <SongArea songs={mysongs} target={target}/>
     </div>
     : '';

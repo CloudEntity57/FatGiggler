@@ -12,7 +12,7 @@ class Song extends Component {
   componentWillMount(){
     let song = '';
     let songid = this.props.song;
-    console.log('songid: ',songid);
+    console.log('userid: ',this.props.id);
     let uid = this.props.id;
     firebase.database()
     .ref(uid+'/songs/'+songid)

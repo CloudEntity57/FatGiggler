@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { firebase, firebaseListToArray } from '../utils/firebase';
 import { hashHistory } from 'react-router';
+import { jquery } from 'jquery';
 
 class Gigs extends Component{
   constructor(props){
@@ -118,6 +119,7 @@ class Gigs extends Component{
           <div>
           <div className="gig-buttons">
           <button onClick={this.playGig.bind(this)} id={val.id} className="btn btn-primary">Play</button>
+          <button onClick={this.done.bind(this)} className="btn btn-primary hidden-sm hidden-md hidden-lg">Done</button>
           </div>
           <h1>{val.gig.title}</h1>
           <ul>
@@ -132,6 +134,13 @@ class Gigs extends Component{
 
     });
   }
+  done(e){
+    e.preventDefault();
+    this.setState({
+      showing:false
+    });
+
+  }
 
   displayGig(e){
     e.preventDefault();
@@ -139,6 +148,9 @@ class Gigs extends Component{
     // console.log('you clicked: ',id);
     let gigs = this.state.gigs;
     this.postGig(gigs,id);
+    this.setState({
+      showing:true
+    });
 
   }
   playGig(e){
@@ -182,6 +194,13 @@ class Gigs extends Component{
     }
 
   }
+  handleFocus(e){
+    e.preventDefault;
+    let id=e.target.id;
+    console.log(id);
+    console.log('hover');
+    jquery('#'+id+'animate').animate({width:'toggle'},350);
+  }
   render(){
     let gigsInfo = '';
     let username = this.state.username;
@@ -193,27 +212,44 @@ class Gigs extends Component{
         // console.log('our sets saved in state: ',this.state.sets);
         gigs.forEach((val)=>{
           let gig = val.gig;
-                frame.push(<div className="gig-item-contain"><a href="#" id={val.id}><li onClick= {this.displayGig.bind(this)} id={val.id}>{gig.title} </li></a><div data-subject={val.id} className="gig-item">{deleteButton}</div></div>);
+                frame.push(
+                  <div className="gig-item-contain"><a onMouseEnter={this.handleFocus.bind(this)} href="#" id={val.id}><li onClick= {this.displayGig.bind(this)} id={val.id}>{gig.title} </li></a><div data-subject={val.id} id={val.id+'animate'} className="gig-item">{deleteButton}</div></div>
+                );
         });
-
-        gigsInfo = (
-          <div className="col-sm-6 gig-display">
-          <h3>{username}'s Gigs</h3>
-          <ul>
-            { frame }
-          </ul>
-        </div>
-      );
+        //can't be ternary here - large views require gig list in both states (fix)
+      //   gigsInfo = (!this.state.showing) ? (
+      //     <div className="col-sm-6 gig-display">
+      //     <h3>{username}'s Gigs</h3>
+      //     <ul>
+      //       { frame }
+      //     </ul>
+      //   </div>
+      // )
+      // : '';
+      gigsInfo = (
+        <div className="col-sm-6 gig-display">
+        <h3>{username}'s Gigs</h3>
+        <ul>
+          { frame }
+        </ul>
+      </div>
+    );
 
 
     }
+    let gigmodal = (this.state.showing) ? (<div className="gig-preview gigmodal col-sm-6">
+      <div className="gig-cover"></div>
+      {this.state.gigview}
+    </div>)
+    : '';
 
     return(
       <div className="wrapper container landed_content">
 
         <div className="row">
+          { gigmodal }
           { gigsInfo }
-          <div className="gig-preview col-sm-6">
+          <div className="gig-preview hidden-xs col-sm-6">
             <div className="gig-cover"></div>
             {this.state.gigview}
           </div>

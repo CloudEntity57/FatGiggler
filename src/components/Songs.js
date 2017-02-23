@@ -23,7 +23,6 @@ class Songs extends Component{
             // userpic:user.photoURL
           });
           uid=user.uid;
-          let playing ='';
           firebase.database()
             .ref(uid+'/songs/')
             .on('value',(data)=>{

@@ -157,8 +157,10 @@ header{
 }
 .song-show{
   background-color: #1c1c1d;
+  border-radius: 15px;
   color:#9a5601;
   min-height:65vh;
+  white-space: pre-wrap;
 }
 .song{
   padding-top:1.5em;
@@ -237,6 +239,7 @@ header{
 .gig-item-contain{
   display:flex;
   justify-content: space-between;
+  z-index: 3;
 }
 .gig-item{
   display:inline-block;
@@ -435,20 +438,45 @@ footer{
 .landed_content{
   background-color: lightgray;
 }
+.gigmodal{
+  display: none;
+}
 
-@media(max-width:768px){
+@media(max-width:765px){
+  header{
+    height:25vh;
+  }
   .main_nav li{
     font-size: 1em;
     display: inline-block;
     margin-right: 15px;
     float:right;
   }
-  .set_list, .song_area,.gig-preview, .song-form, .gig-form, .gig-display{
-    max-height:45vh;
+  .song_area{
+    display:none;
   }
   .gig-cover{
     position:absolute;
     top:0px;
     height:100%;
+  }
+  .song-show{
+    display:block;
+    position:fixed;
+    height:100vh;
+    top:0;
+    left:0;
+  }
+  .gigmodal{
+    display: block;
+    position:fixed;
+    width:100%;
+    height:100%;
+    top:0;
+  }
+}
+@media(max-width:450px){
+  header{
+    height:20vh;
   }
 }

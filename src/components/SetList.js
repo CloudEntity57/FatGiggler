@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import Song from './Song';
 
 class SetList extends Component {
   constructor(props){
     super(props);
     this.state={
-      uid:0
+      isplaying:false,
+      uid:this.props.id
     }
   }
   componentDidMount(){
@@ -20,6 +22,15 @@ class SetList extends Component {
     let id = e.target.id;
     console.log('id in setlist: ',id);
     this.props.scroll(id);
+    this.setState({
+      playing:id,
+      isplaying:true
+    });
+  }
+  displaySongs(){
+    this.setState({
+      isplaying:false
+    });
   }
   render(){
     let gigInfo = '';
@@ -89,7 +100,7 @@ class SetList extends Component {
 
 
         gigInfo = (
-          <div className="col-sm-6 set_list">
+          <div>
           <h1>{this.state.gig.title}</h1>
           <ul>
             { frame }
@@ -97,9 +108,15 @@ class SetList extends Component {
         </div>
       );
     }
-
+    let songplaying = this.state.playing
+    console.log('playing: ',songplaying);
+    let html = (this.state.isplaying) ? (<div className="hidden-sm hidden-md hidden-lg"><Song cancel={this.displaySongs.bind(this)} id={this.state.uid} song={songplaying}/></div>)
+     : '';
     return(
-    <div>
+    <div className="col-sm-6 set_list">
+      <div>
+      {html}
+      </div>
       { gigInfo }
     </div>
     );
