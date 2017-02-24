@@ -432,11 +432,11 @@ class GigForm extends Component {
                 <h2>Create a Gig</h2>
                 <div className="form-group">
                   <label for="title-input">Gig Name</label>
-                  <input id="title-input" value="testgig" ref="gigtitle" type="text" className="form-control">
+                  <input id="title-input" ref="gigtitle" type="text" className="form-control">
 
                   </input>
                   <label for="set-input">Sets Desired</label>
-                  <input id="set-input" value="3" ref="setsdesired" type="number" placeholder="enter a number here" className="form-control"></input>
+                  <input id="set-input" ref="setsdesired" type="number" placeholder="enter a number here" className="form-control"></input>
                   <label for="maxmin-input">Max Minutes</label>
                   <input id="maxmin-input" ref="maxminutes" type="number" placeholder="enter a number here" className="form-control"></input>
                   {/* <label for="lyrics-input">Songs</label>
