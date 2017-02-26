@@ -110,7 +110,7 @@ class SetList extends Component {
     }
     let songplaying = this.state.playing
     console.log('playing: ',songplaying);
-    let html = (this.state.isplaying) ? (<div className="hidden-sm hidden-md hidden-lg"><Song cancel={this.displaySongs.bind(this)} id={this.state.uid} song={songplaying}/></div>)
+    let html = (this.state.isplaying) ? (<div ><Song cancel={this.displaySongs.bind(this)} id={this.state.uid} song={songplaying}/></div>)
      : '';
     return(
     <div className="col-sm-6 set_list">

@@ -25,15 +25,17 @@ class App extends Component {
           // userpic:user.photoURL
         });
         uid=user.uid;
+        let name = user.displayName;
         console.log('uid: ',uid);
         // console.log('app user: ',user.photoURL);
         this.setState({
           userpic:user.photoURL
         });
         firebase.database()
-        .ref('/users/loggedin')
-        .update({
-          user:uid
+        .ref('/users/loggedin/'+uid)
+        .set({
+          online:'true',
+          name:name
         });
         hashHistory.push('/dashboard');
       } else {
@@ -44,25 +46,6 @@ class App extends Component {
       }
     });
 
-    //TESTING UMBELMANIA CHALLENGE ON A BACK END SERVER
-let gamestate_training = "https://umbelmania.umbel.com/training/";
-var newval;
-let moves = jQuery.get("https://umbelmania.umbel.com/moves/", (data)=>{
-  console.log('moves: ',data);
-});
-
-
-let $move = jQuery.post(gamestate_training,(val)=>{
-  console.log('response: ',val);
-  val["move"]="B";
-  newval = val;
-  console.log('newval: ',newval);
-  let $nextmove= jQuery.post(gamestate_training,newval).done((val)=>{
-    console.log('newval in next move: ',newval);
-    console.log('next response: ',val);
-  });
-});
-//
   }
 
   changeColor(){

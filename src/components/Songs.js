@@ -65,10 +65,10 @@ class Songs extends Component{
         <a id={val.id} href="#" >
           <div id={val.id} className="song-box row">
             <div id={val.id} className="col-xs-6">
-            <div id={val.id}>{val.title}</div><p id={val.id}>{val.artist}</p>
+            <div id={val.id}>{val.title}</div><p id={val.id}> - {val.artist}</p>
             </div>
             <div id={val.id} className="song-img col-xs-6">
-              <img id={val.id} className="img-responsive" src="https://scontent.xx.fbcdn.net/v/t1.0-1/p100x100/14671214_10153740440602581_5134318248703944000_n.jpg?oh=70a7e6efb8f88248eae37253c8e05aa6&oe=59166FEB" />
+              <img id={val.id} className="img-responsive" src={val.pic} />
             </div>
           </div>
         </a>

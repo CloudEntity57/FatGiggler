@@ -150,10 +150,15 @@ header{
 }
 .container{
 }
-.set_list, .song-form, .gig-form, .gig-display{
+.set_list, .gig-form, .gig-display{
   background-color: #1c1c1d;
   color:#9a5601;
   height:85vh;
+}
+.song-form{
+  background-color: #1c1c1d;
+  color:#9a5601;
+  height:100vh;
 }
 .song-show{
   background-color: #1c1c1d;

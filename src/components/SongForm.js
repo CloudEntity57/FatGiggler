@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { firebase } from '../utils/firebase';
 import { hashHistory } from 'react-router';
 import moment from 'moment';
+import jQuery from 'jquery';
 
 
 class SongForm extends Component{
@@ -38,6 +39,7 @@ class SongForm extends Component{
     const artist = this.refs.artist.value;
     const lyrics = this.refs.lyrics.value;
     const moods = this.state.genres;
+    const userpic = this.state.userpic;
     if(!title || !artist || !lyrics || !moods){
       alert("All fields must be entered");
       return null;
@@ -60,7 +62,8 @@ class SongForm extends Component{
       artist:artist,
       time:time,
       lyrics:lyrics,
-      moods:moods
+      moods:moods,
+      pic:userpic
     }).then((data)=>{
       // console.log('success!',data);
       // jQuery('.form-control').val('');
@@ -68,7 +71,8 @@ class SongForm extends Component{
       this.setState({
         genres:[]
       });
-
+      jQuery('.form-control').val('');
+      jQuery('.time-enter').val('');
     });
   }
   testValue(x,array){

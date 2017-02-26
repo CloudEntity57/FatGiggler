@@ -41,6 +41,8 @@ class Song extends Component {
         <h2>{song.title}</h2>
         <div>
           {song.lyrics}
+        <br></br>
+        <br></br>
         </div>
       </div>
     );

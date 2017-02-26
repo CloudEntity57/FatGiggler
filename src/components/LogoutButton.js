@@ -11,22 +11,25 @@ class LogoutButton extends Component {
     let uid=0;
     firebase.auth().onAuthStateChanged(user => {
       if(user){
-        // console.log('user: ',user);
+        console.log('user: ',user);
         this.setState({
           uid:user.uid
           // userpic:user.photoURL
         });
         uid=user.uid;
-
-        let target = firebase.database()
-        .ref('/users/loggedin/user');
-        console.log('target: ',target);
-        hashHistory.push('/dashboard');
+        // console.log('target: ',target);
+        uid=this.state.uid;
+        firebase.database()
+        .ref('/users/loggedin/'+uid)
+        .update({
+          online:'false'
+        });
       }
     });
 
-
     firebase.auth().signOut();
+    hashHistory.push('/dashboard');
+
   }
 
   render() {
