@@ -11,7 +11,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: {}
+      user: {},
+      playing:'hello'
     }
   }
 
@@ -28,6 +29,15 @@ class App extends Component {
         let name = user.displayName;
         console.log('uid: ',uid);
         // console.log('app user: ',user.photoURL);
+        firebase.database()
+          .ref('/users/'+uid+'/playing/')
+          .on('value',(data)=>{
+            let result = data.val();
+            // console.log('now actually playing: ',result);
+            this.setState({
+              playing:result
+            });
+          });
         this.setState({
           userpic:user.photoURL
         });
@@ -54,10 +64,16 @@ class App extends Component {
   }
 
   render() {
+    let playing = this.state.playing;
+    let children = (playing) ? React.Children.map(this.props.children, function (child) {
+    return React.cloneElement(child, {
+      playing:playing
+    })
+  }) : this.props.children;
     return (
       <div>
         <Header pic = {this.state.userpic} />
-        { this.props.children || <LandingPage />}
+        { children || <LandingPage />}
         <Footer />
       </div>
     );

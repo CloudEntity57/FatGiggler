@@ -421,7 +421,7 @@ class GigForm extends Component {
         { frame }
       </ul>
     </div>
-    ) :'';
+  ) :(<h2>Gig Preview</h2>);
     return(
       <div className="wrapper container landed_content">
 
@@ -477,7 +477,6 @@ class GigForm extends Component {
             </div>
             <div className="gig-preview col-sm-6">
               <div className="gig-cover"></div>
-              <h2>Gig Preview</h2>
               { gigInfo }
             </div>
           {/* <div className="col-sm-2 hidden-xs"></div> */}

@@ -215,6 +215,9 @@ header{
 .gig-view{
   padding-top:1em;
 }
+.gig-info{
+  margin-top:1em;
+}
 .gig-preview-title{
   font-size: 2em;
 }

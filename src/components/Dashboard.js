@@ -17,13 +17,14 @@ class Dashboard extends Component {
       defaultset:"My favorite Set's ID",
       uid:0,
       showdefault:true,
-      genres:['rock','pop','Singer/Songwriter']
+      genres:['rock','pop','Singer/Songwriter'],
+      playing:this.props.playing
     }
   }
 
   componentWillMount(){
 
-
+        console.log('the set playing in app is: ',this.props.playing);
           //----====================MUSIXMATCH API CONNECTION TEST======================================//
 
             // let musix = process.env.REACT_APP_MUSIX_APP_API;
@@ -194,16 +195,6 @@ class Dashboard extends Component {
           uid=user.uid;
 
           let playing ='';
-          firebase.database()
-            .ref('/users/'+uid+'/playing/')
-            .on('value',(data)=>{
-              let result = data.val();
-              // console.log('now actually playing: ',result);
-              this.setState({
-                playing:result
-              });
-            });
-              playing = this.state.playing;
               // console.log('playing has been reset to: ',playing);
               //retrieve all existing gigs from the database:
 
@@ -220,7 +211,7 @@ class Dashboard extends Component {
 
                     // Compile a single array of all the songs in the user's default gig:
                     let usr_default_gig = [];
-
+                    playing = this.props.playing;
                     if(!playing) {
                       usr_default_gig = defaultgig;
                     }else{
