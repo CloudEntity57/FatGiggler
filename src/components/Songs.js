@@ -71,7 +71,8 @@ class Songs extends Component{
     }
   }
   render(){
-
+    let editButton=(!this.state.isplaying) ? (<button onClick={this.edit.bind(this)} className="btn btn-default">Edit Songs</button>) 
+    : ''
     let html = (this.state.isplaying) ? <Song cancel={this.displaySongs.bind(this)} id={this.state.uid} song={this.state.playing}/>
      : this.state.songs.map((val)=>{
       // console.log('the vals id: ',val.id);
@@ -83,7 +84,7 @@ class Songs extends Component{
     return(
         <div className="song-pg">
           <div className="song-titlebar">
-            <h1>Songs</h1><button onClick={this.edit.bind(this)} className="btn btn-default">Edit Songs</button>
+            <h1>Songs</h1>{ editButton }
           </div>
           <div className="container">
             <div className="songs-view">

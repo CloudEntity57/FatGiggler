@@ -30,13 +30,21 @@ class Song extends Component {
     e.preventDefault();
     this.props.cancel();
   }
+  edit(e){
+    e.preventDefault();
+    console.log('editing');
+    this.setState({
+      editing:true
+    });
+  }
   render(){
     console.log('song: ',this.state.song);
     let song = this.state.song;
     let html = (
       <div id={song.id}>
         <div className="song-btn-row">
-        <button onClick={this.cancel.bind(this)} className="btn btn-success song-close">Close</button>
+        <button onClick={this.edit.bind(this)} className="btn-xs song_edit_btn song-close">Edit</button>
+        <button onClick={this.cancel.bind(this)} className="btn-xs btn-success song-close">Close</button>
       </div>
         <h2>{song.title}</h2>
         <div>

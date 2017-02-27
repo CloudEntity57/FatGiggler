@@ -182,6 +182,11 @@ header{
   padding-right:.5em;
   z-index: 2;
 }
+.song_edit_btn{
+  background-color:grey;
+  margin-right:10px;
+  color:black;
+}
 .song-close{
   margin-top:1.5em;
 }
