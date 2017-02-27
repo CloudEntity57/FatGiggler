@@ -33,14 +33,20 @@ class Song extends Component {
   edit(e){
     e.preventDefault();
     console.log('editing');
-    this.setState({
-      editing:true
-    });
+    if(!this.state.editing){
+      this.setState({
+        editing:true
+      });
+    }else{
+      this.setState({
+        editing:false
+      });
+    }
   }
   render(){
     console.log('song: ',this.state.song);
     let song = this.state.song;
-    let html = (
+    let html = (!this.state.editing) ? (
       <div id={song.id}>
         <div className="song-btn-row">
         <button onClick={this.edit.bind(this)} className="btn-xs song_edit_btn song-close">Edit</button>
@@ -52,6 +58,21 @@ class Song extends Component {
         <br></br>
         <br></br>
         </div>
+      </div>
+    )
+    : (
+      <div id={song.id}>
+        <div className="song-btn-row">
+        <button onClick={this.edit.bind(this)} className="btn-xs song_edit_btn song-close">Edit</button>
+        <button onClick={this.cancel.bind(this)} className="btn-xs btn-success song-close">Close</button>
+      </div>
+      <form className="song-edit-form form form-default">
+        <input className="form-control" defaultValue={song.title}/>
+        <textarea className="form-control song-edit-text" defaultValue=
+          {song.lyrics} />
+        <br></br>
+        <br></br>
+      </form>
       </div>
     );
     return(

@@ -187,6 +187,12 @@ header{
   margin-right:10px;
   color:black;
 }
+.song-edit-form{
+  height: 45vh;
+}
+.song-edit-text{
+  height:400px;
+}
 .song-close{
   margin-top:1.5em;
 }
