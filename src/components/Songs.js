@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { firebase, firebaseListToArray } from '../utils/firebase';
 import { hashHistory } from 'react-router';
+import SongTab from './SongTab';
 import Song from './Song';
 
 class Songs extends Component{
@@ -55,31 +56,34 @@ class Songs extends Component{
       isplaying:false
     });
   }
+  edit(e){
+    e.preventDefault();
+    if(!this.state.editing){
+      console.log('setting to true!');
+      this.setState({
+        editing:true
+      });
+    }else{
+      console.log('setting to false!');
+      this.setState({
+        editing:false
+      });
+    }
+  }
   render(){
 
     let html = (this.state.isplaying) ? <Song cancel={this.displaySongs.bind(this)} id={this.state.uid} song={this.state.playing}/>
      : this.state.songs.map((val)=>{
       // console.log('the vals id: ',val.id);
       return(
-      <div onClick={this.playSong.bind(this)} id={val.id} className="song-icon col-xs-6 col-sm-4">
-        <a id={val.id} href="#" >
-          <div id={val.id} className="song-box row">
-            <div id={val.id} className="col-xs-6">
-            <div id={val.id}>{val.title}</div><p id={val.id}> - {val.artist}</p>
-            </div>
-            <div id={val.id} className="song-img col-xs-6">
-              <img id={val.id} className="img-responsive" src={val.pic} />
-            </div>
-          </div>
-        </a>
-      </div>
+        <SongTab editing={this.state.editing} uid={this.state.uid} id={val.id} artist={val.artist} pic={val.pic} title={val.title} clicked={this.playSong.bind(this)} />
         )
     });
 
     return(
         <div className="song-pg">
           <div className="song-titlebar">
-            <h1>Songs</h1>
+            <h1>Songs</h1><button onClick={this.edit.bind(this)} className="btn btn-default">Edit Songs</button>
           </div>
           <div className="container">
             <div className="songs-view">
