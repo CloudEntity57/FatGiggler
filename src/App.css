@@ -221,10 +221,10 @@ header{
   height:110%;
   z-index: 2;
 }
-.song-edit-text{
+/*.song-edit-text{
   height:90% !important;
   width:100% !important;
-}
+}*/
 .song-close{
   margin-top:1.5em;
 }
