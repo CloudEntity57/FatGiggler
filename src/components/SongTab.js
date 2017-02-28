@@ -28,19 +28,19 @@ class SongTab extends Component{
   }
 
   render(){
-    let editButton = (this.props.editing) ? (<div id={this.props.id} onClick={this.delete.bind(this)} className="fa fa-minus-circle song-del-button"></div>)
+    let deleteButton = (this.props.editing) ? (<div id={this.props.id} onClick={this.delete.bind(this)} className="fa fa-minus-circle song-del-button"></div>)
     : '';
     return(
       <div id={this.props.id} className="song-icon col-xs-6 col-sm-4">
-        {editButton}
+        {deleteButton}
         <div onClick={this.props.clicked} >
         <a id={this.props.id} href="#" >
           <div id={this.props.id} className="song-box row">
-            <div id={this.props.id} className="col-xs-6">
+            <div id={this.props.id} className="song-info col-xs-7 col-md-8">
             <div id={this.props.id}>{this.props.title}</div><p id={this.props.id}> - {this.props.artist}</p>
             </div>
-            <div id={this.props.id} className="song-img col-xs-6">
-              <img id={this.props.id} className="img-responsive" src={this.props.pic} />
+            <div id={this.props.id} className="song-img col-xs-5 col-md-4">
+              <img id={this.props.id} src={this.props.pic} />
             </div>
           </div>
         </a>

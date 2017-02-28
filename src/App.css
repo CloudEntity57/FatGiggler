@@ -29,6 +29,9 @@ body{
   margin-top:.75em;
   color: #909aa2;
 }
+textarea, input{
+  background-color: #dcdcdc !important;
+}
 header{
 /*light brown */
   /*background-color: #98611d;*/
@@ -90,7 +93,9 @@ header{
   color:#afafa8;
   margin-bottom:1.5em;
 }
-
+.songmodal{
+  min-height: 100vh !important;
+}
 .landing_content{
   height:165vh;
   background-color:#243444;
@@ -174,6 +179,7 @@ header{
   display:flex;
   justify-content: flex-end;
 }
+
 .song-del-button{
   position:absolute;
   top:0;
@@ -190,8 +196,34 @@ header{
 .song-edit-form{
   height: 45vh;
 }
+.song-edit-form *, .song-btn-row *{
+  margin-bottom:1em;
+}
+
+.editbutton{
+  position:absolute;
+  width: 100%;
+  text-align: center;
+  z-index: 3;
+}
+.songs-edit-btn{
+  /*top:20vh;*/
+  /*right:45%;*/
+  z-index: 3;
+}
+.edit-veil{
+  position:fixed;
+  top:0;
+  left:0;
+  background-color: black;
+  opacity:.3;
+  width:100%;
+  height:110%;
+  z-index: 2;
+}
 .song-edit-text{
-  height:400px;
+  height:90% !important;
+  width:100% !important;
 }
 .song-close{
   margin-top:1.5em;
@@ -272,12 +304,7 @@ header{
   display:inline-block;
   margin-right:2em;
 }
-/*.gig-form *,.song-form *{
-  text-align: center;
-}*/
-#add-genre{
 
-}
 .gig-form-container{
   margin-left:0px;
 }
@@ -410,7 +437,6 @@ header{
 }
 .song-titlebar{
   text-align: center;
-  margin-bottom:2em;
 }
 .song{
   text-align: center;
@@ -421,6 +447,11 @@ header{
 .songs-view{
   justify-content: space-between;
   flex-wrap: wrap;
+  margin-top:5vh;
+}
+
+.song-icon{
+  padding-bottom:0em;
 }
 .song-box{
   color: #9a5601;
@@ -433,12 +464,11 @@ header{
   padding-bottom:8em;
   padding-top:1em;
 }
-.song-icon{
-  padding-bottom:0em;
-}
 .song-img{
-  margin-bottom:15%;
-  height:75%;
+  max-height:75%;
+}
+.song-img img{
+  width:100%;
 }
 .song-top{
   line-height: .25em !important;
@@ -489,10 +519,17 @@ footer{
   }
   .song-show{
     display:block;
-    position:fixed;
-    height:100vh;
+    position:absolute;
+    min-height:200vh !important;
     top:0;
     left:0;
+    width:100%;
+  }
+  .song-info{
+    font-size:.85em;
+  }
+  .songmodal{
+    min-height: 200vh !important;
   }
   .gigmodal{
     display: block;

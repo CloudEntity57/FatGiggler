@@ -21,7 +21,8 @@ class Song extends Component {
     });
     if(song){
     this.setState({
-      song:song
+      song:song,
+      songid:songid
     });
   }
 
@@ -43,17 +44,49 @@ class Song extends Component {
       });
     }
   }
+  submit(e){
+    e.preventDefault();
+    let songid = this.state.songid;
+    let title= this.refs.title.value;
+    let lyrics= this.refs.lyrics.value;
+    let artist= this.refs.artist.value;
+    let uid = this.props.id;
+    firebase.database()
+    .ref('/'+uid+'/songs/'+songid)
+    .ref.update({
+      title:title,
+      lyrics:lyrics,
+      artist:artist
+    });
+    firebase.database()
+    .ref(uid+'/songs/'+songid)
+    .on('value',(data)=>{
+      let song = data.val();
+      if(song){
+        this.setState({
+          song:song,
+          songid:songid,
+          editing:false
+        });
+      }
+    });
+
+
+    // this.setState({
+    //   editing:false
+    // });
+  }
   render(){
     console.log('song: ',this.state.song);
     let song = this.state.song;
     let html = (!this.state.editing) ? (
-      <div id={song.id}>
+      <div className="songmodal" id={song.id}>
         <div className="song-btn-row">
         <button onClick={this.edit.bind(this)} className="btn-xs song_edit_btn song-close">Edit</button>
         <button onClick={this.cancel.bind(this)} className="btn-xs btn-success song-close">Close</button>
       </div>
         <h2>{song.title}</h2>
-        <div>
+        <div className="lyrics">
           {song.lyrics}
         <br></br>
         <br></br>
@@ -61,15 +94,17 @@ class Song extends Component {
       </div>
     )
     : (
-      <div id={song.id}>
-        <div className="song-btn-row">
+      <div>
+      <div className="song-btn-row">
         <button onClick={this.edit.bind(this)} className="btn-xs song_edit_btn song-close">Edit</button>
         <button onClick={this.cancel.bind(this)} className="btn-xs btn-success song-close">Close</button>
       </div>
-      <form className="song-edit-form form form-default">
-        <input className="form-control" defaultValue={song.title}/>
-        <textarea className="form-control song-edit-text" defaultValue=
+      <form id={song.id} onSubmit={this.submit.bind(this)} className="song-edit-form form form-default">
+        <input ref="title" className="form-control" defaultValue={song.title}/>
+        <input ref="artist" className="form-control" defaultValue={song.artist}/>
+        <textarea ref="lyrics" className="form-control song-edit-text" defaultValue=
           {song.lyrics} />
+        <button type="submit" className="btn-xs btn-default">Submit</button>
         <br></br>
         <br></br>
       </form>

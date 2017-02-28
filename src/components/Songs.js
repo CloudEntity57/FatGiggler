@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { firebase, firebaseListToArray } from '../utils/firebase';
 import { hashHistory } from 'react-router';
+import EditSongs from './EditSongs';
 import SongTab from './SongTab';
 import Song from './Song';
 
@@ -71,7 +72,9 @@ class Songs extends Component{
     }
   }
   render(){
-    let editButton=(!this.state.isplaying) ? (<button onClick={this.edit.bind(this)} className="btn btn-default">Edit Songs</button>) 
+    let editVeil = (this.state.editing) ? (<div onClick={this.edit.bind(this)} className="edit-veil"></div>)
+    :'';
+    let editButton=(!this.state.isplaying) ? (<EditSongs className="editor" edit={this.edit.bind(this)} />)
     : ''
     let html = (this.state.isplaying) ? <Song cancel={this.displaySongs.bind(this)} id={this.state.uid} song={this.state.playing}/>
      : this.state.songs.map((val)=>{
@@ -83,10 +86,16 @@ class Songs extends Component{
 
     return(
         <div className="song-pg">
+
           <div className="song-titlebar">
-            <h1>Songs</h1>{ editButton }
+            {editVeil}
+            <h1>Songs</h1>
+            <div className="editbutton">
+            { editButton }
+            </div>
           </div>
           <div className="container">
+
             <div className="songs-view">
               {html}
             </div>

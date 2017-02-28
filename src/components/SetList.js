@@ -114,9 +114,8 @@ class SetList extends Component {
      : '';
     return(
     <div className="col-sm-6 set_list">
-      <div>
+
       {html}
-      </div>
       { gigInfo }
     </div>
     );
