@@ -165,11 +165,14 @@ header{
   color:#9a5601;
   height:100vh;
 }
+.song-edit-form textarea{
+  height:75vh;
+}
 .song-show{
   background-color: #1c1c1d;
   border-radius: 15px;
   color:#9a5601;
-  min-height:65vh;
+  min-height:120vh !important;
   white-space: pre-wrap;
 }
 .song{
@@ -537,5 +540,10 @@ footer{
     width:100%;
     height:100%;
     top:0;
+  }
+}
+@media(max-width:525px){
+  header{
+    height:115px;
   }
 }

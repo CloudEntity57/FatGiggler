@@ -9,7 +9,8 @@ class Gigs extends Component{
     this.state={
       uid:0,
       gigview:(<h3>Select a gig and see it here</h3>),
-      gigedit:false
+      gigedit:false,
+      songedit:false
     }
   }
 
@@ -71,69 +72,7 @@ class Gigs extends Component{
 
     });
   }
-  postGig(gig,id){
-    gig.forEach((val)=>{
-      let gigid = val.id;
-      if(gigid===id){
-        // console.log('our gig to preview: ',val.gig);
-        let frame = [];
-        let setnum = 1;
-        let deleteButton = (<a href='#' id={gigid} onClick={this.deleteSong.bind(this)}><i className='fa fa-minus-circle' aria-hidden="true"></i></a>);
-        let editButton = (<a href='#' onClick={this.deleteGig.bind(this)}><i className='fa fa-pencil' aria-hidden="true"></i></a>);
 
-        let maxsets = parseInt(val.gig.setnum);
-        console.log('maxsets: ',maxsets);
-        let sets = val.gig.sets;
-
-        //=======================================================
-        for(let x=0; x<maxsets; x++){
-          let  goods=[];
-          // go through every song in the gig:
-          for (var song =0; song<sets.length; song++) {
-            // console.log('the song to iterate through: ',sets[song]);
-            if (sets.hasOwnProperty(song)) {
-            // check if song has current gig number
-              if(sets[song].set===setnum){
-                console.log('yes its running');
-                //create the ESX for that set
-                // goods.push(<li>{sets[song].title}</li>);
-                goods.push(<div className="gig-item-contain"><li id={sets[song].id}>{sets[song].title}</li><div className="gig-item">{deleteButton}</div></div>);
-
-              }
-            }
-          }
-          frame.push(
-            <div>
-            <h3>Set {setnum}</h3>
-            <ul>
-              {goods}
-            </ul>
-          </div>
-          );
-          //increase the set number
-          setnum++;
-        }
-
-
-        let gigview = (
-          <div>
-          <div className="gig-buttons">
-          <button onClick={this.playGig.bind(this)} id={val.id} className="btn btn-primary">Play</button>
-          <button onClick={this.done.bind(this)} className="btn btn-primary hidden-sm hidden-md hidden-lg">Done</button>
-          </div>
-          <h1>{val.gig.title}</h1>
-          <ul>
-            { frame }
-          </ul>
-        </div>
-      );
-        this.setState({
-          gigview:gigview
-        });
-      }
-
-    });
-  }
   done(e){
     e.preventDefault();
     this.setState({
@@ -176,6 +115,22 @@ class Gigs extends Component{
       });
     }
   }
+  editSongs(e){
+    e.preventDefault();
+    if(!this.state.songedit){
+      this.setState({
+        songedit:true
+      });
+    }else{
+      this.setState({
+        songedit:false
+      });
+    }
+    let gigview=this.state.gigview;
+    this.setState({
+      gigview:gigview
+    });
+  }
   deleteGigTarget(e){
     e.preventDefault();
     let item = e.target.parentNode.parentNode.getAttribute('data-subject');
@@ -201,10 +156,76 @@ class Gigs extends Component{
     console.log('hover');
     jquery('#'+id+'animate').animate({width:'toggle'},350);
   }
+  postGig(gig,id){
+    gig.forEach((val)=>{
+      let gigid = val.id;
+      if(gigid===id){
+        // console.log('our gig to preview: ',val.gig);
+        let frame = [];
+        let setnum = 1;
+        let deleteButton = (this.state.songedit) ? (<a href='#' id={gigid} onClick={this.deleteSong.bind(this)}><i className='fa fa-minus-circle' aria-hidden="true"></i></a>)
+        :'';
+        let editButton = (<a href='#' onClick={this.deleteGig.bind(this)}><i className='fa fa-pencil' aria-hidden="true"></i></a>);
+
+        let maxsets = parseInt(val.gig.setnum);
+        console.log('maxsets: ',maxsets);
+        let sets = val.gig.sets;
+
+        //=======================================================
+        for(let x=0; x<maxsets; x++){
+          let  goods=[];
+          // go through every song in the gig:
+          for (var song =0; song<sets.length; song++) {
+            // console.log('the song to iterate through: ',sets[song]);
+            if (sets.hasOwnProperty(song)) {
+            // check if song has current gig number
+              if(sets[song].set===setnum){
+                console.log('yes its running');
+                //create the ESX for that set
+                // goods.push(<li>{sets[song].title}</li>);
+                goods.push(<div className="gig-item-contain"><li id={sets[song].id}>{sets[song].title}</li><div className="gig-item">{deleteButton}</div></div>);
+
+              }
+            }
+          }
+          frame.push(
+            <div>
+            <h3>Set {setnum}</h3>
+            <ul>
+              {goods}
+            </ul>
+          </div>
+          );
+          //increase the set number
+          setnum++;
+        }
+
+
+        let gigview = (
+          <div>
+          <div className="gig-buttons">
+          <button onClick={this.playGig.bind(this)} id={val.id} className="btn btn-primary">Play</button>
+          <button onClick={this.editSongs.bind(this)} id={val.id} className="btn btn-primary">Manage</button>
+          <button onClick={this.done.bind(this)} className="btn btn-primary hidden-sm hidden-md hidden-lg">Done</button>
+          </div>
+          <h1>{val.gig.title}</h1>
+          <ul>
+            { frame }
+          </ul>
+        </div>
+      );
+        this.setState({
+          gigview:gigview
+        });
+      }
+
+    });
+  }
   render(){
     let gigsInfo = '';
     let username = this.state.username;
-    let deleteButton = (<a href='#' onClick={this.deleteGigTarget.bind(this)}><i className='fa fa-minus-circle' aria-hidden="true"></i></a>);
+    let deleteButton = (this.state.gigedit) ? (<a href='#' onClick={this.deleteGigTarget.bind(this)}><i className='fa fa-minus-circle' aria-hidden="true"></i></a>)
+    : '';
     if(this.state.gigs){
       let gigs = this.state.gigs;
       console.log('the gigs in Gigs.js: ',gigs);
@@ -228,6 +249,7 @@ class Gigs extends Component{
       // : '';
       gigsInfo = (
         <div className="col-sm-6 gig-display">
+        <button onClick={this.editGigs.bind(this)} className="btn-xs btn-default">Manage</button>
         <h3>{username}'s Gigs</h3>
         <ul>
           { frame }
