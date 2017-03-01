@@ -45,12 +45,8 @@ class Song extends Component {
       });
     }
   }
-  submit(e){
-    e.preventDefault();
+  submit(title,lyrics,artist){
     let songid = this.state.songid;
-    let title= this.refs.title.value;
-    let lyrics= this.refs.lyrics.value;
-    let artist= this.refs.artist.value;
     let uid = this.props.id;
     firebase.database()
     .ref('/'+uid+'/songs/'+songid)
@@ -80,8 +76,6 @@ class Song extends Component {
   render(){
     console.log('song: ',this.state.song);
     let song = this.state.song;
-    let submit_btn = (this.state.editing) ? (<button type="submit" className="btn-xs btn-success">Submit</button>)
-    :'';
     let html = (!this.state.editing) ? (
       <div className="songmodal" id={song.id}>
         <div className="song-btn-row">
@@ -98,14 +92,13 @@ class Song extends Component {
       </div>
     )
     : (
-
       <div>
       <div className="song-btn-row">
         <button onClick={this.edit.bind(this)} className="btn-xs song-btn btn-primary song-close">Edit</button>
         <button onClick={this.cancel.bind(this)} className="btn-xs song-btn song_edit_btn song-close">Close</button>
 
       </div>
-      <form id={song.id} onSubmit={this.submit.bind(this)} className="song-edit-form form form-default">
+      {/* <form id={song.id} onSubmit={this.submit.bind(this)} className="song-edit-form form form-default">
         {submit_btn}
         <input ref="title" className="form-control" defaultValue={song.title}/>
         <input ref="artist" className="form-control" defaultValue={song.artist}/>
@@ -114,8 +107,8 @@ class Song extends Component {
         <button type="submit" className="btn-xs btn-success">Submit</button>
         <br></br>
         <br></br>
-      </form>
-      {/* <SongEditForm id={song.id} submit={this.submit.bind(this)} submitbtn={submit_btn} title={song.title} artist={song.artist} lyrics={song.lyrics} /> */}
+      </form> */}
+      <SongEditForm id={song.id} submit={this.submit.bind(this)} title={song.title} artist={song.artist} lyrics={song.lyrics} />
       </div>
     );
     return(

@@ -357,7 +357,7 @@ header{
   position:absolute;
   top:0px;
   width:101%;
-  height:inherit;
+  height:100%;
   background-color:black;
   opacity:.7;
   z-index: -1;

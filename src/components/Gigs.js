@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { firebase, firebaseListToArray } from '../utils/firebase';
 import { hashHistory } from 'react-router';
 import { jquery } from 'jquery';
+import SongEditForm from './SongEditForm';
 import GigView from './GigView';
 
 class Gigs extends Component{
@@ -11,6 +12,7 @@ class Gigs extends Component{
       uid:0,
       gigview:(<h3>Select a gig and see it here</h3>),
       gigedit:false,
+      songmanage:false,
       songedit:false
     }
   }
@@ -120,7 +122,24 @@ class Gigs extends Component{
       });
     }
   }
-  editSongs(){
+  manageSongs(){
+    if(!this.state.songmanage){
+      this.setState({
+        songmanage:true
+      });
+    }else{
+      this.setState({
+        songmanage:false
+      });
+    }
+    setTimeout(()=>{
+      let gigid=this.state.gigshowing;
+      let gigs=this.state.gigs;
+      this.postGig(gigs,gigid);
+    },100);
+  }
+  editSong(e){
+    e.preventDefault();
     if(!this.state.songedit){
       this.setState({
         songedit:true
@@ -130,7 +149,25 @@ class Gigs extends Component{
         songedit:false
       });
     }
-
+    setTimeout(()=>{
+      let gigid=this.state.gigshowing;
+      let gigs=this.state.gigs;
+      this.postGig(gigs,gigid);
+    },100);
+  }
+  submit(title,lyrics,artist){
+    let songid = this.state.songid;
+    let uid = this.props.id;
+    firebase.database()
+    .ref('/'+uid+'/songs/'+songid)
+    .ref.update({
+      title:title,
+      lyrics:lyrics,
+      artist:artist
+    });
+    this.setState({
+      songedit:false
+    });
     setTimeout(()=>{
       let gigid=this.state.gigshowing;
       let gigs=this.state.gigs;
@@ -170,9 +207,10 @@ class Gigs extends Component{
         // console.log('our gig to preview: ',val.gig);
         let frame = [];
         let setnum = 1;
-        let deleteButton = (this.state.songedit) ? (<a href='#' id={gigid} onClick={this.deleteSong.bind(this)}><i className='fa fa-minus-circle' aria-hidden="true"></i></a>)
+        let deleteButton = (this.state.songmanage) ? (<a href='#' id={gigid} onClick={this.deleteSong.bind(this)}><i className='fa fa-minus-circle' aria-hidden="true"></i></a>)
         :'';
-        let editButton = (<a href='#' onClick={this.deleteGig.bind(this)}><i className='fa fa-pencil' aria-hidden="true"></i></a>);
+        let editButton = (this.state.songmanage) ? (<a href='#' onClick={this.editSong.bind(this)}><i className='fa fa-pencil' aria-hidden="true"></i></a>)
+        :'';
 
         let maxsets = parseInt(val.gig.setnum);
         console.log('maxsets: ',maxsets);
@@ -190,7 +228,7 @@ class Gigs extends Component{
                 console.log('yes its running');
                 //create the ESX for that set
                 // goods.push(<li>{sets[song].title}</li>);
-                goods.push(<div className="gig-item-contain"><li id={sets[song].id}>{sets[song].title}</li><div className="gig-item">{deleteButton}</div></div>);
+                goods.push(<div className="gig-item-contain"><li id={sets[song].id}>{sets[song].title}</li><div className="gig-item">{deleteButton} {editButton}</div></div>);
 
               }
             }
@@ -207,21 +245,9 @@ class Gigs extends Component{
           setnum++;
         }
 
-
-        let gigview = (
-          <div>
-          <div className="gig-buttons">
-          <button onClick={this.playGig.bind(this)} id={val.id} className="btn btn-primary">Play</button>
-          <button onClick={this.editSongs.bind(this)} id={val.id} className="btn btn-primary">Manage</button>
-          <button onClick={this.done.bind(this)} className="btn btn-primary hidden-sm hidden-md hidden-lg">Done</button>
-          </div>
-          <h1>{val.gig.title}</h1>
-          <ul>
-            { frame }
-          </ul>
-        </div>
-      );
-      let gigview2= (<GigView id={val.id} title={val.gig.title} frame={frame} playGig={this.playGig.bind(this)} editSongs={this.editSongs.bind(this)} done={this.done.bind(this)} />);
+      let gigview2= (!this.state.songedit) ? (<GigView id={val.id} title={val.gig.title} frame={frame} playGig={this.playGig.bind(this)} editSongs={this.manageSongs.bind(this)} done={this.done.bind(this)} />)
+      :
+      (<SongEditForm id={val.id} submit={this.submit.bind(this)} title={val.gig.title} artist={val.gig.artist} lyrics={val.gig.lyrics} />);
 
         this.setState({
           gigview:gigview2
