@@ -470,6 +470,9 @@ header{
 .song-img{
   max-height:75%;
 }
+.song-btn{
+  margin-left:1em;
+}
 .song-img img{
   width:100%;
 }
@@ -534,6 +537,9 @@ footer{
   .songmodal{
     min-height: 200vh !important;
   }
+
+
+
   .gigmodal{
     display: block;
     position:fixed;

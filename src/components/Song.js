@@ -79,12 +79,14 @@ class Song extends Component {
   render(){
     console.log('song: ',this.state.song);
     let song = this.state.song;
+    let submit_btn = (this.state.editing) ? (<button type="submit" className="btn-xs btn-success">Submit</button>)
+    :'';
     let html = (!this.state.editing) ? (
       <div className="songmodal" id={song.id}>
         <div className="song-btn-row">
-        <button onClick={this.edit.bind(this)} className="btn-xs song_edit_btn song-close">Edit</button>
-        <button onClick={this.cancel.bind(this)} className="btn-xs btn-success song-close">Close</button>
-      </div>
+          <button onClick={this.edit.bind(this)} className="btn-xs song-btn btn-primary song-close">Edit</button>
+          <button onClick={this.cancel.bind(this)} className="btn-xs song-btn song_edit_btn song-close">Close</button>
+        </div>
         <h2>{song.title}</h2>
         <div className="lyrics">
           {song.lyrics}
@@ -96,8 +98,9 @@ class Song extends Component {
     : (
       <div>
       <div className="song-btn-row">
-        <button onClick={this.edit.bind(this)} className="btn-xs song_edit_btn song-close">Edit</button>
-        <button onClick={this.cancel.bind(this)} className="btn-xs btn-success song-close">Close</button>
+        <button onClick={this.edit.bind(this)} className="btn-xs song-btn btn-primary song-close">Edit</button>
+        <button onClick={this.cancel.bind(this)} className="btn-xs song-btn song_edit_btn song-close">Close</button>
+        {submit_btn}
       </div>
       <form id={song.id} onSubmit={this.submit.bind(this)} className="song-edit-form form form-default">
         <input ref="title" className="form-control" defaultValue={song.title}/>
