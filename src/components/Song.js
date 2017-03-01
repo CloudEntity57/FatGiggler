@@ -16,19 +16,41 @@ class Song extends Component {
     console.log('songid: ',songid);
     console.log('userid: ',this.props.id);
     let uid = this.props.id;
+
     firebase.database()
     .ref(uid+'/songs/'+songid)
     .on('value',(data)=>{
       song = data.val();
+      console.log('Song.js song: ',song);
     });
-    if(song){
+    if(song !== null){
     this.setState({
       song:song,
       songid:songid
     });
   }
-
   }
+  componentDidMount(){
+    let song = '';
+    let songid = this.props.song;
+    console.log('songid: ',songid);
+    console.log('userid: ',this.props.id);
+    let uid = this.props.id;
+
+    firebase.database()
+    .ref(uid+'/songs/'+songid)
+    .on('value',(data)=>{
+      song = data.val();
+      console.log('Song.js song: ',song);
+    });
+    if(song !== null){
+    this.setState({
+      song:song,
+      songid:songid
+    });
+  }
+  }
+
   cancel(e){
     e.preventDefault();
     this.props.cancel();
@@ -99,16 +121,6 @@ class Song extends Component {
         <button onClick={this.cancel.bind(this)} className="btn-xs song-btn song_edit_btn song-close">Close</button>
 
       </div>
-      {/* <form id={song.id} onSubmit={this.submit.bind(this)} className="song-edit-form form form-default">
-        {submit_btn}
-        <input ref="title" className="form-control" defaultValue={song.title}/>
-        <input ref="artist" className="form-control" defaultValue={song.artist}/>
-        <textarea ref="lyrics" className="form-control song-edit-text" defaultValue=
-          {song.lyrics} />
-        <button type="submit" className="btn-xs btn-success">Submit</button>
-        <br></br>
-        <br></br>
-      </form> */}
       <SongEditForm id={song.id} submit={this.submit.bind(this)} title={song.title} artist={song.artist} lyrics={song.lyrics} />
       </div>
     );

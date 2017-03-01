@@ -141,7 +141,7 @@ class Gigs extends Component{
   }
   editSong(e){
     e.preventDefault();
-    let songid= e.target.parentNode.parentNode.firstChild.id;
+    let songid= e.target.parentNode.parentNode.parentNode.firstChild.id;
     console.log('songs id is: ',songid);
     this.setState({
       song:songid,
@@ -151,7 +151,7 @@ class Gigs extends Component{
       let gigid=this.state.gigshowing;
       let gigs=this.state.gigs;
       this.postGig(gigs,gigid);
-    },100);
+    },200);
   }
   submit(title,lyrics,artist){
     let songid = this.state.songid;
@@ -187,10 +187,10 @@ class Gigs extends Component{
   }
   handleFocus(e){
     e.preventDefault;
-    let id=e.target.id;
-    console.log(id);
-    console.log('hover');
-    jquery('#'+id+'animate').animate({width:'toggle'},350);
+    // let id=e.target.id;
+    // console.log(id);
+    // console.log('hover');
+    // jquery('#'+id+'animate').animate({width:'toggle'},350);
   }
   cancelSong(e){
     this.setState({
