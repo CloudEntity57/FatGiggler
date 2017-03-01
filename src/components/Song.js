@@ -100,14 +100,15 @@ class Song extends Component {
       <div className="song-btn-row">
         <button onClick={this.edit.bind(this)} className="btn-xs song-btn btn-primary song-close">Edit</button>
         <button onClick={this.cancel.bind(this)} className="btn-xs song-btn song_edit_btn song-close">Close</button>
-        {submit_btn}
+
       </div>
       <form id={song.id} onSubmit={this.submit.bind(this)} className="song-edit-form form form-default">
+        {submit_btn}
         <input ref="title" className="form-control" defaultValue={song.title}/>
         <input ref="artist" className="form-control" defaultValue={song.artist}/>
         <textarea ref="lyrics" className="form-control song-edit-text" defaultValue=
           {song.lyrics} />
-        <button type="submit" className="btn-xs btn-default">Submit</button>
+        <button type="submit" className="btn-xs btn-success">Submit</button>
         <br></br>
         <br></br>
       </form>
