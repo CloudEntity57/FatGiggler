@@ -153,6 +153,20 @@ class Gigs extends Component{
       this.postGig(gigs,gigid);
     },200);
   }
+  showSong(e){
+    e.preventDefault();
+    let songid= e.target.id;
+    console.log('songs id is: ',songid);
+    this.setState({
+      song:songid,
+      songedit:true
+    });
+    setTimeout(()=>{
+      let gigid=this.state.gigshowing;
+      let gigs=this.state.gigs;
+      this.postGig(gigs,gigid);
+    },200);
+  }
   submit(title,lyrics,artist){
     let songid = this.state.songid;
     let uid = this.state.uid;
@@ -231,7 +245,7 @@ class Gigs extends Component{
                 console.log('yes its running');
                 //create the ESX for that set
                 // goods.push(<li>{sets[song].title}</li>);
-                goods.push(<div className="gig-item-contain"><li id={sets[song].id}>{sets[song].title}</li><div className="gig-item">{deleteButton} {editButton}</div></div>);
+                goods.push(<div className="gig-item-contain"><li onClick={this.showSong.bind(this)} id={sets[song].id}>{sets[song].title}</li><div className="gig-item">{deleteButton} {editButton}</div></div>);
 
               }
             }
