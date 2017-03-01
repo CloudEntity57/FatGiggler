@@ -77,7 +77,6 @@ class SetList extends Component {
             if (sets.hasOwnProperty(song)) {
             // check if song has current gig number
               if(sets[song].set===setnum){
-                console.log('yes its running');
                 //create the ESX for that set
                 // goods.push(<li>{sets[song].title}</li>);
                 goods.push(<a href="#" onClick={this.handleClick.bind(this)}><li id={sets[song].id}>{sets[song].title}</li></a>);

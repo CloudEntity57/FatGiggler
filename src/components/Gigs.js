@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { firebase, firebaseListToArray } from '../utils/firebase';
 import { hashHistory } from 'react-router';
 import { jquery } from 'jquery';
+import GigView from './GigView';
 
 class Gigs extends Component{
   constructor(props){
@@ -88,8 +89,11 @@ class Gigs extends Component{
     let gigs = this.state.gigs;
     this.postGig(gigs,id);
     this.setState({
+      gigshowing:id,
       showing:true
     });
+
+
 
   }
   playGig(e){
@@ -101,10 +105,11 @@ class Gigs extends Component{
     }).then((data)=>{
       console.log('success!');
       hashHistory.push('/dashboard');
-    });;
+    });
   }
+
   editGigs(e){
-    e.preventDefault();
+  e.preventDefault();
     if(!this.state.gigedit){
       this.setState({
         gigedit:true
@@ -115,8 +120,7 @@ class Gigs extends Component{
       });
     }
   }
-  editSongs(e){
-    e.preventDefault();
+  editSongs(){
     if(!this.state.songedit){
       this.setState({
         songedit:true
@@ -126,10 +130,12 @@ class Gigs extends Component{
         songedit:false
       });
     }
-    let gigview=this.state.gigview;
-    this.setState({
-      gigview:gigview
-    });
+
+    setTimeout(()=>{
+      let gigid=this.state.gigshowing;
+      let gigs=this.state.gigs;
+      this.postGig(gigs,gigid);
+    },100);
   }
   deleteGigTarget(e){
     e.preventDefault();
@@ -157,6 +163,7 @@ class Gigs extends Component{
     jquery('#'+id+'animate').animate({width:'toggle'},350);
   }
   postGig(gig,id){
+    console.log('posting');
     gig.forEach((val)=>{
       let gigid = val.id;
       if(gigid===id){
@@ -214,21 +221,24 @@ class Gigs extends Component{
           </ul>
         </div>
       );
+      let gigview2= (<GigView id={val.id} title={val.gig.title} frame={frame} playGig={this.playGig.bind(this)} editSongs={this.editSongs.bind(this)} done={this.done.bind(this)} />);
+
         this.setState({
-          gigview:gigview
+          gigview:gigview2
         });
       }
 
     });
   }
   render(){
+
     let gigsInfo = '';
     let username = this.state.username;
     let deleteButton = (this.state.gigedit) ? (<a href='#' onClick={this.deleteGigTarget.bind(this)}><i className='fa fa-minus-circle' aria-hidden="true"></i></a>)
     : '';
     if(this.state.gigs){
       let gigs = this.state.gigs;
-      console.log('the gigs in Gigs.js: ',gigs);
+      // console.log('the gigs in Gigs.js: ',gigs);
         let frame=[];
         // console.log('our sets saved in state: ',this.state.sets);
         gigs.forEach((val)=>{
