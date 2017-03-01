@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { firebase, firebaseListToArray } from '../utils/firebase';
 import { hashHistory } from 'react-router';
 import { jquery } from 'jquery';
+import Song from './Song';
 import SongEditForm from './SongEditForm';
 import GigView from './GigView';
 
@@ -140,15 +141,12 @@ class Gigs extends Component{
   }
   editSong(e){
     e.preventDefault();
-    if(!this.state.songedit){
-      this.setState({
-        songedit:true
-      });
-    }else{
-      this.setState({
-        songedit:false
-      });
-    }
+    let songid= e.target.parentNode.parentNode.firstChild.id;
+    console.log('songs id is: ',songid);
+    this.setState({
+      song:songid,
+      songedit:true
+    });
     setTimeout(()=>{
       let gigid=this.state.gigshowing;
       let gigs=this.state.gigs;
@@ -157,7 +155,7 @@ class Gigs extends Component{
   }
   submit(title,lyrics,artist){
     let songid = this.state.songid;
-    let uid = this.props.id;
+    let uid = this.state.uid;
     firebase.database()
     .ref('/'+uid+'/songs/'+songid)
     .ref.update({
@@ -168,11 +166,6 @@ class Gigs extends Component{
     this.setState({
       songedit:false
     });
-    setTimeout(()=>{
-      let gigid=this.state.gigshowing;
-      let gigs=this.state.gigs;
-      this.postGig(gigs,gigid);
-    },100);
   }
   deleteGigTarget(e){
     e.preventDefault();
@@ -198,6 +191,16 @@ class Gigs extends Component{
     console.log(id);
     console.log('hover');
     jquery('#'+id+'animate').animate({width:'toggle'},350);
+  }
+  cancelSong(e){
+    this.setState({
+      songedit:false
+    });
+    setTimeout(()=>{
+      let gigid=this.state.gigshowing;
+      let gigs=this.state.gigs;
+      this.postGig(gigs,gigid);
+    },100);
   }
   postGig(gig,id){
     console.log('posting');
@@ -247,7 +250,7 @@ class Gigs extends Component{
 
       let gigview2= (!this.state.songedit) ? (<GigView id={val.id} title={val.gig.title} frame={frame} playGig={this.playGig.bind(this)} editSongs={this.manageSongs.bind(this)} done={this.done.bind(this)} />)
       :
-      (<SongEditForm id={val.id} submit={this.submit.bind(this)} title={val.gig.title} artist={val.gig.artist} lyrics={val.gig.lyrics} />);
+      (<Song id={this.state.uid} cancel={this.cancelSong.bind(this)} song={this.state.song} />);
 
         this.setState({
           gigview:gigview2
@@ -273,16 +276,7 @@ class Gigs extends Component{
                   <div className="gig-item-contain"><a onMouseEnter={this.handleFocus.bind(this)} href="#" id={val.id}><li onClick= {this.displayGig.bind(this)} id={val.id}>{gig.title} </li></a><div data-subject={val.id} id={val.id+'animate'} className="gig-item">{deleteButton}</div></div>
                 );
         });
-        //can't be ternary here - large views require gig list in both states (fix)
-      //   gigsInfo = (!this.state.showing) ? (
-      //     <div className="col-sm-6 gig-display">
-      //     <h3>{username}'s Gigs</h3>
-      //     <ul>
-      //       { frame }
-      //     </ul>
-      //   </div>
-      // )
-      // : '';
+
       gigsInfo = (
         <div className="col-sm-6 gig-display">
         <button onClick={this.editGigs.bind(this)} className="btn-xs btn-default">Manage</button>
