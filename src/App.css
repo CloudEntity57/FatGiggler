@@ -158,7 +158,7 @@ header{
 .set_list, .gig-form, .gig-display{
   background-color: #1c1c1d;
   color:#9a5601;
-  min-height:85vh;
+  height:85vh;
 }
 .song-form{
   background-color: #1c1c1d;
@@ -354,13 +354,13 @@ header{
 }
 
 .gig-cover{
-  position:fixed;
+  position:absolute;
+  top:0px;
   width:101%;
   height:inherit;
   background-color:black;
   opacity:.7;
   z-index: -1;
-  overflow:visible;
 }
 .gig-buttons{
   padding-top: 2em;

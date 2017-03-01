@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { firebase, firebaseListToArray } from '../utils/firebase';
+import SongEditForm from './SongEditForm';
 
 class Song extends Component {
   constructor(props){
@@ -88,6 +89,7 @@ class Song extends Component {
           <button onClick={this.cancel.bind(this)} className="btn-xs song-btn song_edit_btn song-close">Close</button>
         </div>
         <h2>{song.title}</h2>
+        <p>- {song.artist}</p>
         <div className="lyrics">
           {song.lyrics}
         <br></br>
@@ -96,6 +98,7 @@ class Song extends Component {
       </div>
     )
     : (
+
       <div>
       <div className="song-btn-row">
         <button onClick={this.edit.bind(this)} className="btn-xs song-btn btn-primary song-close">Edit</button>
@@ -112,6 +115,7 @@ class Song extends Component {
         <br></br>
         <br></br>
       </form>
+      {/* <SongEditForm id={song.id} submit={this.submit.bind(this)} submitbtn={submit_btn} title={song.title} artist={song.artist} lyrics={song.lyrics} /> */}
       </div>
     );
     return(
