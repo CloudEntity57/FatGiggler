@@ -76,7 +76,17 @@ class Songs extends Component{
     :'';
     let editButton=(!this.state.isplaying) ? (<EditSongs className="editor" edit={this.edit.bind(this)} />)
     : ''
-    let html = (this.state.isplaying) ? <Song cancel={this.displaySongs.bind(this)} id={this.state.uid} song={this.state.playing}/>
+    let html = (this.state.isplaying) ?
+    (
+      <div className="row">
+        <div className="col-sm-3"></div>
+        <div className="col-sm-6">
+          <Song cancel={this.displaySongs.bind(this)} id={this.state.uid} song={this.state.playing}/>
+        </div>
+        <div className="col-sm-3"></div>
+      </div>
+    )
+
      : this.state.songs.map((val)=>{
       // console.log('the vals id: ',val.id);
       return(

@@ -125,13 +125,9 @@ class Song extends Component {
       </div>
     );
     return(
-      <div>
-        <div className="row">
-          <div className="col-sm-3"></div>
-          <div className="song-show clearfix col-sm-6">{html}</div>
-          <div className="col-sm-3"></div>
-        </div>
-      </div>
+
+          <div className="song-show clearfix">{html}</div>
+
     )
   }
 }
