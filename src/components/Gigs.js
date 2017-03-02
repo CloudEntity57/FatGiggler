@@ -315,7 +315,7 @@ class Gigs extends Component{
 
       gigsInfo = (
         <div className="col-sm-6 gig-display">
-        <button onClick={this.editGigs.bind(this)} className="btn-xs btn-default">Manage</button>
+        <button onClick={this.editGigs.bind(this)} className="btn-xs btn-primary">Manage</button>
         <h3>{username}'s Gigs</h3>
         <ul>
           { frame }

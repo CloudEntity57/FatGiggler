@@ -55,6 +55,7 @@ componentWillMount(){
         <ul className="main_nav">
 
           <li><NavLink to="/" onlyActiveOnIndex>{this.sessionButton()}</NavLink></li>
+          <li><NavLink to="/community"><a href="#">Community</a></NavLink></li>
           <li><NavLink to="/dashboard"><a href="#">Now Playing</a></NavLink></li>
           <li><NavLink to="/addgig"><a href="#">Add Gig</a></NavLink></li>
           <li><NavLink to="/addsong"><a href="#">Add Song</a></NavLink></li>
