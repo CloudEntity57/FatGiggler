@@ -27,7 +27,7 @@ class App extends Component {
         });
         uid=user.uid;
         let name = user.displayName;
-        let photo = user.photoURL;
+
         console.log('uid: ',uid);
         // console.log('app user: ',user.photoURL);
         firebase.database()
@@ -45,9 +45,9 @@ class App extends Component {
         firebase.database()
         .ref('/users/loggedin/'+uid)
         .set({
-          online:'true',
           name:name,
-          photo:photo
+          photo:user.photoURL,
+          online:'true'
         });
         hashHistory.push('/dashboard');
       } else {

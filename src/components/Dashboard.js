@@ -193,7 +193,31 @@ class Dashboard extends Component {
             // userpic:user.photoURL
           });
           uid=user.uid;
+          //------------------------------------------repeat user entry to DB
+          let name = user.displayName;
 
+          console.log('uid: ',uid);
+          // console.log('app user: ',user.photoURL);
+          firebase.database()
+            .ref('/users/'+uid+'/playing/')
+            .on('value',(data)=>{
+              let result = data.val();
+              // console.log('now actually playing: ',result);
+              this.setState({
+                playing:result
+              });
+            });
+          this.setState({
+            userpic:user.photoURL
+          });
+          firebase.database()
+          .ref('/users/loggedin/'+uid)
+          .set({
+            name:name,
+            photo:user.photoURL,
+            online:'true'
+          });
+          //------------------------------------------repeat user entry to DB
           let playing ='';
               // console.log('playing has been reset to: ',playing);
               //retrieve all existing gigs from the database:
