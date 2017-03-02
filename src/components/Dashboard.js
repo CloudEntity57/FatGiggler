@@ -206,6 +206,7 @@ class Dashboard extends Component {
                     let user = firebaseListToArray(snapshot);
                     // console.log('user: ',user);
                     let gigs = firebaseListToArray(snapshot.gigs);
+                    let songs = firebaseListToArray(snapshot.songs);
                     // console.log('the gigs we are working with are: ',gigs);
 
 
@@ -229,7 +230,11 @@ class Dashboard extends Component {
                     // console.log('the default gig we are working with is: ',usr_default_gig);
                     let usr_default = [];
                     usr_default_gig.sets.forEach((val)=>{
-                      usr_default = usr_default.concat(val);
+                      for(let i=0; i<songs.length; i++){
+                        if(songs[i].id===val.id){
+                          usr_default.push(songs[i]);
+                        }
+                      }
                     });
                     // Pass both the song and set arrays to the state:
                     this.setState({
@@ -319,6 +324,7 @@ class Dashboard extends Component {
     let mysongs = this.state.songs;
     let target = this.state.target;
     // console.log('target in render: ',target);
+    console.log('songs being passed to SongArea: ',mysongs);
     //create JSX for separate set lists to pass to SetList:
     let mygig = this.state.gig;
     let html = (mysongs && mygig) ?
