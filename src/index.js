@@ -7,6 +7,7 @@ import SongForm from './components/SongForm';
 import GigForm from './components/GigForm';
 import Gigs from './components/Gigs';
 import Songs from './components/Songs';
+import Community from './components/Community';
 import App from './App';
 import dotenv from 'dotenv';
 dotenv.config({ silent:true });
@@ -21,6 +22,7 @@ ReactDOM.render(
       <Route path="/addgig" component={ GigForm } />
       <Route path="/gigs" component={ Gigs } />
       <Route path="/songs" component={ Songs } />
+      <Route path="/community" component={ Community } />
     </Route>
   </Router>,
   document.getElementById('root')
