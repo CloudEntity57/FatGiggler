@@ -20,7 +20,8 @@ class Songs extends Component{
         if(user){
           // console.log('user: ',user);
           this.setState({
-            uid:user.uid
+            uid:user.uid,
+            user:user.displayName
             // userpic:user.photoURL
           });
           uid=user.uid;
@@ -91,13 +92,13 @@ class Songs extends Component{
         <SongTab editing={this.state.editing} uid={this.state.uid} id={val.id} artist={val.artist} pic={val.pic} title={val.title} clicked={this.playSong.bind(this)} />
         )
     });
-
+    let user = this.state.user;
     return(
         <div className="song-pg">
 
           <div className="song-titlebar">
             {editVeil}
-            <h1>Songs</h1>
+            <h1>{user}'s Songs</h1>
             <div className="editbutton">
             { editButton }
             </div>

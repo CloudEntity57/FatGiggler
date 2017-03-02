@@ -44,6 +44,17 @@ header{
 header{
   background-color:#14274a;
 }
+.usertab{
+  height:5vh;
+}
+.usertab .username{
+  font-size:1em;
+  color:lightgrey;
+  margin-right:.5em;
+}
+.usertab img{
+  height:75%;
+}
 .click-meter{
   font-size: .3em;
 }
@@ -191,7 +202,7 @@ header{
   padding-right:.5em;
   z-index: 2;
 }
-.song_edit_btn{
+.song_edit_btn, .songs-edit-btn{
   background-color:grey;
   margin-right:10px;
   color:black;
@@ -450,7 +461,7 @@ header{
 .songs-view{
   justify-content: space-between;
   flex-wrap: wrap;
-  margin-top:5vh;
+  margin-top:10vh;
 }
 
 .song-icon{
