@@ -178,9 +178,12 @@ class GigForm extends Component {
       for(let i=1; i<=numsets; i++){
         for(let x=0; x<setlen; x++){
           let song = songs.pop();
+          let item = {};
           if (song){
-            song.set=i;
-            results.push(song);
+            item.set=i;
+            item.id=song.id;
+            item.time=song.time;
+            results.push(item);
           }
         }
 
@@ -370,16 +373,24 @@ class GigForm extends Component {
     //   return (<li>val.</li>);
     // });
     let frame=[];
-    console.log('the gig is: ',this.state.gig);
     let maxsets = parseInt(this.state.gig.setnum);
-    console.log('max sets: ',maxsets);
     let setnum=1;
     let sets = this.state.gig.sets
-    console.log('the sets are: ',sets);
-
     if(sets){
 
-
+      let songs = [];
+      let uid = this.state.uid;
+      for(let i=0; i<sets.length; i++){
+        let id = sets[i].id;
+        firebase.database()
+        .ref(uid+'/songs/'+id)
+        .on('value',(data)=>{
+          let result=data.val();
+          result.id=id;
+          songs.push(result);
+        });
+      }
+      console.log('the songs are: ',songs);
       //go through for each set:
       for(let x=0; x<maxsets; x++){
         let  goods=[];
@@ -388,10 +399,17 @@ class GigForm extends Component {
           // console.log('the song to iterate through: ',sets[song]);
           if (sets.hasOwnProperty(song)) {
           // check if song has current gig number
+          let tune=[];
             if(sets[song].set===setnum){
-              console.log('yes its running');
+              //grab the matching song from our updated array 'songs'
+              for(let i=0; i<songs.length; i++){
+                if(songs[i].id===sets[song].id){
+                  tune = songs[i];
+                  console.log('the tune is: ',tune);
+                }
+              }
               //create the ESX for that set
-              goods.push(<li>{sets[song].title}</li>);
+              goods.push(<li>{tune.title}</li>);
 
             }
           }
@@ -411,6 +429,7 @@ class GigForm extends Component {
 
 
     }
+    console.log('the time of gig: ',this.state.gigtime);
     const gigInfo = (this.state.show) ? (
       <div className="gig-info">
       <div className="gig-preview-header">

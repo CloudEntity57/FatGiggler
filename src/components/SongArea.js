@@ -10,6 +10,7 @@ class SongArea extends Component{
     this.state={
       song:"this.props.songs[1]",
       scrollIndexes:[],
+      index:0,
       navIndexes:[],
       songs:[]
     }
