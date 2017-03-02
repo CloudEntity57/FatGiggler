@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {firebase} from '../utils/firebase';
-import { hashHistory } from 'react-router';
 
 class SongTab extends Component{
 

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import jQuery from 'jquery';
-import { firebase, firebaseListToArray } from '../utils/firebase';
-import { hashHistory } from 'react-router';
+
 // import MakeSet from './MakeSet';
 
 class SongArea extends Component{
@@ -10,7 +9,6 @@ class SongArea extends Component{
     super(props);
     this.state={
       song:"this.props.songs[1]",
-      index:0,
       scrollIndexes:[],
       navIndexes:[],
       songs:[]
@@ -50,7 +48,6 @@ class SongArea extends Component{
     let pos = jQuery(target).position().top;
     navs[target]=pos;
   });
-  let index=navs[theSongs[0]]
   // console.log('navs: ',navs);
     // console.log('array: ',results);
       this.setState({

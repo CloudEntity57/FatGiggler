@@ -14,7 +14,6 @@ class Header extends Component {
 componentWillMount(){
   firebase.auth().onAuthStateChanged(
     user => {
-      let uid=0;
       if(user){
         // console.log('header user: ',user);
         this.setState({
@@ -24,9 +23,6 @@ componentWillMount(){
       }
     });
 
-
-  }
-  componentWillMount(){
     firebase.database()
     .ref('/users/clicks')
     .on('value',(data)=>{
@@ -47,7 +43,7 @@ componentWillMount(){
   render(){
     let pic ='';
     if(this.props.pic){
-      pic = (<img className="user-pic" src={this.props.pic} />)
+      pic = (<img className="user-pic" alt="user" src={this.props.pic} />)
     }
     return(
       <header>

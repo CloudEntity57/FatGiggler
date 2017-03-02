@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { firebase, firebaseListToArray } from '../utils/firebase';
-import { hashHistory } from 'react-router';
 import EditSongs from './EditSongs';
 import SongTab from './SongTab';
 import Song from './Song';
@@ -41,7 +40,6 @@ class Songs extends Component{
   playSong(e){
     console.log('playSong');
     e.preventDefault();
-    let uid=this.state.uid;
     let song = e.target.id;
     let target = e.target;
     console.log('song in playsong: ',song);
