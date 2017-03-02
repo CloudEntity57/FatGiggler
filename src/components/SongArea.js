@@ -66,8 +66,11 @@ class SongArea extends Component{
 
   scroll(e){
         e.preventDefault();
+        console.log(this.state.scrollIndexes);
         let foo = e.target.innerHTML;
         let songs = this.state.songs;
+        console.log(this.state.songs);
+        console.log(this.state.index);
         if(foo==='-'){
           if(this.state.index===songs.length-1){
             return null;
