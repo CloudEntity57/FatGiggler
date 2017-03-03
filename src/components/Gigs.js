@@ -66,14 +66,8 @@ class Gigs extends Component{
         if(confirm('Are you sure?')){
           data.ref.remove();
           hashHistory.push('/gigs');
-
-          setTimeout(reset,1000);
-
+          setTimeout(reset,500);
         }
-
-
-
-
     });
   }
 
@@ -221,9 +215,7 @@ class Gigs extends Component{
     gigs.forEach((val)=>{
       let gigid = val.id;
       if(gigid===id){
-
-
-        // console.log('our gig to preview: ',val.gig);
+        console.log('our gig to preview: ',val.gig);
         let frame = [];
         let setnum = 1;
         let deleteButton = (this.state.songmanage) ? (<a href='#' id={gigid} onClick={this.deleteSong.bind(this)}><i className='fa fa-minus-circle' aria-hidden="true"></i></a>)
@@ -234,11 +226,12 @@ class Gigs extends Component{
         let maxsets = parseInt(val.gig.setnum);
         console.log('maxsets: ',maxsets);
         let sets = val.gig.sets;
+        console.log('sets: ', sets);
         //create an array of the latest songs from the database:
         let songs = [];
         let uid = this.state.uid;
-        for(let i=0; i<sets.length; i++){
-          let id = sets[i].id;
+        sets.forEach((obj)=>{
+          let id = obj.id;
           firebase.database()
           .ref(uid+'/songs/'+id)
           .on('value',(data)=>{
@@ -246,7 +239,7 @@ class Gigs extends Component{
             result.id=id;
             songs.push(result);
           });
-        }
+        });
         console.log('the songs are: ',songs);
 
         //=======================================================

@@ -248,6 +248,7 @@ class Dashboard extends Component {
                                   // console.log('match!!!!!');
                                   console.log('this gig is: ',val.gig);
                                   usr_default_gig = val.gig;
+                                  
                                 }
                           });
                     }

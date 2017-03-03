@@ -88,8 +88,8 @@ class SetList extends Component {
         //create an array of the latest songs from the database:
         let songs = [];
         let uid = this.state.uid;
-        for(let i=0; i<sets.length; i++){
-          let id = sets[i].id;
+        sets.forEach((obj)=>{
+          let id = obj.id;
           firebase.database()
           .ref(uid+'/songs/'+id)
           .on('value',(data)=>{
@@ -97,7 +97,7 @@ class SetList extends Component {
             result.id=id;
             songs.push(result);
           });
-        }
+        });
         console.log('the songs are: ',songs);
 
         //=======================================================
