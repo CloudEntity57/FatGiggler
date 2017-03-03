@@ -42,6 +42,7 @@ class SongEditForm extends Component{
   render(){
     let moods = this.state.moods;
     let genrearray = this.state.genrearray;
+    let currentgenres = genrearray.join(', ');
     let genres = (this.state.editgenres) ? (<EditGenres cancel={this.cancelGenreEdit.bind(this)} genrearray={genrearray} moods={moods} />)
     :(<button onClick={this.editGenres.bind(this)} className="btn-xs btn-primary">Edit Genres</button>);
 
@@ -50,6 +51,9 @@ class SongEditForm extends Component{
       <form id={this.props.id} onSubmit={this.submit.bind(this)} className="song-edit-form form form-default">
 
         <button type="submit" className="btn-xs btn-success">Submit</button>
+        <div>
+          Genres: {currentgenres}
+        </div>
         {genres}
         <input ref="title" className="form-control" defaultValue={this.props.title} />
         <input ref="artist" className="form-control" defaultValue={this.props.artist}/>
