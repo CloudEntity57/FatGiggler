@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { firebase, firebaseListToArray } from '../utils/firebase';
+import UserTab from './UserTab';
 
 class Community extends Component{
   constructor(props){
@@ -9,32 +10,95 @@ class Community extends Component{
     }
   }
   componentWillMount(){
-    let users=[];
+    let users={};
     firebase.database()
     .ref('users/loggedin')
     .on('value',(data)=>{
       users=data.val();
-      // console.log('users: ',users);
+      users = firebaseListToArray(users);
+      console.log('users: ',users);
+      let uid = this.props.uid;
+      console.log('user id: ',uid);
+      let user={};
+      for(let i=0; i<users.length; i++){
+        if(users[i].id===uid){
+          user = users[i];
+          console.log('match!');
+          this.setState({
+            user:user,
+            users:users
+          });
+          break;
+        }
+      }
+    });
+
+    firebase.database()
+    .ref('/comments')
+    .on('value',(comments)=>{
+      comments = comments.val();
+      comments = firebaseListToArray(comments);
+      console.log('comments: ',comments);
+      let posts = comments.map((val)=>{
+        return (
+          <div><div className="user-tab-comment"><UserTab name={val.name} photo={val.photo} /></div><span className="user-tab-comment">{val.text}</span></div>
+        );
+      });
+      console.log('posts: ',posts);
       this.setState({
-        users:users
+        posts:posts
       });
     });
   }
+  submitComment(e){
+    e.preventDefault();
+    let user=this.state.user;
+    console.log('user in submit: ',user);
+    // let text = (<div><UserTab name={user.name} photo={user.photo} /> {this.refs.comment.value}</div>);
+    console.log(this.refs.comment.value);
+    let text = this.refs.comment.value;
+    firebase.database()
+    .ref('/comments')
+    .push({
+      text:text,
+      id:this.props.uid,
+      photo:user.photo,
+      name:user.name
+    });
+    this.refs.comment.value='';
+  }
   render(){
     let users = firebaseListToArray(this.state.users);
+    let user = this.state.user;
+    console.log('you are: ',user);
     console.log('users: ',users);
-    let html = users.map((val)=>{
+    let user_list = users.map((val)=>{
       if(val.online==="true"){
-      return (<div className="usertab"> <span className="username" >{val.name}</span><img src={val.photo} alt={val.name} /> </div>);
-    }
+        return ( <li className="usertab"><UserTab name={val.name} photo={val.photo} /></li> );
+      }
     });
-    console.log('HTML: ',html);
+    console.log('HTML: ',user_list);
+    let posts = this.state.posts;
+    // console.log('posts: ',posts);
     return(
       <div className="container">
         <h2>Users Online</h2>
         <div className="row">
           <div className="col-sm-12">
-            {html}
+            <ul>
+              {user_list}
+            </ul>
+            <section className="panel user_comments panel-default">
+              User comments here
+              {posts}
+            </section>
+
+          <span className="usertab">
+            {/* <img src={user.photo} alt={user.displayName} /> */}
+            <form action="#">
+            <input ref="comment" type="text" className="user_chat_input form-control" /><button onClick={this.submitComment.bind(this)} className="btn btn-primary" type="submit">Submit</button>
+            </form>
+          </span>
           </div>
         </div>
       </div>

@@ -47,13 +47,27 @@ header{
 .usertab{
   height:5vh;
 }
+.user_comments{
+  height:40vh;
+  width:50%;
+  background-color: grey;
+  color:black;
+}
+.user-tab-comment{
+  display:inline-block;
+  margin-right:1em;
+}
 .usertab .username{
   font-size:1em;
   color:lightgrey;
-  margin-right:.5em;
+  margin-left:.5em;
 }
 .usertab img{
   height:75%;
+}
+.user_chat_input{
+  display:inline-block;
+  width:25%;
 }
 .click-meter{
   font-size: .3em;

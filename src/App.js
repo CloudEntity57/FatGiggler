@@ -36,7 +36,8 @@ class App extends Component {
             let result = data.val();
             // console.log('now actually playing: ',result);
             this.setState({
-              playing:result
+              playing:result,
+              uid:uid
             });
           });
         this.setState({
@@ -66,10 +67,12 @@ class App extends Component {
   }
 
   render() {
+    let uid = this.state.uid;
     let playing = this.state.playing;
     let children = (playing) ? React.Children.map(this.props.children, function (child) {
     return React.cloneElement(child, {
-      playing:playing
+      playing:playing,
+      uid:uid
     })
   }) : this.props.children;
     return (
