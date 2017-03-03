@@ -121,7 +121,7 @@ class Song extends Component {
         <button onClick={this.cancel.bind(this)} className="btn-xs song-btn song_edit_btn song-close">Close</button>
 
       </div>
-      <SongEditForm id={song.id} submit={this.submit.bind(this)} title={song.title} artist={song.artist} lyrics={song.lyrics} />
+      <SongEditForm id={song.id} genres={song.moods} submit={this.submit.bind(this)} title={song.title} artist={song.artist} lyrics={song.lyrics} />
       </div>
     );
     return(
