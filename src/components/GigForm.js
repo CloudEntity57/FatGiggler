@@ -224,7 +224,8 @@ class GigForm extends Component {
       }
       console.log('TOTAL: ',final);
       this.setState({
-        gigtime:final
+        gigtime:final,
+        gigmillisecs:total
       });
 
       return results;
@@ -310,10 +311,12 @@ class GigForm extends Component {
      let uid = this.state.uid;
     //  console.log('aaaaand: ',uid);
     //  console.log('gig to firebase: ',this.state.gig);
+    let gig=this.state.gig;
+    gig.time=this.state.gigmillisecs;
      firebase.database()
      .ref('/'+uid+'/gigs')
      .push({
-       gig:this.state.gig
+       gig:gig
      });
      jQuery('.form-control').val('');
    }

@@ -241,12 +241,12 @@ class Dashboard extends Component {
                       usr_default_gig = defaultgig;
                     }else{
                           gigs.forEach((val)=>{
-                            // console.log('playin id: ',val.id);
+                            console.log('val.id: ',val.id,' playing: ',playing);
                             // console.log('playing: ',playing);
 
                                 if(playing===val.id){
                                   // console.log('match!!!!!');
-                                  // console.log('this gig is: ',val);
+                                  console.log('this gig is: ',val.gig);
                                   usr_default_gig = val.gig;
                                 }
                           });

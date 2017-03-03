@@ -67,7 +67,7 @@ class Gigs extends Component{
           data.ref.remove();
           hashHistory.push('/gigs');
 
-          setTimeout(reset,500);
+          setTimeout(reset,1000);
 
         }
 
@@ -284,7 +284,7 @@ class Gigs extends Component{
           setnum++;
         }
 
-      let gigview2= (!this.state.songedit) ? (<GigView id={val.id} title={val.gig.title} frame={frame} playGig={this.playGig.bind(this)} editSongs={this.manageSongs.bind(this)} done={this.done.bind(this)} />)
+      let gigview2= (!this.state.songedit) ? (<GigView id={val.id} songs={songs} time={val.gig.time} title={val.gig.title} frame={frame} playGig={this.playGig.bind(this)} editSongs={this.manageSongs.bind(this)} done={this.done.bind(this)} />)
       :
       (<Song id={this.state.uid} cancel={this.cancelSong.bind(this)} song={this.state.song} />);
 

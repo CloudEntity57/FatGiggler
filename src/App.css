@@ -449,6 +449,9 @@ header{
   margin-top: 1em;
   margin-bottom:1em;
 }
+.gigtime{
+  text-align: center;
+}
 .song-titlebar{
   text-align: center;
 }
