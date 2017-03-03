@@ -121,9 +121,11 @@ header{
   color:#afafa8;
   margin-bottom:1.5em;
 }
-.songmodal{
+.songmodal, .song-update-form{
   min-height: 100vh !important;
+  padding:2em;
 }
+
 .landing_content{
   height:165vh;
   background-color:#243444;

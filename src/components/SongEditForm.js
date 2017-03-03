@@ -10,7 +10,7 @@ class SongEditForm extends Component{
   }
   render(){
     return(
-      <div>
+      <div className="song-update-form">
       <form id={this.props.id} onSubmit={this.submit.bind(this)} className="song-edit-form form form-default">
         <button type="submit" className="btn-xs btn-success">Submit</button>
         <input ref="title" className="form-control" defaultValue={this.props.title} />
