@@ -50,6 +50,14 @@ class Community extends Component{
       });
     });
   }
+
+  componentDidUpdate(){
+      this.updateScroll();
+  }
+  updateScroll(){
+    var element = document.getElementById("comment-panel");
+    element.scrollTop = element.scrollHeight;
+  }
   submitComment(e){
     e.preventDefault();
     let user=this.state.user;
@@ -66,6 +74,7 @@ class Community extends Component{
       name:user.name
     });
     this.refs.comment.value='';
+
   }
   render(){
     let users = firebaseListToArray(this.state.users);
@@ -88,8 +97,7 @@ class Community extends Component{
             <ul>
               {user_list}
             </ul>
-            <section className="panel user_comments panel-default">
-              User comments here
+            <section id="comment-panel" className="panel user_comments panel-default">
               {posts}
             </section>
 
