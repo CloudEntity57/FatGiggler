@@ -24,7 +24,8 @@ class SongEditForm extends Component{
       );
     });
     this.setState({
-      moods:moods
+      moods:moods,
+      genrearray:data
     });
   }
   editGenres(e){
@@ -40,7 +41,8 @@ class SongEditForm extends Component{
   }
   render(){
     let moods = this.state.moods;
-    let genres = (this.state.editgenres) ? (<EditGenres cancel={this.cancelGenreEdit.bind(this)} moods={moods} />)
+    let genrearray = this.state.genrearray;
+    let genres = (this.state.editgenres) ? (<EditGenres cancel={this.cancelGenreEdit.bind(this)} genrearray={genrearray} moods={moods} />)
     :(<button onClick={this.editGenres.bind(this)} className="btn-xs btn-primary">Edit Genres</button>);
 
     return(
