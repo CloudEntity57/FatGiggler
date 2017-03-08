@@ -99,6 +99,9 @@ class SetList extends Component {
           });
         });
         console.log('the songs are: ',songs);
+        if(songs.length===0){
+          songs=this.props.songs;
+        }
 
         //=======================================================
         for(let x=0; x<maxsets; x++){

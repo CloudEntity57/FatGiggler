@@ -113,6 +113,7 @@ class Dashboard extends Component {
           //===================================//
   //
     let defaultgig = {
+      id:1,
     setnum : "3",
     genres : [ "blues", "alternative", "jazz", "sublime", "soul" ],
     maxminutes : 216000000,
@@ -238,6 +239,7 @@ class Dashboard extends Component {
                     let usr_default_gig = [];
                     playing = this.props.playing;
                     if(!playing) {
+                      console.log('no default!');
                       usr_default_gig = defaultgig;
                     }else{
                           gigs.forEach((val)=>{
@@ -248,7 +250,7 @@ class Dashboard extends Component {
                                   // console.log('match!!!!!');
                                   console.log('this gig is: ',val.gig);
                                   usr_default_gig = val.gig;
-                                  
+
                                 }
                           });
                     }
@@ -261,7 +263,12 @@ class Dashboard extends Component {
                         }
                       }
                     });
+                    console.log('usr_default: ',usr_default);
                     // Pass both the song and set arrays to the state:
+                    if(usr_default.length===0){
+                      console.log("it's empty");
+                      usr_default=usr_default_gig.sets;
+                    }
                     this.setState({
                       songs:usr_default,
                       gig:usr_default_gig
@@ -354,7 +361,7 @@ class Dashboard extends Component {
     let mygig = this.state.gig;
     let html = (mysongs && mygig) ?
     <div className="row">
-    <SetList scroll={this.navigate.bind(this)} id={this.state.uid} gig={mygig}/>
+    <SetList songs={mysongs} scroll={this.navigate.bind(this)} id={this.state.uid} gig={mygig}/>
     <SongArea songs={mysongs} target={target}/>
     </div>
     : '';

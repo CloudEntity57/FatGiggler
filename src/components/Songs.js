@@ -3,6 +3,7 @@ import { firebase, firebaseListToArray } from '../utils/firebase';
 import EditSongs from './EditSongs';
 import SongTab from './SongTab';
 import Song from './Song';
+import { defaultshow } from './DefaultGig';
 
 class Songs extends Component{
   constructor(props){
@@ -30,6 +31,9 @@ class Songs extends Component{
             .on('value',(data)=>{
               let result = data.val();
               result = firebaseListToArray(result);
+              if(result.length===0){
+                result=defaultshow().sets;
+              }
               this.setState({
                 songs:result
               });
