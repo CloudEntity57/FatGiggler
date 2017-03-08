@@ -3,6 +3,7 @@ import { firebase, firebaseListToArray } from '../utils/firebase';
 import { hashHistory } from 'react-router';
 import { jquery } from 'jquery';
 import Song from './Song';
+import { defaultshow } from './DefaultGig';
 import SongEditForm from './SongEditForm';
 import GigView from './GigView';
 
@@ -294,9 +295,19 @@ class Gigs extends Component{
     let username = this.state.username;
     let deleteButton = (this.state.gigedit) ? (<a href='#' onClick={this.deleteGigTarget.bind(this)}><i className='fa fa-minus-circle' aria-hidden="true"></i></a>)
     : '';
+    let gigs;
     if(this.state.gigs){
-      let gigs = this.state.gigs;
-      // console.log('the gigs in Gigs.js: ',gigs);
+      gigs = this.state.gigs;
+      console.log('this state gigs is',gigs);
+    }else{
+      gigs = defaultshow();
+      gigs = [{gig:gigs}];
+      console.log('this iteration of gigs is: ',gigs);
+    }
+
+      console.log('this state gigs');
+      
+      console.log('the gigs in Gigs.js: ',gigs);
         let frame=[];
         // console.log('our sets saved in state: ',this.state.sets);
         gigs.forEach((val)=>{
@@ -317,7 +328,7 @@ class Gigs extends Component{
     );
 
 
-    }
+
     let gigmodal = (this.state.showing) ? (<div className="gig-preview gigmodal col-sm-6">
       <div className="gig-cover"></div>
       {this.state.gigview}
