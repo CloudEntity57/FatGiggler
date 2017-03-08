@@ -5,7 +5,10 @@ import { hashHistory } from 'react-router';
 
 class LandingPage extends Component {
 
-
+  siteTour(e){
+    e.preventDefault();
+    hashHistory.push('/dashboard');
+  }
   render(){
     return(
       <div>
@@ -16,6 +19,7 @@ class LandingPage extends Component {
         <div className="landing_overlay">
             <div className="landing_title">Fat Giggler</div>
             <div className="landing_header_txt">
+              <div><a href="#" onClick={this.siteTour.bind(this)}>Take A Tour</a></div>
               Get your gig on.
               <div className="login-btn">
                 <p>

@@ -7,6 +7,7 @@ import moment from 'moment';
 import jquery from 'jquery';
 import dotenv from 'dotenv';
 import makesets from '../utils/makesets';
+import { defaultshow } from './DefaultGig';
 dotenv.config({silent:true});
 
 
@@ -276,8 +277,16 @@ class Dashboard extends Component {
                     // console.log('the Dash CWM songs: ',this.state.songs);
               });
         }else{
-          hashHistory.push('/');
+          let songs=defaultshow().sets;
+          let gig=defaultshow();
+          this.setState({
+            songs:songs,
+            gig:gig
+          });
         }
+        // else{
+        //   hashHistory.push('/');
+        // }
   //       // console.log('user is logged as: ',this.state.uid);
 
       });

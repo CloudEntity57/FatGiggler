@@ -16,6 +16,7 @@ class Songs extends Component{
   }
   componentWillMount(){
     firebase.auth().onAuthStateChanged(
+
       user => {
         let uid=0;
         if(user){
@@ -38,8 +39,15 @@ class Songs extends Component{
                 songs:result
               });
             });
+          }else{
+            let songs=defaultshow().sets;
+            this.setState({
+              songs:songs
+            });
           }
-          });
+        }
+
+        );
 
   }
   playSong(e){
@@ -75,6 +83,7 @@ class Songs extends Component{
     }
   }
   render(){
+    console.log('the id of this song is: ',this.state.playing);
     let editVeil = (this.state.editing) ? (<div onClick={this.edit.bind(this)} className="edit-veil"></div>)
     :'';
     let editButton=(!this.state.isplaying) ? (<EditSongs className="editor" edit={this.edit.bind(this)} />)

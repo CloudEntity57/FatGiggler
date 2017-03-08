@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { firebase, firebaseListToArray } from '../utils/firebase';
 import SongEditForm from './SongEditForm';
+import { defaultshow } from './DefaultGig';
 
 class Song extends Component {
   constructor(props){
@@ -23,10 +24,25 @@ class Song extends Component {
       song = data.val();
       console.log('Song.js song: ',song);
     });
-    if(song !== null){
+    if(song !== null && song !==''){
+      console.log('the song is not null: ',song);
     this.setState({
       song:song,
       songid:songid
+    });
+  }else{
+    console.log('the song equals nothing');
+    let songs=defaultshow().sets;
+    for(let val in songs){
+      console.log('val: ',songs[val]);
+      if(songs[val].id===songid){
+        console.log(song + '===' + songs[val]);
+        song=songs[val];
+      }
+    }
+    this.setState({
+      song:song,
+      songs:songs
     });
   }
   }
@@ -43,10 +59,24 @@ class Song extends Component {
       song = data.val();
       console.log('Song.js song: ',song);
     });
-    if(song !== null){
+    if(song !== null && song !==''){
     this.setState({
       song:song,
       songid:songid
+    });
+  }else{
+    console.log('the song equals nothing');
+    let songs=defaultshow().sets;
+    for(let val in songs){
+      console.log('val: ',songs[val]);
+      if(songs[val].id===songid){
+        console.log(song + '===' + songs[val]);
+        song=songs[val];
+      }
+    }
+    this.setState({
+      song:song,
+      songs:songs
     });
   }
   }
