@@ -132,8 +132,11 @@ class Song extends Component {
     let html = (!this.state.editing) ? (
       <div className="songmodal" id={song.id}>
         <div className="song-btn-row">
-          <button onClick={this.edit.bind(this)} className="btn-xs song-btn btn-primary song-close">Edit</button>
-          <button onClick={this.cancel.bind(this)} className="btn-xs song-btn song_edit_btn song-close">Close</button>
+          <img className="songmodal_pic" src={song.pic} />
+          <div>
+            <button onClick={this.edit.bind(this)} className="btn-xs song-btn btn-primary song-close">Edit</button>
+            <button onClick={this.cancel.bind(this)} className="btn-xs song-btn song_edit_btn song-close">Close</button>
+          </div>
         </div>
         <h2>{song.title}</h2>
         <p>- {song.artist}</p>
@@ -146,10 +149,13 @@ class Song extends Component {
     )
     : (
       <div>
-      <div className="song-btn-row">
-        <button onClick={this.edit.bind(this)} className="btn-xs song-btn btn-primary song-close">Edit</button>
-        <button onClick={this.cancel.bind(this)} className="btn-xs song-btn song_edit_btn song-close">Close</button>
-
+      <div className="container">
+        <div className="song-btn-row">
+          <div>
+            <button onClick={this.edit.bind(this)} className="btn-xs song-btn btn-primary song-close">Edit</button>
+            <button onClick={this.cancel.bind(this)} className="btn-xs song-btn song_edit_btn song-close">Close</button>
+          </div>
+        </div>
       </div>
       <SongEditForm id={song.id} genres={song.moods} submit={this.submit.bind(this)} title={song.title} artist={song.artist} lyrics={song.lyrics} />
       </div>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {firebase, firebaseListToArray} from '../utils/firebase';
 import NavLink from './NavLink';
 import LogoutButton from './LogoutButton';
+import jquery from 'jquery';
 import { hashHistory } from 'react-router';
 
 class Header extends Component {
@@ -49,6 +50,15 @@ componentWillMount(){
       );
     }
   }
+  makeActive(e){
+    console.log('you have clicked: ',e.target);
+    jquery(e.target).addClass('active');
+    jquery(this.state.clicked).removeClass('active');
+    this.setState({
+      clicked:e.target
+    });
+  }
+
   render(){
     let pic ='';
     if(this.props.pic){
@@ -64,12 +74,12 @@ componentWillMount(){
         <ul className="main_nav">
 
           <li><NavLink to="/" onlyActiveOnIndex>{this.sessionButton()}</NavLink></li>
-          <li><NavLink to="/community"><a href="#">Community</a></NavLink></li>
-          <li><NavLink to="/dashboard"><a href="#">Now Playing</a></NavLink></li>
-          <li><NavLink to="/addgig"><a href="#">Add Gig</a></NavLink></li>
-          <li><NavLink to="/addsong"><a href="#">Add Song</a></NavLink></li>
-          <li><NavLink to="/songs"><a href="#">Songs</a></NavLink></li>
-          <li><NavLink to="/gigs"><a href="#">Gigs</a></NavLink></li>
+          <li><NavLink to="/community"><a onClick={this.makeActive.bind(this)} href="#">Community</a></NavLink></li>
+          <li><NavLink to="/dashboard"><a onClick={this.makeActive.bind(this)} href="#">Now Playing</a></NavLink></li>
+          <li><NavLink to="/addgig"><a onClick={this.makeActive.bind(this)} href="#">Add Gig</a></NavLink></li>
+          <li><NavLink to="/addsong"><a onClick={this.makeActive.bind(this)} href="#">Add Song</a></NavLink></li>
+          <li><NavLink to="/songs"><a onClick={this.makeActive.bind(this)} href="#">Songs</a></NavLink></li>
+          <li><NavLink to="/gigs"><a onClick={this.makeActive.bind(this)} href="#">Gigs</a></NavLink></li>
 
         </ul>
       </header>

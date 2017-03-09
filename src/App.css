@@ -108,7 +108,7 @@ header{
   text-align: center;
   font-size: 2em;
   height:65vh;
-  margin-top:35vh;
+  margin-top:25vh;
 }
 .landing_header_txt p{
   padding:0% 25%;
@@ -124,6 +124,9 @@ header{
 .songmodal, .song-update-form{
   min-height: 100vh !important;
   padding:2em;
+}
+.songmodal_pic{
+  height:4em;
 }
 .genre-edit{
   position:fixed;
@@ -178,8 +181,8 @@ header{
   display:flex;
   justify-content: space-between;
 }
-.active{
-  color:green;
+.active a{
+  color: tomato;
 }
 .user-pic{
   height:40px;
@@ -214,7 +217,8 @@ header{
   height:100vh;
 }
 .song-edit-form textarea{
-  height:75vh;
+  height:100%;
+  width:100%;
 }
 .song-show{
   background-color: #1c1c1d;
@@ -225,10 +229,6 @@ header{
 }
 .song{
   padding-top:1.5em;
-}
-.song-btn-row{
-  display:flex;
-  justify-content: flex-end;
 }
 
 .song-del-button{
@@ -247,8 +247,12 @@ header{
 .song-edit-form{
   height: 45vh;
 }
-.song-edit-form *, .song-btn-row *{
+.song-edit-form *{
   margin-bottom:1em;
+}
+.song-btn-row{
+  display:flex;
+  justify-content: space-between;
 }
 
 .editbutton{

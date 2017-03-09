@@ -68,9 +68,9 @@ class SongForm extends Component{
     jQuery.get(spotify_str,(val)=>{
       // var output = JSON.parse(val);
       console.log('our list of album art: ',val);
-      album_art = val.tracks.items[0].album.images[0].url;
-      console.log('our album art: ',album_art);
-      if(album_art){
+      if(val.tracks.items[0] != null){
+        album_art = val.tracks.items[0].album.images[0].url;
+        console.log('our album art: ',album_art);
         pic = album_art
       }else{
         pic = userpic
