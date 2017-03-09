@@ -97,6 +97,9 @@ class Gigs extends Component{
   playGig(e){
     e.preventDefault();
     let gigid = e.target.id;
+    if(!this.props.uid){
+      hashHistory.push('/');
+    }
     // console.log('you clicked the gig: ',gigid);
     firebase.database().ref('users/' + this.state.uid+'/').set({
       playing:gigid
@@ -213,6 +216,13 @@ class Gigs extends Component{
   }
   postGig(gigs,id){
     console.log('posting');
+    if(!this.state.gigs){
+      gigs=defaultshow();
+      gigs = [{gig:gigs,id:1}];
+      id=1;
+      console.log('gigs id is: ',gigs[0].id);
+        console.log('default gig 217 is: ',gigs);
+    }
     gigs.forEach((val)=>{
       let gigid = val.id;
       if(gigid===id){
@@ -241,6 +251,10 @@ class Gigs extends Component{
             songs.push(result);
           });
         });
+        if(!this.state.gigs){
+          songs=sets;
+        }
+
         console.log('the songs are: ',songs);
 
         //=======================================================
@@ -252,6 +266,7 @@ class Gigs extends Component{
             if (sets.hasOwnProperty(int)) {
             // check if song has current gig number
             let tune = [];
+
               if(sets[int].set===setnum){
                 //grab the matching song from our updated array 'songs'
                 for(let i=0; i<songs.length; i++){
@@ -262,7 +277,6 @@ class Gigs extends Component{
                 }
           //create the ESX for that set
                 goods.push(<div className="gig-item-contain"><li onClick={this.showSong.bind(this)} id={tune.id}>{tune.title}</li><div className="gig-item">{deleteButton} {editButton}</div></div>);
-
               }
             }
           }
@@ -293,6 +307,7 @@ class Gigs extends Component{
 
     let gigsInfo = '';
     let username = this.state.username;
+    let apostrophe = (this.state.username) ? "'s " : '';
     let deleteButton = (this.state.gigedit) ? (<a href='#' onClick={this.deleteGigTarget.bind(this)}><i className='fa fa-minus-circle' aria-hidden="true"></i></a>)
     : '';
     let gigs;
@@ -306,7 +321,7 @@ class Gigs extends Component{
     }
 
       console.log('this state gigs');
-      
+
       console.log('the gigs in Gigs.js: ',gigs);
         let frame=[];
         // console.log('our sets saved in state: ',this.state.sets);
@@ -320,7 +335,7 @@ class Gigs extends Component{
       gigsInfo = (
         <div className="col-sm-6 gig-display">
         <button onClick={this.editGigs.bind(this)} className="btn-xs btn-primary">Manage</button>
-        <h3>{username}'s Gigs</h3>
+        <h3>{username}{apostrophe}Gigs</h3>
         <ul>
           { frame }
         </ul>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {firebase, firebaseListToArray} from '../utils/firebase';
 import NavLink from './NavLink';
 import LogoutButton from './LogoutButton';
+import { hashHistory } from 'react-router';
 
 class Header extends Component {
   constructor(props){
@@ -34,10 +35,18 @@ componentWillMount(){
       });
     });
   }
+  signUp(e){
+    e.preventDefault();
+    hashHistory.push('/');
+  }
 
   sessionButton() {
     if (firebase.auth().currentUser) {
       return <LogoutButton>Logout</LogoutButton>;
+    }else{
+      return(
+        <a onClick={this.signUp.bind(this)}>Sign In</a>
+      );
     }
   }
   render(){
@@ -48,7 +57,7 @@ componentWillMount(){
     return(
       <header>
         <div className="title">
-          Fat Giggler
+          SmartSet
           {/* <div className="click-meter">Number of clicks: {this.state.clicks} </div> */}
           { pic }
         </div>

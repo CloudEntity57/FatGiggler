@@ -17,7 +17,7 @@ class LandingPage extends Component {
 
         </div>
         <div className="landing_overlay">
-            <div className="landing_title">Fat Giggler</div>
+            <div className="landing_title">SmartSet</div>
             <div className="landing_header_txt">
               <div><a href="#" onClick={this.siteTour.bind(this)}>Take A Tour</a></div>
               Get your gig on.

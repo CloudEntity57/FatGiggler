@@ -12,7 +12,8 @@ class App extends Component {
     super(props);
     this.state = {
       user: {},
-      playing:'hello'
+      playing:'hello',
+      isonline:false
     }
   }
 
@@ -22,7 +23,8 @@ class App extends Component {
       if(user){
         // console.log('user: ',user);
         this.setState({
-          uid:user.uid
+          uid:user.uid,
+          isonline:true
           // userpic:user.photoURL
         });
         uid=user.uid;
@@ -69,6 +71,7 @@ class App extends Component {
   render() {
     let uid = this.state.uid;
     let playing = this.state.playing;
+    let isonline = this.state.isonline;
     let children = (playing) ? React.Children.map(this.props.children, function (child) {
     return React.cloneElement(child, {
       playing:playing,

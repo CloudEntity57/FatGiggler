@@ -83,6 +83,7 @@ class Songs extends Component{
     }
   }
   render(){
+    let apostrophe = (this.state.user) ? "'s " : '';
     console.log('the id of this song is: ',this.state.playing);
     let editVeil = (this.state.editing) ? (<div onClick={this.edit.bind(this)} className="edit-veil"></div>)
     :'';
@@ -111,7 +112,7 @@ class Songs extends Component{
 
           <div className="song-titlebar">
             {editVeil}
-            <h1>{user}'s Songs</h1>
+            <h1>{user}{apostrophe}Songs</h1>
             <div className="editbutton">
             { editButton }
             </div>
