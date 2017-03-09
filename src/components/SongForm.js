@@ -13,12 +13,17 @@ class SongForm extends Component{
       genres:[]
     }
   }
+
   componentDidMount(){
     const user = firebase.auth().currentUser;
     console.log('current user: ',user);
     const uid = user.uid;
     const username = user.displayName;
     const userpic = user.photoURL;
+
+
+    let result_array = [];
+    let defaultsongs = [];
     // const username =
     this.setState({
       uid:uid,
@@ -44,6 +49,39 @@ class SongForm extends Component{
       alert("All fields must be entered");
       return null;
     }
+    //access Spotify API and obtain URLs for album covers:
+
+    // let artistquery = "John Mayer";
+    // let albumquery = "Why Georgia";
+    let artistquery = artist;
+    let titlequery = title;
+
+
+    artistquery = artistquery.replace(/ /g,'%20');
+    titlequery = titlequery.replace(/ /g,'%20');
+
+    let spotify_str = "https://api.spotify.com/v1/search/?q="+artistquery+"%20"+titlequery+"&type=artist,track";
+    // console.log('search string: ',api_top10_search_str);
+    console.log('search string: ',spotify_str);
+    let album_art;
+    let pic;
+    jQuery.get(spotify_str,(val)=>{
+      // var output = JSON.parse(val);
+      console.log('our list of album art: ',val);
+      album_art = val.tracks.items[0].album.images[0].url;
+      console.log('our album art: ',album_art);
+      if(album_art){
+        pic = album_art
+      }else{
+        pic = userpic
+      }
+
+
+  //========
+
+
+    console.log('final pic is: ',pic);
+    //
     //handle parsing of time
     let minutes =this.refs.minutes.value;
     let seconds =this.refs.seconds.value;
@@ -63,7 +101,7 @@ class SongForm extends Component{
       time:time,
       lyrics:lyrics,
       moods:moods,
-      pic:userpic
+      pic:pic
     }).then((data)=>{
       // console.log('success!',data);
       // jQuery('.form-control').val('');
@@ -73,6 +111,7 @@ class SongForm extends Component{
       });
       jQuery('.form-control').val('');
       jQuery('.time-enter').val('');
+    });
     });
   }
   testValue(x,array){
