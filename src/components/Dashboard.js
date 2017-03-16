@@ -26,8 +26,8 @@ class Dashboard extends Component {
 
   componentWillMount(){
 
-        console.log('the set playing in app is: ',this.props.playing);
-        findLyrics('bob dylan the times they are a changing');
+        // console.log('the set playing in app is: ',this.props.playing);
+        // findLyrics('bob dylan the times they are a changing');
           //----====================MUSIXMATCH API CONNECTION TEST======================================//
 
             // let musix = process.env.REACT_APP_MUSIX_APP_API;
