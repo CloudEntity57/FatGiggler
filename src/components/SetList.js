@@ -117,7 +117,7 @@ class SetList extends Component {
                 for(let i=0; i<songs.length; i++){
                   if(songs[i].id===sets[int].id){
                     tune = songs[i];
-                    console.log('the tune is: ',tune);
+                    // console.log('the tune is: ',tune);
                   }
                 }
           //create the ESX for that set
