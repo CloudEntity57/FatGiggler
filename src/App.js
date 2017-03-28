@@ -73,11 +73,11 @@ class App extends Component {
     let playing = this.state.playing;
     let isonline = this.state.isonline;
     let children = (playing) ? React.Children.map(this.props.children, function (child) {
-    return React.cloneElement(child, {
-      playing:playing,
-      uid:uid
-    })
-  }) : this.props.children;
+      return React.cloneElement(child, {
+        playing:playing,
+        uid:uid
+      })
+    }) : this.props.children;
     return (
       <div>
         <Header pic = {this.state.userpic} />

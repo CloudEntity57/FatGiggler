@@ -28,7 +28,7 @@ class LogoutButton extends Component {
     });
 
     firebase.auth().signOut();
-    hashHistory.push('/dashboard');
+    hashHistory.push('/');
 
   }
 

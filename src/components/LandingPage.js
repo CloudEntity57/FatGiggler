@@ -2,12 +2,16 @@ import React, { Component } from 'react';
 import FBLoginBtn from './FBLoginBtn';
 import GoogleLoginBtn from './GoogleLoginButton';
 import { hashHistory } from 'react-router';
+import moment from 'moment';
+import { firebase } from '../utils/firebase';
 
 class LandingPage extends Component {
 
   siteTour(e){
     e.preventDefault();
-    hashHistory.push('/dashboard');
+  
+      hashHistory.push('/dashboard');
+
   }
   render(){
     return(
