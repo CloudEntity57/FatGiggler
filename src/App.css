@@ -5,7 +5,7 @@
 
 
 html{
-
+  -ms-overflow-style: -ms-autohiding-scrollbar;
 }
 body{
   padding:0px;
