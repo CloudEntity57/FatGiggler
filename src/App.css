@@ -81,7 +81,7 @@ header{
   background-color: white;
 }
 .landing_header{
-  background-image: url(../public/images/pexels-photo-196652.jpeg);
+  background-image: url("http://res.cloudinary.com/middle-renaissance-realty-llc/image/upload/c_scale,w_979/v1489470677/Untitled_picture_c8abxv.jpg");
   background-size:cover;
   background-attachment: fixed;
   background-position: center;
