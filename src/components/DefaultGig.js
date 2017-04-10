@@ -1,8 +1,9 @@
 
-let defaultshow = () =>{
+module.exports = {
+  defaultshow: () =>{
   let defaultgig = {
     id:1,
-  setnum : 3,
+  setnum : "3",
   genres : [ "blues", "alternative", "jazz", "sublime", "soul" ],
   maxminutes : 216000000,
   sets : [{
@@ -82,5 +83,4 @@ let defaultshow = () =>{
 };
 return defaultgig;
 }
-
-export { defaultshow };
+}
