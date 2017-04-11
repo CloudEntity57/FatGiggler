@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { firebase, firebaseListToArray } from '../utils/firebase';
 import { hashHistory } from 'react-router';
+import { defaultshow } from './DefaultGig';
 import moment from 'moment';
 import jQuery from 'jquery';
 import SongButton from './SongButton';
@@ -37,7 +38,13 @@ class GigForm extends Component {
                   // console.log('the Dash CWM songs: ',this.state.songs);
                 });
         }else{
-          hashHistory.push('/');
+          // hashHistory.push('/');
+          {
+            let songs=defaultshow().sets;
+            this.setState({
+              songs:songs
+            });
+          }
         }
 
       });
@@ -399,7 +406,6 @@ class GigForm extends Component {
         let  goods=[];
         // go through every song in the gig:
         for (var song =0; song<sets.length; song++) {
-          // console.log('the song to iterate through: ',sets[song]);
           if (sets.hasOwnProperty(song)) {
           // check if song has current gig number
           let tune=[];
