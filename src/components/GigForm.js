@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { firebase, firebaseListToArray } from '../utils/firebase';
 import { hashHistory } from 'react-router';
 import { defaultshow } from './DefaultGig';
+import DefaultSongs from './DefaultSongs';
 import moment from 'moment';
 import jQuery from 'jquery';
 import SongButton from './SongButton';
@@ -40,7 +41,10 @@ class GigForm extends Component {
         }else{
           // hashHistory.push('/');
           {
-            let songs=defaultshow().sets;
+            // let songs=defaultshow().sets;
+            let songsobj = DefaultSongs.songs;
+            let songs = firebaseListToArray(songsobj);
+            console.log('songs in cwm: ',songs);
             this.setState({
               songs:songs
             });
@@ -399,6 +403,20 @@ class GigForm extends Component {
           result.id=id;
           songs.push(result);
         });
+      }
+      if(songs.length==0){
+        let defaultsongs = DefaultSongs.songs;
+        for(let i=0; i<sets.length; i++){
+          let id = sets[i].id;
+          firebase.database()
+          .ref(uid+'/songs/'+id)
+          .on('value',(data)=>{
+            let result=data.val();
+            result.id=id;
+            songs.push(result);
+          });
+          songs.push(defaultsongs[id]);
+        }
       }
       console.log('the songs are: ',songs);
       //go through for each set:

@@ -37,21 +37,29 @@ class App extends Component {
           .on('value',(data)=>{
             let result = data.val();
             // console.log('now actually playing: ',result);
-            this.setState({
-              playing:result,
-              uid:uid
-            });
+            if(result){
+              this.setState({
+                playing:result,
+                uid:uid
+              });
+            }else{
+              this.setState({
+                playing:result,
+                uid:uid
+              });
+            }
+
           });
         this.setState({
           userpic:user.photoURL
         });
-        firebase.database()
-        .ref('/users/loggedin/'+uid)
-        .set({
-          name:name,
-          photo:user.photoURL,
-          online:'true'
-        });
+        // firebase.database()
+        // .ref('/users/loggedin/'+uid)
+        // .set({
+        //   name:name,
+        //   photo:user.photoURL,
+        //   online:'true'
+        // });
         hashHistory.push('/dashboard');
       } else {
         this.setState({

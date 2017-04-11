@@ -8,6 +8,7 @@ import jquery from 'jquery';
 import dotenv from 'dotenv';
 import makesets from '../utils/makesets';
 import Default from './DefaultGig';
+import DefaultSongs from './DefaultSongs'
 import { findLyrics } from './ArtistQuery';
 dotenv.config({silent:true});
 
@@ -116,7 +117,7 @@ class Dashboard extends Component {
           //===================================//
   //
   let defaultgig = Default.defaultshow();
-
+    let newuser=true;
     firebase.auth().onAuthStateChanged(
       user => {
         let uid=0;
@@ -145,12 +146,51 @@ class Dashboard extends Component {
             userpic:user.photoURL
           });
           firebase.database()
-          .ref('/users/loggedin/'+uid)
-          .set({
-            name:name,
-            photo:user.photoURL,
-            online:'true'
+          .ref('/users/loggedin')
+          .on('value',(val)=>{
+            val = val.val();
+            val = firebaseListToArray(val);
+            console.log('val: ',val);
+
+            val.forEach((i)=>{
+              // i=firebaseListToArray(i);
+              console.log('i.id: ',i.id);
+              if(i.id==uid){
+                newuser=false;
+                console.log('user exists');
+                firebase.database()
+                .ref('/users/loggedin/'+uid)
+                .set({
+                  name:name,
+                  photo:user.photoURL,
+                  online:'true'
+                });
+              }
+            });
+            if(newuser){
+              let defaultsongs = DefaultSongs.songs;
+              firebase.database()
+              .ref('/users/loggedin/'+uid)
+              .set({
+                name:name,
+                photo:user.photoURL,
+                online:'true'
+              });
+              if(alert('would you like songs added?')){
+                firebase.database()
+                .ref('/'+uid)
+                .set({
+                  songs:defaultsongs
+                });
+              }
+              console.log('welcome new user!');
+              this.setState({
+                newuser:true,
+                playing:''
+              });
+            }
           });
+
           //------------------------------------------repeat user entry to DB
           let playing ='';
               // console.log('playing has been reset to: ',playing);
@@ -196,12 +236,13 @@ class Dashboard extends Component {
                         }
                       }
                     });
+                    usr_default = DefaultSongs.songs;
                     console.log('usr_default: ',usr_default);
                     // Pass both the song and set arrays to the state:
-                    if(usr_default.length===0){
-                      console.log("it's empty");
-                      usr_default=usr_default_gig.sets;
-                    }
+                    // if(usr_default.length===0){
+                    //   console.log("it's empty");
+                    //   usr_default=usr_default_gig.sets;
+                    // }
                     this.setState({
                       songs:usr_default,
                       gig:usr_default_gig

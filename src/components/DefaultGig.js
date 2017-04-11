@@ -8,7 +8,7 @@ module.exports = {
   maxminutes : 216000000,
   sets : [{
     artist : "Stevie Wonder",
-    id : "-Kc_uIa1dU8ZUQReR3s6",
+    id : 1,
     pic: "https://upload.wikimedia.org/wikipedia/en/1/15/Swonderssd.jpg",
     lyrics : "Like a fool I went and stayed too long\nNow I'm wondering if your love's still strong\nOo, baby, here I am, signed, sealed, delivered, I'm yours!\n\nThen that time I went and said goodbye\nNow I'm back and not ashamed to cry\nOo, baby, here I am, signed, sealed, delivered, I'm yours!\n\nHere I am baby\nSigned, Sealed, Delivered, I'm yours\n(You got my future in your hands)\nHere I am baby\nSigned, Sealed, Delivered, I'm yours\n(You got my future in your hands)\n\nI've done a lot of foolish things\nThat I really didn't mean, didn't I?\n\nSeen a lot of things in this old world\nWhen I touch them, they mean nothing, girl\nOo, baby, here I am, signed, sealed, delivered, I'm yours!\n\nOowee baby, you set my soul on fire\nThat's why I know you're my heart's only desire\n\nHere I am baby\nSigned, Sealed, Delivered, I'm yours\n(You got my future in your hands)\nHere I am baby\nSigned, Sealed, Delivered, I'm yours\n(You got my future in your hands)\n\nLike a fool I went and stayed too long\nNow I'm wondering if your love's still strong\nOo, baby, here I am, signed, sealed, delivered, I'm yours!\n\nThen that time I went and said goodbye\nNow I'm back and not ashamed to cry\nOo, baby, here I am, signed, sealed, delivered, I'm yours!\n\nHere I am baby\nSigned, Sealed, Delivered, I'm yours\n(You got my future in your hands)\nHere I am baby\nSigned, Sealed, Delivered, I'm yours\n(You got my future in your hands)\n\nI've done a lot of foolish things\nThat I really didn't mean, didn't I?\n\nSeen a lot of things in this old world\nWhen I touch them, they mean nothing, girl\nOo, baby, here I am, signed, sealed, delivered, I'm yours!\n\nOowee baby, you set my soul on fire\nThat's why I know you're my heart's only desire\n\nHere I am baby\nSigned, Sealed, Delivered, I'm yours\n(You got my future in your hands)\nHere I am baby\nSigned, Sealed, Delivered, I'm yours\n(You got my future in your hands)\n\n\n\n",
     moods : [ "upbeat", "jazz", "soul" ],
@@ -17,7 +17,7 @@ module.exports = {
     set: 1
   }, {
     artist : "Led Zeppelin",
-    id : "-KcalmzRwewciGz8I4ax",
+    id : 2,
     pic:"https://upload.wikimedia.org/wikipedia/en/e/ef/Led_Zeppelin_-_Led_Zeppelin_%281969%29_front_cover.png",
     lyrics : "Been Dazed and Confused for so long it's not true.\nWanted a woman, never bargained for you.\nLots of people talk and few of them know, \nsoul of a woman was created below. \n\nYou hurt and abuse tellin' all of your lies. \nRun around sweet baby, Lord how they hypnotize. \nSweet little baby, I don't know where you've been. \nGonna love you baby, here I come again. \n\nEvery day I work so hard, bringin' home my hard earned pay \nTry to love you baby, but you push me away. \nDon't know where you're goin', only know just where you've been, \nSweet little baby, I want you again. \n\nBeen dazed and confused for so long, it's not true. \nWanted a woman, never bargained for you. \nTake it easy baby, let them say what they will. \nWill your tongue wag so much when I send you the bill\n\n\n",
     moods : [ "blues", "slow" ],
