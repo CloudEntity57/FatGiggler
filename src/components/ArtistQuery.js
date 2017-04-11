@@ -2,7 +2,8 @@ import jquery from 'jquery';
 import cors from 'cors';
 import Firebase from '../utils/firebase';
 
-let findLyrics = (query)=>{
+module.exports={
+  findLyrics : (query)=>{
   let musix = process.env.REACT_APP_MUSIX_APP_API;
   let song_htmlstring = query.replace(/ /g,'%20');
   ('my api key: ',musix);
@@ -60,7 +61,5 @@ let findLyrics = (query)=>{
     //     }
   // });
   // request.fail((error)=>{console.log('fail!! error: ',error);});
-
 }
-
-export { findLyrics };
+}

@@ -10,6 +10,7 @@ import makesets from '../utils/makesets';
 import Default from './DefaultGig';
 import DefaultSongs from './DefaultSongs'
 import { findLyrics } from './ArtistQuery';
+// import { musixMatch } from './MusixMatch';
 dotenv.config({silent:true});
 
 
@@ -27,96 +28,8 @@ class Dashboard extends Component {
 
   componentWillMount(){
 
-        // console.log('the set playing in app is: ',this.props.playing);
-        // findLyrics('bob dylan the times they are a changing');
-          //----====================MUSIXMATCH API CONNECTION TEST======================================//
-
-            // let musix = process.env.REACT_APP_MUSIX_APP_API;
-            // console.log('my api key is: ',musix);
-            //
-            // // let artists = [
-            // //   "bob dylan",
-            // //   "jeff buckley",
-            // //   "ed sheeran",
-            // //   "bruno mars",
-            // //   "leonard cohen",
-            // //   "B.B. King",
-            // //   "grateful dead",
-            // //   "beatles",
-            // //   "elvis presley",
-            // //   "ray charles",
-            // //   "stevie wonder",
-            // //   "steely dan",
-            // //   "david bowie",
-            // //   "prince",
-            // //   "frank sinatra",
-            // //   "aretha franklin",
-            // //   "tori amos"
-            // // ];
-            // let artists = [
-            //   "bob dylan"
-            //  ];
-            // let artists_htmlstring= artists.map((val)=>{
-            //   var mod = val.replace(/ /g,'%20');
-            //   return mod;
-            // });
-            //
-            // let artists_query_array = artists_htmlstring.map((val)=>{
-            //   let api_top10_search_str = "http://api.musixmatch.com/ws/1.1/track.search?apikey="+musix+"&q_artist="+val+"&page_size=10&page=1&s_track_rating=desc";
-            //   // console.log('search string: ',api_top10_search_str);
-            //   return api_top10_search_str;
-            // });
-            // // console.log('modified array: ',artists_query_array);
-            // let result_array = [];
-            // let defaultsongs = [];
-            // for(let i=0; i<artists_query_array.length; i++){
-            //   jquery.get(artists_query_array[i],(val)=>{
-            //     var output = JSON.parse(val);
-            //     console.log('we are getting for output: ',output.message.body.track_list);
-            //     result_array.push(output.message.body.track_list);
-            //         if(result_array.length === artists.length){
-            //           console.log('result arrays length: ',result_array.length);
-            //           console.log('result array: ',result_array);
-            //           for(let i=0; i<result_array.length; i++){
-            //             console.log('result_array item: ',result_array[i]);
-            //           // go through every song in the list
-            //             for(let n=0; n<result_array[i].length; n++){
-            //           // for each song save the title, artist, length, lyrics and genres inside an object identical to song database
-            //               let mysong = result_array[i][n];
-            //               console.log('my song: ',mysong);
-            //               let songObject = {};
-            //               songObject.title = mysong.track.track_name;
-            //               songObject.artist = mysong.track.artist_name;
-            //               songObject.trackid = mysong.track.track_id;
-            //               defaultsongs.push(songObject);
-            //           // push that object to the default song array and set the default state to that array
-            //             }
-            //           //pass those songs to the two dashboard components for display
-            //           }
-            //           console.log('default songs: ',defaultsongs);
-            //           this.setState({
-            //             defaultsongs:defaultsongs
-            //           });
-            //         }
-            //   });
-            // }
-            //
-            //
-
-
-            //create default gig for user from the site's default artist database
-
-            // let defaultgig={
-            //   title:'My Gig',
-            //   genres:this.state.genres,
-            //   sets:setfiltered,
-            //   maxminutes:216000000
-            // };
-
-
-          //===================================//
-  //
-  let defaultgig = Default.defaultshow();
+  let defaultgig = Default.defaultgig;
+  console.log('defaultshow: ',defaultgig);
     let newuser=true;
     firebase.auth().onAuthStateChanged(
       user => {
@@ -130,90 +43,31 @@ class Dashboard extends Component {
           uid=user.uid;
           //------------------------------------------repeat user entry to DB
           let name = user.displayName;
-
           console.log('uid: ',uid);
-          // console.log('app user: ',user.photoURL);
-          firebase.database()
-            .ref('/users/'+uid+'/playing/')
-            .on('value',(data)=>{
-              let result = data.val();
-              // console.log('now actually playing: ',result);
-              this.setState({
-                playing:result
-              });
-            });
           this.setState({
             userpic:user.photoURL
           });
-          firebase.database()
-          .ref('/users/loggedin')
-          .on('value',(val)=>{
-            val = val.val();
-            val = firebaseListToArray(val);
-            console.log('val: ',val);
-
-            val.forEach((i)=>{
-              // i=firebaseListToArray(i);
-              console.log('i.id: ',i.id);
-              if(i.id==uid){
-                newuser=false;
-                console.log('user exists');
-                firebase.database()
-                .ref('/users/loggedin/'+uid)
-                .set({
-                  name:name,
-                  photo:user.photoURL,
-                  online:'true'
-                });
-              }
-            });
-            if(newuser){
-              let defaultsongs = DefaultSongs.songs;
-              firebase.database()
-              .ref('/users/loggedin/'+uid)
-              .set({
-                name:name,
-                photo:user.photoURL,
-                online:'true'
-              });
-              if(alert('would you like songs added?')){
-                firebase.database()
-                .ref('/'+uid)
-                .set({
-                  songs:defaultsongs
-                });
-              }
-              console.log('welcome new user!');
-              this.setState({
-                newuser:true,
-                playing:''
-              });
-            }
-          });
+          this.checkUserStatus(newuser,uid,user);
 
           //------------------------------------------repeat user entry to DB
           let playing ='';
-              // console.log('playing has been reset to: ',playing);
-              //retrieve all existing gigs from the database:
-
+  //retrieve all existing gigs from the database:
 
               firebase.database()
               .ref('/'+uid)
               .on('value',(data)=>{
                     let snapshot = data.val();
                     let user = firebaseListToArray(snapshot);
-                    // console.log('user: ',user);
+                    console.log('user: ',user);
                     let gigs = firebaseListToArray(snapshot.gigs);
                     let songs = firebaseListToArray(snapshot.songs);
                     // console.log('the gigs we are working with are: ',gigs);
-
-
                     // Compile a single array of all the songs in the user's default gig:
                     let usr_default_gig = [];
                     playing = this.props.playing;
                     if(!playing) {
                       console.log('no default!');
-                      usr_default_gig = defaultgig;
+                      usr_default_gig = Default.defaultgig;
                     }else{
                           gigs.forEach((val)=>{
                             console.log('val.id: ',val.id,' playing: ',playing);
@@ -236,7 +90,7 @@ class Dashboard extends Component {
                         }
                       }
                     });
-                    usr_default = DefaultSongs.songs;
+                    // usr_default = DefaultSongs.songs;
                     console.log('usr_default: ',usr_default);
                     // Pass both the song and set arrays to the state:
                     // if(usr_default.length===0){
@@ -250,10 +104,8 @@ class Dashboard extends Component {
                     // console.log('the Dash CWM songs: ',this.state.songs);
               });
         }else{
-          // let songs=defaultshow().sets;
-          // let gig=defaultshow();
-          let songs = Default.defaultshow().sets;
-          let gig = Default.defaultshow();
+          let songs=defaultgig.sets;
+          let gig=Default.defaultgig;
           this.setState({
             songs:songs,
             gig:gig
@@ -267,7 +119,57 @@ class Dashboard extends Component {
       });
 
   }
+  checkUserStatus(newuser,uid,user){
+    firebase.database()
+    .ref('/users/loggedin')
+    .on('value',(val)=>{
+      val = val.val();
+      val = firebaseListToArray(val);
+      console.log('vals to filter for new users: ',val);
+      this.filterNewUser(val,newuser,uid,name,user);
 
+    });
+  }
+  filterNewUser(val,newuser,uid,name,user){
+    val.forEach((i)=>{
+      // i=firebaseListToArray(i);
+      console.log('i.id: ',i.id);
+      if(i.id===uid){
+        newuser=false;
+        console.log('user exists');
+        firebase.database()
+        .ref('/users/loggedin/'+uid)
+        .set({
+          name:user.displayName,
+          photo:user.photoURL,
+          online:'true'
+        });
+      }
+    });
+    if(newuser===true){
+      this.setUpNewUser(uid,name,user);
+    };
+  }
+  setUpNewUser(uid,name,user){
+      let defaultsongs = DefaultSongs.songs;
+      firebase.database()
+      .ref('/users/loggedin/'+uid)
+      .set({
+        name:user.displayName,
+        photo:user.photoURL,
+        online:'true'
+      });
+        firebase.database()
+        .ref('/'+uid)
+        .set({
+          songs:defaultsongs
+        });
+      console.log('welcome new user!');
+      this.setState({
+        newuser:true,
+        playing:''
+      });
+}
 
   componentDidMount(){
 
@@ -302,36 +204,16 @@ class Dashboard extends Component {
     // full = moment(full).format("m:ss");
     console.log('final hrs: ',y);
 
-
-    // console.log('final full time: ',full);
-    // full = moment.duration({minutes: full})._milliseconds;
-    // console.log('full to milliseconds: ',full);
-
-
-    // let defaultsongs2 = this.state.songs;
-    // let defaultsongs = [];
-    // for(let i=0; i<defaultsongs2.length; i++){
-    //   defaultsongs.push(defaultsongs2[i]);
-    // }
-
-    // console.log('the defaultsongs state: ',defaultsongs2);
-    //
-    // let gigtitle = 'My Fat Gig';
-    // let maxminutes = 35;
-    // //format in moment.js
-    // maxminutes = moment.duration(maxminutes+':00')._milliseconds;
-    // console.log('the maximum number of minutes allowed:',maxminutes);
-    // //
-    // let genresdesired = this.state.genres;
-    // console.log('genres are: ',genresdesired);
-    // let setsdesired = 3;
-    // makesets.updateGig(defaultsongs2,gigtitle,maxminutes,genresdesired,setsdesired);
-    // console.log('the default gig on Dashboard: ',this.state.gig);
-
 }
   navigate(id){
     this.setState({
       target:id
+    });
+  }
+  hideIntro(e){
+    e.preventDefault();
+    this.setState({
+      newuser:false
     });
   }
 
@@ -339,6 +221,30 @@ class Dashboard extends Component {
     //create JSX for songs to pass to SongArea:
     let mysongs = this.state.songs;
     let target = this.state.target;
+    let intro = (this.state.newuser) ? (
+      <div onClick={this.hideIntro.bind(this)} className="intro">
+        Welcome! Please enjoy these instructions.
+      </div>
+    ) : '';
+    // let intro = (
+    //   <div onClick={this.hideIntro.bind(this)} className="intro">
+    //
+    //   </div>
+    // );
+    let introText = (this.state.newuser) ? (
+      <div className="intro-text lead">
+        <p><h3>Welcome to SmartSet!</h3> To help you get started, we've loaded some example songs into your account. The site is simple:
+          <ul>
+            <li>Songs - view and edit your songs</li>
+            <li>Add Songs - add your own songs and lyrics</li>
+            <li>Add Gig - generate and preview gigs featuring your songs</li>
+            <li>Gigs - view and play these gigs</li>
+            <li>Now Playing - the gig you're currently playing</li>
+            <li>Community - chat with other musicians online</li>
+          </ul>
+        </p>
+      </div>
+    ) : '';
     // console.log('target in render: ',target);
     console.log('songs being passed to SongArea: ',mysongs);
     //create JSX for separate set lists to pass to SetList:
@@ -358,6 +264,8 @@ class Dashboard extends Component {
         <div className="wrapper container landed_content">
           { html }
         </div>
+        { intro }
+        { introText }
       </div>
     );
   }

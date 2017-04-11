@@ -1,7 +1,6 @@
 
 module.exports = {
-  defaultshow: () =>{
-  let defaultgig = {
+  defaultgig:{
     id:1,
   setnum : "3",
   genres : [ "blues", "alternative", "jazz", "sublime", "soul" ],
@@ -26,7 +25,7 @@ module.exports = {
     set: 1
   }, {
     artist : "Amos Lee",
-    id : "-Kcao4eejoTP4P9R4D_D",
+    id : 3,
     pic: "https://upload.wikimedia.org/wikipedia/en/thumb/7/76/Amos_Lee_%E2%80%93_Last_Days_at_the_Lodge.jpg/440px-Amos_Lee_%E2%80%93_Last_Days_at_the_Lodge.jpg",
     lyrics : "Been some time\nSince the first night I saw you\nHad some good\nHad some bad time since then\nAnd through all of these moments that I've gotten to know you\nI realized that I want to be a little bit more than your friend\n\nAnd I wanna know\nIf you want to get together\nStay for a while\nWe can talk about it all\nI wanna know\nCuz this feeling won't let me go\n\nStood around\nWhile you dated that old fool Marcus\nWhole time knew he wasn't no damn good for you, well.\nGuess it's true sometimes we can all be a little heartless\nBut tonight, all I wanna do is make sweet love to you.\n\nAnd I wanna know\nIf you want to get together\nStay for a while\nWe can talk about it all\nI wanna know\nCuz this feeling won't let me go\n\nWell, all those wasted nights you spend\nWell, just crying all those tears\nWell, I want you to know girl\nI'm around\nYeah I'm here alright\nAlright\n\nI wanna know\nIf you want to get together\nStay for a while\nWe can talk about it all\nI wanna know\n'Cause this feeling won't let me go\n\nI wanna know (I wanna know, I wanna know, I wanna know)\nI wanna know\nI wanna know (I wanna know, I wanna know, I wanna know)\nI wanna know, baby\n\nAll of these feelings\nNo it won't\nNo it won't let me go\nNo it won't baby\nIt won't let me go",
     moods : [ "soul", "folk", "blues" ],
@@ -35,7 +34,7 @@ module.exports = {
     set: 1
   },{
     artist : "Radiohead",
-    id : "-Kc_tvYsayUwD905hXhs",
+    id : 4,
     pic:"https://upload.wikimedia.org/wikipedia/en/a/a1/Radiohead.okcomputer.albumart.jpg",
     lyrics : "Karma police, arrest this man\nHe talks in maths\nHe buzzes like a fridge\nHe's like a detuned radio\n\nKarma police, arrest this girl\nHer Hitler hairdo is\nMaking me feel ill\nAnd we have crashed her party\n\nThis is what you get\nThis is what you get\nThis is what you get when you mess with us\n\nKarma Police\nI've given all I can\nIt's not enough\nI've given all I can\nBut we're still on the payroll\n\nThis is what you get\nThis is what you get\nThis is what you get when you mess with us\n\nAnd for a minute there, I lost myself, I lost myself\nAnd for a minute there, I lost myself, I lost myself\n\nFor for a minute there, I lost myself, I lost myself\nFor for a minute there, I lost myself, I lost myself\nPhew, for a minute there, I lost myself, I lost myself\n\n\n\nAll lyrics are property and copyright of their owners.\n  Tyxo.bg counter",
     moods : [ "slow", "sublime", "alternative" ],
@@ -44,7 +43,7 @@ module.exports = {
     set: 2
   }, {
     artist : "Roberta Flack",
-    id : "-Kc_te2xOBwIxVvn3kPN",
+    id : 5,
     pic: "https://upload.wikimedia.org/wikipedia/en/e/e7/Killing_me_softly_%28album_cover%29.jpg",
     lyrics : "Strumming my pain with his fingers\nSinging my life with his words\nKilling me softly with his song\nKilling me softly with his song\nTelling my whole life with his words\nKilling me softly with his song\n\nI heard he sang a good song\nI heard he had a style\nAnd so I came to see him \nAnd listen for a while\nAnd there he was this young boy\nA stranger to my eyes\n\n{Refrain}\n\nI felt all flushed with fever\nEmbarrassed by the crowd\nI felt he found my letters \nAnd read each one out loud\nI prayed that he would finish\nBut he just kept right on\n\n{Refrain}\n\nHe sang as if he knew me\nIn all my dark despair\nAnd then he looked right through me\nAs if I wasn't there\nAnd he just kept on singing\nSinging clear and strong\n\n{Refrain}\n\n",
     moods : [ "slow", "soul", "rnb" ],
@@ -53,7 +52,7 @@ module.exports = {
     set: 2
   }, {
     artist : "Leonard Cohen",
-    id : "-KcalL-TLCRaahj7GsyK",
+    id : 6,
     pic:"https://upload.wikimedia.org/wikipedia/en/4/44/Leonard_Cohen_Hallelujah.jpg",
     lyrics : "Now I've heard there was a secret chord \nThat David played, and it pleased the Lord \nBut you don't really care for music, do you \nIt goes like this \nThe fourth, the fifth \nThe minor fall, the major lift \nThe baffled king composing Hallelujah \nHallelujah \nHallelujah \nHallelujah \nHallelujah \n\nYour faith was strong but you needed proof \nYou saw her bathing on the roof \nHer beauty and the moonlight overthrew her \nShe tied you \nTo a kitchen chair \nShe broke your throne, and she cut your hair \nAnd from your lips she drew the Hallelujah \n\nHallelujah, Hallelujah \nHallelujah, Hallelujah \n\nYou say I took the name in vain \nI don't even know the name \nBut if I did, well really, what's it to you \nThere's a blaze of light \nIn every word \nIt doesn't matter which you heard \nThe holy or the broken Hallelujah \n\nHallelujah, Hallelujah \nHallelujah, Hallelujah \n\nI did my best, it wasn't much \nI couldn't feel, so I tried to touch \nI've told the truth, I didn't come to fool you \nAnd even though \nIt all went wrong \nI'll stand before the Lord of Song \nWith nothing on my tongue but Hallelujah \n\nHallelujah, Hallelujah \nHallelujah, Hallelujah \nHallelujah, Hallelujah \nHallelujah, Hallelujah \nHallelujah, Hallelujah \nHallelujah, Hallelujah \nHallelujah, Hallelujah \nHallelujah, Hallelujah \nHallelujah\n\n",
     moods : [ "slow", "sublime", "folk" ],
@@ -62,7 +61,7 @@ module.exports = {
     set: 2
   },{
     artist : "Led Zeppelin",
-    id : "-KcanGhSDzoRZ5MlZ55-",
+    id : 7,
     pic:"https://upload.wikimedia.org/wikipedia/en/2/26/Led_Zeppelin_-_Led_Zeppelin_IV.jpg",
     lyrics : "If it keeps on rainin', levee's goin' to break, [X2]\nWhen The Levee Breaks I'll have no place to stay. \n\nMean old levee taught me to weep and moan, [X2]\nGot what it takes to make a mountain man leave his home, \nOh, well, oh, well, oh, well. \n\nDon't it make you feel bad \nWhen you're tryin' to find your way home, \nYou don't know which way to go \nIf you're goin' down South \nThey go no work to do, \nIf you don't know about Chicago. \n\nCryin' won't help you, prayin' won't do you no good, \nNow, cryin' won't help you, prayin' won't do you no good, \nWhen the levee breaks, mama, you got to move. \n\nAll last night sat on the levee and moaned, [X2]\nThinkin' about me baby and my happy home. \nGoing, going to Chicago... Going to Chicago... Sorry but I can't take you... \nGoing down... going down now... going down....",
     moods : [ "blues", "rock", "sublime" ],
@@ -71,7 +70,7 @@ module.exports = {
     set: 3
   }, {
     artist : "Leonard Cohen",
-    id : "-Kcal2xNr6UrKRW8fTp5",
+    id : 8,
     pic:"https://upload.wikimedia.org/wikipedia/en/4/4c/SongsOfLeonardCohen.jpeg",
     lyrics : "Suzanne takes you down to her place near the river \nYou can hear the boats go by \nYou can spend the night beside her \nAnd you know that she's half crazy \nBut that's why you want to be there \nAnd she feeds you tea and oranges \nThat come all the way from China \nAnd just when you mean to tell her \nThat you have no love to give her \nThen she gets you on her wavelength \nAnd she lets the river answer \nThat you've always been her lover \nAnd you want to travel with her \nAnd you want to travel blind \nAnd you know that she will trust you \nFor you've touched her perfect body with your mind. \nAnd Jesus was a sailor \nWhen he walked upon the water \nAnd he spent a long time watching \nFrom his lonely wooden tower \nAnd when he knew for certain \nOnly drowning men could see him \nHe said \"All men will be sailors then \nUntil the sea shall free them\" \nBut he himself was broken \nLong before the sky would open \nForsaken, almost human \nHe sank beneath your wisdom like a stone \nAnd you want to travel with him \nAnd you want to travel blind \nAnd you think maybe you'll trust him \nFor he's touched your perfect body with his mind. \n\nNow Suzanne takes your hand \nAnd she leads you to the river \nShe is wearing rags and feathers \nFrom Salvation Army counters \nAnd the sun pours down like honey \nOn our lady of the harbour \nAnd she shows you where to look \nAmong the garbage and the flowers \nThere are heroes in the seaweed \nThere are children in the morning \nThey are leaning out for love \nAnd they will lean that way forever \nWhile Suzanne holds the mirror \nAnd you want to travel with her \nAnd you want to travel blind \nAnd you know that you can trust her \nFor she's touched your perfect body with her mind.",
     moods : [ "slow", "sublime", "folk" ],
@@ -80,7 +79,5 @@ module.exports = {
     set: 3
   }],
   title : "My Austin Gig"
-};
-return defaultgig;
 }
 }

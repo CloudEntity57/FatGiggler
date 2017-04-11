@@ -53,10 +53,10 @@ class App extends Component {
         this.setState({
           userpic:user.photoURL
         });
-        // firebase.database()
-        // .ref('/users/loggedin/'+uid)
+        firebase.database()
+        .ref('/users/loggedin/'+uid)
         // .set({
-        //   name:name,
+        //   name:user.displayName,
         //   photo:user.photoURL,
         //   online:'true'
         // });
@@ -80,7 +80,7 @@ class App extends Component {
     let uid = this.state.uid;
     let playing = this.state.playing;
     let isonline = this.state.isonline;
-    let children = (playing) ? React.Children.map(this.props.children, function (child) {
+    let children = (uid) ? React.Children.map(this.props.children, function (child) {
       return React.cloneElement(child, {
         playing:playing,
         uid:uid

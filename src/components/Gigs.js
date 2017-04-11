@@ -3,7 +3,7 @@ import { firebase, firebaseListToArray } from '../utils/firebase';
 import { hashHistory } from 'react-router';
 import { jquery } from 'jquery';
 import Song from './Song';
-import { defaultshow } from './DefaultGig';
+import Default from './DefaultGig';
 import SongEditForm from './SongEditForm';
 import GigView from './GigView';
 
@@ -217,7 +217,7 @@ class Gigs extends Component{
   postGig(gigs,id){
     console.log('posting');
     if(!this.state.gigs){
-      gigs=defaultshow();
+      gigs=Default.defaultgig;
       gigs = [{gig:gigs,id:1}];
       id=1;
       console.log('gigs id is: ',gigs[0].id);
@@ -315,7 +315,7 @@ class Gigs extends Component{
       gigs = this.state.gigs;
       console.log('this state gigs is',gigs);
     }else{
-      gigs = defaultshow();
+      gigs = Default.defaultgig;
       gigs = [{gig:gigs}];
       console.log('this iteration of gigs is: ',gigs);
     }
