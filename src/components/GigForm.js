@@ -6,6 +6,7 @@ import DefaultSongs from './DefaultSongs';
 import moment from 'moment';
 import jQuery from 'jquery';
 import SongButton from './SongButton';
+import SubmitModal from './SubmitModal';
 
 class GigForm extends Component {
   constructor(props){
@@ -14,7 +15,8 @@ class GigForm extends Component {
       uid:0,
       genres:[],
       gig:{},
-      show:false
+      show:false,
+      submitted:false
     }
   }
   componentWillMount(){
@@ -329,6 +331,9 @@ class GigForm extends Component {
      .push({
        gig:gig
      });
+     this.setState({
+       submitted:true
+     });
      jQuery('.form-control').val('');
    }
    //==============================FORM FUNCTIONS=================
@@ -377,9 +382,14 @@ class GigForm extends Component {
      current_genres = current_genres.join(', ');
      this.refs.genresdesired.value=current_genres;
    }
+   hideModal(){
+     this.setState({
+       submitted:false
+     });
+   }
 
   render(){
-
+    let submitModal = (this.state.submitted) ? (<SubmitModal hide={this.hideModal.bind(this)}/>) : '';
     const songs = (this.state.songs) ? this.state.songs.map(song => {
           return <SongButton songObject={ song } /> }) : '';
           // console.log('songz: ',songs);
@@ -527,6 +537,7 @@ class GigForm extends Component {
             </div>
           {/* <div className="col-sm-2 hidden-xs"></div> */}
         </div>
+        {submitModal}
       </div>
     );
   }

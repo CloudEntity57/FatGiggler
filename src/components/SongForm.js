@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { firebase } from '../utils/firebase';
 import { hashHistory } from 'react-router';
 import moment from 'moment';
+import SubmitModal from './SubmitModal';
 import jQuery from 'jquery';
 
 
@@ -10,7 +11,8 @@ class SongForm extends Component{
     super(props);
     this.state={
       uid:0,
-      genres:[]
+      genres:[],
+      submitted:false
     }
   }
 
@@ -107,7 +109,8 @@ class SongForm extends Component{
       // jQuery('.form-control').val('');
       // jQuery('.time-enter').val('');
       this.setState({
-        genres:[]
+        genres:[],
+        submitted:true
       });
       jQuery('.form-control').val('');
       jQuery('.time-enter').val('');
@@ -162,9 +165,17 @@ class SongForm extends Component{
     console.log('image url: ',imgurl);
     return(<img src={imgurl} />);
   }
+  hideModal(){
+    console.log('function called');
+    this.setState({
+      submitted:false
+    });
+  }
   render(){
     let lnk = "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTuXHksRLoduQ-_f8EGSEIsvCCIXKgtEhpQHm-Y3pTMrK5I86kD";
     let image = (<img className="img-responsive" src={lnk} />);
+    let submitModal = (this.state.submitted) ? (<SubmitModal hide={this.hideModal.bind(this)}/>) : '';
+    // let submitModal = (<SubmitModal hide={this.hideModal.bind(this)}/>);
     return(
       <div>
         <div className="row">
@@ -239,6 +250,7 @@ class SongForm extends Component{
             </div>
           <div className="col-sm-1 col-md-2 hidden-xs"></div>
         </div>
+        {submitModal}
       </div>
     );
   }
