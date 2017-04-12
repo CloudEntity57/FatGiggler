@@ -3,7 +3,7 @@ import { firebase, firebaseListToArray } from '../utils/firebase';
 import EditSongs from './EditSongs';
 import SongTab from './SongTab';
 import Song from './Song';
-import { defaultshow } from './DefaultGig';
+import DefaultSongs from './DefaultSongs';
 
 class Songs extends Component{
   constructor(props){
@@ -14,7 +14,9 @@ class Songs extends Component{
       playing:''
     }
   }
+
   componentWillMount(){
+    let defaultsongs=DefaultSongs.songs;
     firebase.auth().onAuthStateChanged(
 
       user => {
@@ -33,7 +35,7 @@ class Songs extends Component{
               let result = data.val();
               result = firebaseListToArray(result);
               if(result.length===0){
-                result=defaultshow().sets;
+                result=defaultsongs;
               }
               result = result.sort(function(a, b) {
                   var textA = a.title.toUpperCase();
@@ -45,9 +47,8 @@ class Songs extends Component{
               });
             });
           }else{
-            let songs=defaultshow().sets;
             this.setState({
-              songs:songs
+              songs:defaultsongs
             });
           }
         }
@@ -90,6 +91,8 @@ class Songs extends Component{
   render(){
     let apostrophe = (this.state.user) ? "'s " : '';
     console.log('the id of this song is: ',this.state.playing);
+    console.log('songs in component render: ',this.state.songs);
+    let songs = this.state.songs;
     let editVeil = (this.state.editing) ? (<div onClick={this.edit.bind(this)} className="edit-veil"></div>)
     :'';
     let editButton=(!this.state.isplaying) ? (<EditSongs className="editor" edit={this.edit.bind(this)} />)
@@ -104,7 +107,6 @@ class Songs extends Component{
         <div className="col-sm-3"></div>
       </div>
     )
-
      : this.state.songs.map((val)=>{
       // console.log('the vals id: ',val.id);
       return(

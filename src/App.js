@@ -53,8 +53,8 @@ class App extends Component {
         this.setState({
           userpic:user.photoURL
         });
-        firebase.database()
-        .ref('/users/loggedin/'+uid)
+        // firebase.database()
+        // .ref('/users/loggedin/'+uid)
         // .set({
         //   name:user.displayName,
         //   photo:user.photoURL,

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { firebase, firebaseListToArray } from '../utils/firebase';
 import SongEditForm from './SongEditForm';
-import { defaultshow } from './DefaultGig';
+import DefaultSongs from './DefaultSongs';
+import DefaultGig from './DefaultGig';
 
 class Song extends Component {
   constructor(props){
@@ -32,12 +33,13 @@ class Song extends Component {
     });
   }else{
     console.log('the song equals nothing');
-    let songs=defaultshow().sets;
+    let songs=DefaultSongs.songs;
+    console.log('default songs: ',songs);
     for(let val in songs){
-      console.log('val: ',songs[val]);
-      if(songs[val].id===songid){
-        console.log(song + '===' + songs[val]);
-        song=songs[val];
+      console.log('default val: ',val);
+      if(val.id===songid){
+        console.log(song + '===' + val);
+        song=val;
       }
     }
     this.setState({
@@ -66,14 +68,16 @@ class Song extends Component {
     });
   }else{
     console.log('the song equals nothing');
-    let songs=defaultshow().sets;
-    for(let val in songs){
-      console.log('val: ',songs[val]);
-      if(songs[val].id===songid){
-        console.log(song + '===' + songs[val]);
-        song=songs[val];
+    let songs=DefaultSongs.songs;
+    console.log('default songs: ',songs);
+    songs.forEach((val)=>{
+      console.log('val: ',val.id);
+      console.log('songid: ',songid);
+      if(val.id===parseInt(songid)){
+        console.log(song + '===' + val);
+        song=val;
       }
-    }
+    });
     this.setState({
       song:song,
       songs:songs

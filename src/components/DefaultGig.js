@@ -1,7 +1,7 @@
 
 module.exports = {
   defaultgig:{
-    id:1,
+    id:0,
   setnum : "3",
   genres : [ "blues", "alternative", "jazz", "sublime", "soul" ],
   maxminutes : 216000000,

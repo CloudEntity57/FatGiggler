@@ -90,10 +90,12 @@ class SetList extends Component {
         let uid = this.state.uid;
         sets.forEach((obj)=>{
           let id = obj.id;
+          console.log('id: ',id);
           firebase.database()
           .ref(uid+'/songs/'+id)
           .on('value',(data)=>{
             let result=data.val();
+            console.log('result: ',result);
             result.id=id;
             songs.push(result);
           });
