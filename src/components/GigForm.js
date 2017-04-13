@@ -274,10 +274,10 @@ class GigForm extends Component {
      //
      let genresdesired = this.state.genres;
      let setsdesired = this.refs.setsdesired.value;
-     if(!gigtitle || !maxminutes || !genresdesired || !setsdesired){
-       alert("All fields must be entered");
-       return null;
-     }
+    //  if(!gigtitle || !maxminutes || !genresdesired || !setsdesired){
+    //    alert("All fields must be entered");
+    //    return null;
+    //  }
     //  console.log('Gig title: ',gigtitle);
     //  console.log('max time: ',maxminutes);
     //  console.log('genres desired: ',genresdesired);
@@ -381,6 +381,7 @@ class GigForm extends Component {
      //display the current genres user has selected in the input
      current_genres = current_genres.join(', ');
      this.refs.genresdesired.value=current_genres;
+     this.makeSets(e);
    }
    hideModal(){
      this.setState({
@@ -477,7 +478,7 @@ class GigForm extends Component {
         { frame }
       </ul>
     </div>
-  ) :(<h2>Gig Preview</h2>);
+  ) :'';
     return(
       <div className="wrapper container landed_content">
 
@@ -488,13 +489,13 @@ class GigForm extends Component {
                 <h2>Create a Gig</h2>
                 <div className="form-group">
                   <label for="title-input">Gig Name</label>
-                  <input id="title-input" ref="gigtitle" type="text" className="form-control">
+                  <input onKeyUp={this.makeSets.bind(this)} id="title-input" ref="gigtitle" type="text" className="form-control">
 
                   </input>
                   <label for="set-input">Sets Desired</label>
-                  <input id="set-input" ref="setsdesired" type="number" placeholder="enter a number here" className="form-control"></input>
+                  <input onKeyUp={this.makeSets.bind(this)} id="set-input" ref="setsdesired" type="number" placeholder="enter a number here" className="form-control"></input>
                   <label for="maxmin-input">Max Minutes</label>
-                  <input id="maxmin-input" ref="maxminutes" type="number" placeholder="enter a number here" className="form-control"></input>
+                  <input onKeyUp={this.makeSets.bind(this)} id="maxmin-input" ref="maxminutes" type="number" placeholder="enter a number here" className="form-control"></input>
                   {/* <label for="lyrics-input">Songs</label>
                   {songs} */}
                 </div>
