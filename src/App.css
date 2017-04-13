@@ -29,9 +29,29 @@ body{
   opacity:.5;
   z-index: 2;
 }
+.closeX{
+  width:45px;
+  height:45px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  border-radius: 45px;
+  background-color: #d47979;
+  border: 3px solid white;
+  color:white;
+  font-size: 1.5em;
+  padding-bottom:5px;
+  position:absolute;
+  top:-.75em;
+  right:-.75em;
+}
+.closeX:hover{
+  background-color: #a93939;
+}
 .intro-text{
   position: absolute;
-  padding:10px;
+  padding:20px;
   top:25vh;
   left:15vw;
   width:70%;

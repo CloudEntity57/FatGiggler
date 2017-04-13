@@ -41,7 +41,7 @@ class Dashboard extends Component {
             // userpic:user.photoURL
           });
           uid=user.uid;
-          //------------------------------------------repeat user entry to DB
+          //------------------------------------------filter for new users
           let name = user.displayName;
           console.log('uid: ',uid);
           this.setState({
@@ -151,7 +151,7 @@ class Dashboard extends Component {
     };
   }
   setUpNewUser(uid,name,user){
-    
+
       let defaultsongs = DefaultSongs.songs;
       firebase.database()
       .ref('/users/loggedin/'+uid)
@@ -234,18 +234,20 @@ class Dashboard extends Component {
     // );
     let introText = (this.state.newuser) ? (
       <div className="intro-text lead">
+        <a href="#"><div onClick={this.hideIntro.bind(this)} className="closeX">x</div></a>
         <p><h3>Welcome to SmartSet!</h3> To help you get started, we've loaded some example songs into your account. The site is simple:
           <ul>
             <li>Songs - view and edit your songs</li>
-            <li>Add Songs - fill out a simple form to enter new songs</li>
-            <li>Add Gig - generate and preview gigs featuring your songs</li>
-            <li>Gigs - view and play these gigs</li>
-            <li>Now Playing - the gig you're currently playing</li>
-            <li>Community - chat with other musicians online</li>
+            <li>Add Songs - Add new songs to your account</li>
+            <li>Add Gig - generate and preview a gig</li>
+            <li>Gigs - view, edit and display gigs</li>
+            <li>Now Playing - displays gig you're currently playing</li>
+            <li>Community - chat with other musicians</li>
           </ul>
         </p>
       </div>
-    ) : '';
+    ): '';
+  
     // console.log('target in render: ',target);
     console.log('songs being passed to SongArea: ',mysongs);
     //create JSX for separate set lists to pass to SetList:
