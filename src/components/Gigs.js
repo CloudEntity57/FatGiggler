@@ -6,13 +6,14 @@ import Song from './Song';
 import Default from './DefaultGig';
 import SongEditForm from './SongEditForm';
 import GigView from './GigView';
+import { renderGig } from './NewUserFilter';
 
 class Gigs extends Component{
   constructor(props){
     super(props);
     this.state={
       uid:0,
-      gigview:(<h3>Select a gig and see it here</h3>),
+      gigview:(<div></div>),
       gigedit:false,
       songmanage:false,
       songedit:false
@@ -258,39 +259,11 @@ class Gigs extends Component{
         console.log('the songs are: ',songs);
 
         //=======================================================
-        for(let x=0; x<maxsets; x++){
-          let  goods=[];
-          // go through every song in the gig:
-          for (var int =0; int<sets.length; int++) {
-            // console.log('the song to iterate through: ',sets[song]);
-            if (sets.hasOwnProperty(int)) {
-            // check if song has current gig number
-            let tune = [];
+        let renderSets = (tune,goods)=>{
+          goods.push(<div className="gig-item-contain"><a href="#"><li onClick={this.showSong.bind(this)} id={tune.id}>{tune.title}</li></a><div className="gig-item">{deleteButton} {editButton}</div></div>)
+        };
+        renderGig(sets,setnum,songs,maxsets,frame,renderSets);
 
-              if(sets[int].set===setnum){
-                //grab the matching song from our updated array 'songs'
-                for(let i=0; i<songs.length; i++){
-                  if(songs[i].id===sets[int].id){
-                    tune = songs[i];
-                    console.log('the tune is: ',tune);
-                  }
-                }
-          //create the ESX for that set
-                goods.push(<div className="gig-item-contain"><li onClick={this.showSong.bind(this)} id={tune.id}>{tune.title}</li><div className="gig-item">{deleteButton} {editButton}</div></div>);
-              }
-            }
-          }
-          frame.push(
-            <div>
-            <h3>Set {setnum}</h3>
-            <ul>
-              {goods}
-            </ul>
-          </div>
-          );
-          //increase the set number
-          setnum++;
-        }
 
       let gigview2= (!this.state.songedit) ? (<GigView id={val.id} songs={songs} time={val.gig.time} title={val.gig.title} frame={frame} playGig={this.playGig.bind(this)} editSongs={this.manageSongs.bind(this)} done={this.done.bind(this)} />)
       :

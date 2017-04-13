@@ -119,6 +119,7 @@ class Dashboard extends Component {
       });
 
   }
+
   checkUserStatus(newuser,uid,user){
     firebase.database()
     .ref('/users/loggedin')
@@ -127,7 +128,6 @@ class Dashboard extends Component {
       val = firebaseListToArray(val);
       console.log('vals to filter for new users: ',val);
       this.filterNewUser(val,newuser,uid,name,user);
-
     });
   }
   filterNewUser(val,newuser,uid,name,user){
@@ -224,7 +224,7 @@ class Dashboard extends Component {
     let target = this.state.target;
     let intro = (this.state.newuser) ? (
       <div onClick={this.hideIntro.bind(this)} className="intro">
-        Welcome! Please enjoy these instructions.
+
       </div>
     ) : '';
     // let intro = (
@@ -247,7 +247,7 @@ class Dashboard extends Component {
         </p>
       </div>
     ): '';
-  
+
     // console.log('target in render: ',target);
     console.log('songs being passed to SongArea: ',mysongs);
     //create JSX for separate set lists to pass to SetList:

@@ -41,7 +41,7 @@ class Community extends Component{
       console.log('comments: ',comments);
       let posts = comments.map((val)=>{
         return (
-          <div><div className="user-tab-comment"><UserTab name={val.name} photo={val.photo} /></div><span className="user-tab-comment">{val.text}</span></div>
+          <div><div className="user-tab-comment"><UserTab name={val.name} photo={val.photo} /></div><span className="user-tab-comment">{val.text}</span><div className="comment-date">{val.date}</div></div>
         );
       });
       console.log('posts: ',posts);
@@ -65,13 +65,29 @@ class Community extends Component{
     // let text = (<div><UserTab name={user.name} photo={user.photo} /> {this.refs.comment.value}</div>);
     console.log(this.refs.comment.value);
     let text = this.refs.comment.value;
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear();
+
+    if(dd<10) {
+        dd='0'+dd
+    }
+
+    if(mm<10) {
+        mm='0'+mm
+    }
+
+    today = mm+'/'+dd+'/'+yyyy;
+    console.log('date: ',today);
     firebase.database()
     .ref('/comments')
     .push({
       text:text,
       id:this.props.uid,
       photo:user.photo,
-      name:user.name
+      name:user.name,
+      date:today
     });
     this.refs.comment.value='';
 
@@ -94,7 +110,7 @@ class Community extends Component{
         <h2>Users Online</h2>
         <div className="row">
           <div className="col-sm-12">
-            <ul>
+            <ul className="user_list">
               {user_list}
             </ul>
             <section id="comment-panel" className="panel user_comments panel-default">

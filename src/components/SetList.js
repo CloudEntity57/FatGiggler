@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Song from './Song';
 import { firebase } from '../utils/firebase';
+import {renderGig} from './NewUserFilter';
 
 class SetList extends Component {
   constructor(props){
@@ -106,42 +107,10 @@ class SetList extends Component {
         }
 
         //=======================================================
-        for(let x=0; x<maxsets; x++){
-          let  goods=[];
-          // go through every song in the gig:
-          for (var int =0; int<sets.length; int++) {
-            // console.log('the song to iterate through: ',sets[song]);
-            if (sets.hasOwnProperty(int)) {
-            // check if song has current gig number
-            let tune = [];
-              if(sets[int].set===setnum){
-                //grab the matching song from our updated array 'songs'
-                for(let i=0; i<songs.length; i++){
-                  if(songs[i].id===sets[int].id){
-                    tune = songs[i];
-                    // console.log('the tune is: ',tune);
-                  }
-                }
-          //create the ESX for that set
-                // goods.push(<div className="gig-item-contain"><li onClick={this.showSong.bind(this)} id={tune.id}>{tune.title}</li><div className="gig-item">{deleteButton} {editButton}</div></div>);
-                 goods.push(<a href="#" onClick={this.handleClick.bind(this)}><li id={tune.id}>{tune.title}</li></a>);
-
-              }
-            }
-          }
-          frame.push(
-            <div className="set">
-            <h3>Set {setnum}</h3>
-            <ul>
-              {goods}
-            </ul>
-          </div>
-          );
-          //increase the set number
-          setnum++;
+        let makeSet = (tune,goods)=>{
+          goods.push(<a href="#" onClick={this.handleClick.bind(this)}><li id={tune.id}>{tune.title}</li></a>);
         }
-        //=======================================================
-
+        renderGig(sets,setnum,songs,maxsets,frame,makeSet);
 
         gigInfo = (
           <div>

@@ -87,12 +87,21 @@ header{
 .usertab{
   height:5vh;
 }
+.comment-date{
+  font-size: .7em;
+  float:right;
+}
 .user_comments{
   height:40vh;
-  width:50%;
+  width:100%;
   background-color: grey;
   color:black;
   padding:.5em;
+  overflow: scroll;
+}
+
+.user_list{
+  height:15vh;
   overflow: scroll;
 }
 .user-tab-comment{
