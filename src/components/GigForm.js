@@ -322,9 +322,34 @@ class GigForm extends Component {
    submitGig(e){
      e.preventDefault();
      let uid = this.state.uid;
-    //  console.log('aaaaand: ',uid);
-    //  console.log('gig to firebase: ',this.state.gig);
+     console.log('unlogged in: ',uid);
+     console.log('gig to firebase: ',this.state.gig);
     let gig=this.state.gig;
+
+    // if no user signed in:
+    if(uid===0){
+      this.setState({
+        submitted:true,
+        modaltext:'You gotta sign in first!',
+        gig:{},
+        gigtime:''
+      });
+      return;
+    }
+    // if form not filled:
+    if(
+      !gig.hasOwnProperty('title') ||
+      !gig.hasOwnProperty('maxminutes') ||
+      !gig.hasOwnProperty('sets') ||
+      !gig.hasOwnProperty('genres')
+    ){
+      // alert('Please finish creating your gig!');
+      this.setState({
+        submitted:true,
+        modaltext:'Finish the gig, baby!'
+      });
+      return;
+    }
     gig.time=this.state.gigmillisecs;
      firebase.database()
      .ref('/'+uid+'/gigs')
@@ -332,7 +357,10 @@ class GigForm extends Component {
        gig:gig
      });
      this.setState({
-       submitted:true
+       submitted:true,
+       modaltext:'Yeaah.',
+       gig:{},
+       gigtime:''
      });
      jQuery('.form-control').val('');
    }
@@ -390,7 +418,7 @@ class GigForm extends Component {
    }
 
   render(){
-    let submitModal = (this.state.submitted) ? (<SubmitModal hide={this.hideModal.bind(this)}/>) : '';
+    let submitModal = (this.state.submitted) ? (<SubmitModal text={this.state.modaltext} hide={this.hideModal.bind(this)}/>) : '';
     const songs = (this.state.songs) ? this.state.songs.map(song => {
           return <SongButton songObject={ song } /> }) : '';
           // console.log('songz: ',songs);

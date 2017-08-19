@@ -47,14 +47,17 @@ class SongForm extends Component{
     const lyrics = this.refs.lyrics.value;
     const moods = this.state.genres;
     const userpic = this.state.userpic;
+    if(this.state.uid===0){
+      this.setState({
+        submitted:true,
+        modaltext:'You gotta log in first.'
+      });
+      return;
+    }
     if(!title || !artist || !lyrics || !moods){
       alert("All fields must be entered");
       return null;
     }
-    //access Spotify API and obtain URLs for album covers:
-
-    // let artistquery = "John Mayer";
-    // let albumquery = "Why Georgia";
     let artistquery = artist;
     let titlequery = title;
 
@@ -77,11 +80,7 @@ class SongForm extends Component{
       }else{
         pic = userpic
       }
-
-
   //========
-
-
     console.log('final pic is: ',pic);
     //
     //handle parsing of time
@@ -110,7 +109,8 @@ class SongForm extends Component{
       // jQuery('.time-enter').val('');
       this.setState({
         genres:[],
-        submitted:true
+        submitted:true,
+        modaltext:'Yeahh.'
       });
       jQuery('.form-control').val('');
       jQuery('.time-enter').val('');
@@ -174,7 +174,7 @@ class SongForm extends Component{
   render(){
     let lnk = "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTuXHksRLoduQ-_f8EGSEIsvCCIXKgtEhpQHm-Y3pTMrK5I86kD";
     let image = (<img className="img-responsive" src={lnk} />);
-    let submitModal = (this.state.submitted) ? (<SubmitModal hide={this.hideModal.bind(this)}/>) : '';
+    let submitModal = (this.state.submitted) ? (<SubmitModal text={this.state.modaltext} hide={this.hideModal.bind(this)}/>) : '';
     // let submitModal = (<SubmitModal hide={this.hideModal.bind(this)}/>);
     return(
       <div>

@@ -62,7 +62,7 @@ componentWillMount(){
   render(){
     let pic ='';
     if(this.props.pic){
-      pic = (<img className="user-pic" alt="user" src={this.props.pic} />)
+      pic = (<img className="user-pic" alt="" src={this.props.pic} />)
     }
     return(
       <header>
@@ -74,7 +74,7 @@ componentWillMount(){
         <ul className="main_nav">
 
           <li><NavLink to="/" onlyActiveOnIndex>{this.sessionButton()}</NavLink></li>
-          <li><NavLink to="/community"><a onClick={this.makeActive.bind(this)} href="#">Community</a></NavLink></li>
+          {/* <li><NavLink to="/community"><a onClick={this.makeActive.bind(this)} href="#">Community</a></NavLink></li> */}
           <li><NavLink to="/dashboard"><a onClick={this.makeActive.bind(this)} href="#">Now Playing</a></NavLink></li>
           <li><NavLink to="/addgig"><a onClick={this.makeActive.bind(this)} href="#">Add Gig</a></NavLink></li>
           <li><NavLink to="/addsong"><a onClick={this.makeActive.bind(this)} href="#">Add Song</a></NavLink></li>

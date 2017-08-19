@@ -5,8 +5,9 @@ class SubmitModal extends Component{
     window.setTimeout(this.props.hide,1000);
   }
   render(){
+    let text=(this.props.text) ? this.props.text : ''
     return(
-      <div className="submitModal">Submitted</div>
+      <div className="submitModal">{text}</div>
     );
   }
 }

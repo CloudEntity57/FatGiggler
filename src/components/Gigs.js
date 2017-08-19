@@ -23,15 +23,19 @@ class Gigs extends Component{
   componentDidMount(){
     const user = firebase.auth().currentUser;
     console.log('current user: ',user);
-    const uid = user.uid;
-    const username = user.displayName;
+    const uid = (user) ? user.uid : '';
+    const username = (user) ? user.displayName : '';
     // const username =
     this.setState({
       uid:uid,
       username:username
     });
-    this.gigReset(uid);
-
+    let gig_id = (this.state.gigs) ? this.state.gigs[0].gig.id : '';
+    console.log('cdm id: ',gig_id);
+    this.postGig(gig_id);
+    if(user !==null){
+      this.gigReset(uid);
+    }
   }
   gigReset(uid){
     firebase.database()
@@ -81,9 +85,9 @@ class Gigs extends Component{
 
   }
 
-  displayGig(e){
+  displayGig(e,id){
     e.preventDefault();
-    let id = e.target.id;
+    id = e.target.id || id;
     // console.log('you clicked: ',id);
     let gigs = this.state.gigs;
     this.postGig(gigs,id);
