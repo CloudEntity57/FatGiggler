@@ -69,17 +69,17 @@ class SongForm extends Component{
     // console.log('search string: ',api_top10_search_str);
     console.log('search string: ',spotify_str);
     let album_art;
-    let pic;
-    jQuery.get(spotify_str,(val)=>{
+    let pic = userpic;
+    // jQuery.get(spotify_str,(val)=>{
       // var output = JSON.parse(val);
-      console.log('our list of album art: ',val);
-      if(val.tracks.items[0] != null){
-        album_art = val.tracks.items[0].album.images[0].url;
-        console.log('our album art: ',album_art);
-        pic = album_art
-      }else{
-        pic = userpic
-      }
+      // console.log('our list of album art: ',val);
+      // if(val.tracks.items[0] != null){
+      //   album_art = val.tracks.items[0].album.images[0].url;
+      //   console.log('our album art: ',album_art);
+      //   pic = album_art
+      // }else{
+      //   pic = userpic
+      // }
   //========
     console.log('final pic is: ',pic);
     //
@@ -115,7 +115,7 @@ class SongForm extends Component{
       jQuery('.form-control').val('');
       jQuery('.time-enter').val('');
     });
-    });
+    // });
   }
   testValue(x,array){
     for(let i=0; i<array.length; i++){

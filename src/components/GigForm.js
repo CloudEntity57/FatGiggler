@@ -330,7 +330,7 @@ class GigForm extends Component {
     if(uid===0){
       this.setState({
         submitted:true,
-        modaltext:'You gotta sign in first!',
+        modaltext:'You gotta log in first.',
         gig:{},
         gigtime:''
       });
@@ -341,12 +341,16 @@ class GigForm extends Component {
       !gig.hasOwnProperty('title') ||
       !gig.hasOwnProperty('maxminutes') ||
       !gig.hasOwnProperty('sets') ||
-      !gig.hasOwnProperty('genres')
+      !gig.hasOwnProperty('genres') ||
+      gig.title=='' ||
+      gig.maxminutes=='' ||
+      gig.sets==[] ||
+      gig.genres==[] 
     ){
       // alert('Please finish creating your gig!');
       this.setState({
         submitted:true,
-        modaltext:'Finish the gig, baby!'
+        modaltext:'Finish the gig, baby.'
       });
       return;
     }

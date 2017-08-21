@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import SubmitModal from './SubmitModal';
 import EditGenres from './EditGenres';
 
 class SongEditForm extends Component{
   constructor(props){
     super(props);
     this.state={
-      editgenres:false
+      editgenres:false,
+      submitted:false
     }
   }
   submit(e){
@@ -39,7 +41,13 @@ class SongEditForm extends Component{
       editgenres:false
     });
   }
-  render(){
+  hideModal(){
+    this.setState({
+      submitted:false
+    });
+  }
+ render(){
+    let please_login = (this.state.submitted) ? (<SubmitModal text={this.state.modaltext} hide={this.hideModal.bind(this)}/>) : '';
     let moods = this.state.moods;
     let genrearray = this.state.genrearray;
     let currentgenres = genrearray.join(', ');
@@ -63,6 +71,7 @@ class SongEditForm extends Component{
         <br></br>
         <br></br>
       </form>
+      {please_login}
       </div>
     );
   }

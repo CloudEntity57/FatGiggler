@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { firebase, firebaseListToArray } from '../utils/firebase';
 import { hashHistory } from 'react-router';
 import { jquery } from 'jquery';
+import SubmitModal from './SubmitModal';
 import Song from './Song';
 import Default from './DefaultGig';
 import SongEditForm from './SongEditForm';
@@ -16,7 +17,8 @@ class Gigs extends Component{
       gigview:(<div></div>),
       gigedit:false,
       songmanage:false,
-      songedit:false
+      songedit:false,
+      submitted:false
     }
   }
 
@@ -30,11 +32,16 @@ class Gigs extends Component{
       uid:uid,
       username:username
     });
-    let gig_id = (this.state.gigs) ? this.state.gigs[0].gig.id : '';
+    let gig_id;
+    if(this.state.uid==''){
+      gig_id = (this.state.gigs) ? this.state.gigs[0].gig.id : '';
+    }
+
     console.log('cdm id: ',gig_id);
-    this.postGig(gig_id);
     if(user !==null){
       this.gigReset(uid);
+    }else{
+      this.postGig(this.state.gigs,gig_id);
     }
   }
   gigReset(uid){
@@ -47,11 +54,20 @@ class Gigs extends Component{
       this.setState({
         gigs:gigs
       });
+      console.log('gigreset: ',gigs[0].gig);
+      this.postGig(gigs);
       return gigs;
   });
 }
   deleteSong(e){
     e.preventDefault();
+    if(this.state.uid ===''){
+      this.setState({
+        submitted:true,
+        modaltext:'You gotta log in first.'
+      });
+      return;
+    }
     let gigs = this.state.gigs;
     let uid=this.state.uid;
     let songid = e.target.parentNode.parentNode.previousSibling.getAttribute('id');
@@ -102,8 +118,8 @@ class Gigs extends Component{
   playGig(e){
     e.preventDefault();
     let gigid = e.target.id;
-    if(!this.props.uid){
-      hashHistory.push('/');
+    if(this.state.uid==''){
+      hashHistory.push('dashboard');
     }
     // console.log('you clicked the gig: ',gigid);
     firebase.database().ref('users/' + this.state.uid+'/').set({
@@ -144,6 +160,13 @@ class Gigs extends Component{
   }
   editSong(e){
     e.preventDefault();
+    if(this.state.uid ===''){
+      this.setState({
+        submitted:true,
+        modaltext:'You gotta log in first.'
+      });
+      return;
+    }
     let songid= e.target.parentNode.parentNode.parentNode.firstChild.id;
     console.log('songs id is: ',songid);
     this.setState({
@@ -221,7 +244,7 @@ class Gigs extends Component{
   }
   postGig(gigs,id){
     console.log('posting');
-    if(!this.state.gigs){
+    if(!gigs){
       gigs=Default.defaultgig;
       gigs = [{gig:gigs,id:1}];
       id=1;
@@ -230,8 +253,9 @@ class Gigs extends Component{
     }
     gigs.forEach((val)=>{
       let gigid = val.id;
+      console.log('title: ',val.gig.title);
       if(gigid===id){
-        console.log('our gig to preview: ',val.gig);
+        console.log('our gig to preview: ',val.id);
         let frame = [];
         let setnum = 1;
         let deleteButton = (this.state.songmanage) ? (<a href='#' id={gigid} onClick={this.deleteSong.bind(this)}><i className='fa fa-minus-circle' aria-hidden="true"></i></a>)
@@ -276,8 +300,15 @@ class Gigs extends Component{
         this.setState({
           gigview:gigview2
         });
+        return;
       }
 
+    });
+  }
+
+  hideModal(){
+    this.setState({
+      submitted:false
     });
   }
   render(){
@@ -326,10 +357,9 @@ class Gigs extends Component{
       {this.state.gigview}
     </div>)
     : '';
-
+    let please_login = (this.state.submitted) ? (<SubmitModal text={this.state.modaltext} hide={this.hideModal.bind(this)} />) : '';
     return(
       <div className="wrapper container landed_content">
-
         <div className="row">
           { gigmodal }
           { gigsInfo }
@@ -338,6 +368,7 @@ class Gigs extends Component{
             {this.state.gigview}
           </div>
         </div>
+        { please_login }
       </div>
     );
 

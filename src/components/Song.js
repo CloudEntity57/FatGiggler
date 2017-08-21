@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { firebase, firebaseListToArray } from '../utils/firebase';
 import SongEditForm from './SongEditForm';
+import SubmitModal from './SubmitModal';
 import DefaultSongs from './DefaultSongs';
 import DefaultGig from './DefaultGig';
 
@@ -8,7 +9,8 @@ class Song extends Component {
   constructor(props){
     super(props);
     this.state={
-      song:[]
+      song:[],
+      submitted:false
     }
   }
 
@@ -91,6 +93,13 @@ class Song extends Component {
   }
   edit(e){
     e.preventDefault();
+    if(this.props.id===''){
+      this.setState({
+        submitted:true,
+        modaltext:'You gotta log in first.'
+      });
+      return;
+    }
     console.log('editing');
     if(!this.state.editing){
       this.setState({
@@ -130,7 +139,13 @@ class Song extends Component {
     //   editing:false
     // });
   }
-  render(){
+  hideModal(){
+    this.setState({
+      submitted:false
+    });
+  }
+ render(){
+    let please_login = (this.state.submitted) ? (<SubmitModal text={this.state.modaltext} hide={this.hideModal.bind(this)}/>) : '';
     console.log('song: ',this.state.song);
     let song = this.state.song;
     let html = (!this.state.editing) ? (
@@ -149,6 +164,7 @@ class Song extends Component {
         <br></br>
         <br></br>
         </div>
+        {please_login}
       </div>
     )
     : (
@@ -162,6 +178,7 @@ class Song extends Component {
         </div>
       </div>
       <SongEditForm id={song.id} genres={song.moods} submit={this.submit.bind(this)} title={song.title} artist={song.artist} lyrics={song.lyrics} />
+      {please_login}
       </div>
     );
     return(

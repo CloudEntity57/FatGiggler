@@ -623,7 +623,7 @@ footer{
 .landed_content{
   background-color: lightgray;
 }
-.landing_page -webkit-scrollbar {
+html -webkit-scrollbar {
   display: none;
 }
 .landing_page *{

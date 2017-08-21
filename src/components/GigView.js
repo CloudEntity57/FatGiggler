@@ -38,11 +38,11 @@ class GigView extends Component{
       <div>
       <div className="gig-buttons">
       <button onClick={this.props.playGig} id={this.props.id} className="btn btn-primary">Play</button>
-      <button onClick={this.editSongs.bind(this)} id={this.props.id} className="btn btn-primary">Edit</button>
+      {/* <button onClick={this.editSongs.bind(this)} id={this.props.id} className="btn btn-primary">Edit</button> */}
       <button onClick={this.props.done} className="btn btn-primary hidden-sm hidden-md hidden-lg">Done</button>
       </div>
       <div className="gigtime"><h1>{this.props.title}</h1></div>
-      <div className="gigtime">Total time: {final}</div>
+      <div className="gigtime">Est. time: {final}</div>
       <ul>
         { this.props.frame }
       </ul>
