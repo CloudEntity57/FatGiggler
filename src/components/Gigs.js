@@ -5,6 +5,7 @@ import { jquery } from 'jquery';
 import SubmitModal from './SubmitModal';
 import Song from './Song';
 import Default from './DefaultGig';
+import jQuery from 'jquery';
 import SongEditForm from './SongEditForm';
 import GigView from './GigView';
 import { renderGig } from './NewUserFilter';
@@ -18,7 +19,8 @@ class Gigs extends Component{
       gigedit:false,
       songmanage:false,
       songedit:false,
-      submitted:false
+      submitted:false,
+      photo_index:1
     }
   }
 
@@ -311,6 +313,24 @@ class Gigs extends Component{
       submitted:false
     });
   }
+  changePic(){
+    const photos=[
+      'pexels-photo-196652.jpeg','girls.jpg','fun.jpg','beach.jpeg','arms.jpg'
+    ];
+    let indx = this.state.photo_index;
+    console.log('was: ',indx);
+    let pic = photos[indx];
+    indx++;
+    let url = 'url(./images/'+pic+')';
+    // jQuery('.gig-preview').css('background-color','blue');
+    jQuery('.gig-preview').css('background-image',url);
+    console.log(url);
+    indx = (indx<photos.length) ? indx++ : 0
+    console.log('now: ',indx);
+    this.setState({
+      photo_index:indx
+    });
+  }
   render(){
 
     let gigsInfo = '';
@@ -341,8 +361,10 @@ class Gigs extends Component{
         });
 
       gigsInfo = (
-        <div className="col-sm-6 gig-display">
-        <button onClick={this.editGigs.bind(this)} className="btn-xs btn-primary">Manage</button>
+      <div className="col-sm-6 gig-display">
+      <div className="gig-buttons">
+        <button onClick={this.editGigs.bind(this)} className="btn btn-primary">Manage</button>
+      </div>
         <h3>{username}{apostrophe}Gigs</h3>
         <ul>
           { frame }
@@ -364,6 +386,7 @@ class Gigs extends Component{
           { gigmodal }
           { gigsInfo }
           <div className="gig-preview hidden-xs col-sm-6">
+            <button onClick={this.changePic.bind(this)} className="view_shift btn btn-default" type="button">Change View</button>
             <div className="gig-cover"></div>
             {this.state.gigview}
           </div>

@@ -111,15 +111,16 @@ class Song extends Component {
       });
     }
   }
-  submit(title,lyrics,artist){
+  submit(title,lyrics,artist,genres){
     let songid = this.state.songid;
     let uid = this.props.id;
     firebase.database()
     .ref('/'+uid+'/songs/'+songid)
     .ref.update({
-      title:title,
-      lyrics:lyrics,
-      artist:artist
+      title,
+      lyrics,
+      artist,
+      moods:genres
     });
     firebase.database()
     .ref(uid+'/songs/'+songid)
@@ -150,11 +151,12 @@ class Song extends Component {
     let song = this.state.song;
     let html = (!this.state.editing) ? (
       <div className="songmodal" id={song.id}>
+        {/* <span onClick={this.cancel.bind(this)} className="song-close-x">X</span> */}
         <div className="song-btn-row">
           <img className="songmodal_pic" src={song.pic} />
           <div>
-            <button onClick={this.edit.bind(this)} className="btn-xs song-btn btn-primary song-close">Edit</button>
-            <button onClick={this.cancel.bind(this)} className="btn-xs song-btn song_edit_btn song-close">Close</button>
+            <button onClick={this.edit.bind(this)} className="btn btn-primary song-close">Edit</button>
+            <button onClick={this.cancel.bind(this)} className="btn song_edit_btn song-close">Close</button>
           </div>
         </div>
         <h2>{song.title}</h2>

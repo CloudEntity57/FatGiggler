@@ -4,8 +4,8 @@ class EditGenres extends Component{
   constructor(props){
     super(props);
     this.state={
-      genrearray:this.props.genrearray,
-      genres:[]
+      genrearray:props.genrearray,
+      genres:props.genrearray
     }
   }
   cancel(e){
@@ -27,11 +27,19 @@ class EditGenres extends Component{
       }
     }
   }
+  updateGenres(e){
+    e.preventDefault();
+    const genres = this.refs.genresdesired.value.split(',');
+    console.log('now genres are: ',genres);
+    this.setState({
+      genres
+    });
+  }
   addGenre(e){
       e.preventDefault();
       // e.target == document.querySelector(), $('').text()
       let genre = e.target.id;
-      let current_genres = this.state.genres;
+      let current_genres = this.refs.genresdesired.value.split(',');
           //loop through array and test if genre is already there
           //if yes, remove it:
          if(this.testValue(genre,current_genres)){
@@ -44,25 +52,31 @@ class EditGenres extends Component{
             genres:current_genres
           });
          }
+         console.log('current genres: ',current_genres);
       //update the current genres array in state:
       this.setState({
         genres:current_genres
       });
       //display the current genres user has selected in the input
-      current_genres = current_genres.join(', ');
+      current_genres = current_genres.join(',');
       this.refs.genresdesired.value=current_genres;
 
   }
+  submit(e){
+    this.props.updateGenres(this.state.genres)
+    this.props.cancel();
+  }
   render(){
+    const updateGenres  = this.props.updateGenres;
     let genrearray = this.state.genrearray;
     let genres = genrearray.join(',');
     return(
       <div className="genre-edit">
         <div className="genre-modal">
 
-          <div className="form-group">
+          <form>
             <label for="genre-input">Genres Desired</label>
-            <input className="form-control" ref="genresdesired" type="text" defaultValue={genres} id="add-genre"></input>
+            <input onKeyUp={this.updateGenres.bind(this)} className="form-control" ref="genresdesired" type="text" defaultValue={genres} id="add-genre"></input>
             <div className="form-group add-genres">
 
 
@@ -82,8 +96,10 @@ class EditGenres extends Component{
             <button id="soul" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Soul</button>
             <button id="other" onClick={this.addGenre.bind(this)} className="btn btn-primary btn-xs">Other</button>
           </div>
-          </div>
-          <button className="btn-xs btn-primary" onClick={this.cancel.bind(this)}>Cancel</button>
+
+            <button className="btn-xs btn-primary" onClick={this.cancel.bind(this)}>Cancel</button>
+            <button className="btn-xs btn-primary" onClick={this.submit.bind(this)} type="submit">Submit</button>
+        </form>
         </div>
 
       </div>

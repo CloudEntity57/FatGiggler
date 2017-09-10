@@ -345,7 +345,7 @@ class GigForm extends Component {
       gig.title=='' ||
       gig.maxminutes=='' ||
       gig.sets==[] ||
-      gig.genres==[] 
+      gig.genres==[]
     ){
       // alert('Please finish creating your gig!');
       this.setState({
@@ -510,7 +510,17 @@ class GigForm extends Component {
         { frame }
       </ul>
     </div>
-  ) :'';
+  ) :
+  (
+    <div className="gig-info">
+    <div className="gig-preview-header">
+      <div className="gig-preview-instructions">SmartSet will automatically compile the perfect gig from your database of songs.</div>
+    </div>
+    <ul>
+      { frame }
+    </ul>
+  </div>
+  );
     return(
       <div className="wrapper container landed_content">
 

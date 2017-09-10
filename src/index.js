@@ -7,6 +7,7 @@ import SongForm from './components/SongForm';
 import GigForm from './components/GigForm';
 import Gigs from './components/Gigs';
 import Songs from './components/Songs';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Community from './components/Community';
 import App from './App';
 import dotenv from 'dotenv';
@@ -14,6 +15,7 @@ dotenv.config({ silent:true });
 
 
 ReactDOM.render(
+  <MuiThemeProvider>
   <Router history={ hashHistory }>
     <Route path="/" component={ App }>
       <IndexRoute component={ LandingPage } />
@@ -24,6 +26,7 @@ ReactDOM.render(
       <Route path="/songs" component={ Songs } />
       <Route path="/community" component={ Community } />
     </Route>
-  </Router>,
+  </Router>
+</MuiThemeProvider>,
   document.getElementById('root')
 );

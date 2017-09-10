@@ -3,9 +3,10 @@ import './App.css';
 import LandingPage from './components/LandingPage';
 import { firebase, firebaseListToArray } from './utils/firebase';
 import { hashHistory } from 'react-router';
-import Header from './components/Header';
+import Header from './components/HeaderMUI';
 import Footer from './components/Footer';
 import jQuery from 'jquery';
+// import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 class App extends Component {
   constructor(props) {

@@ -7,15 +7,24 @@ class SongEditForm extends Component{
     super(props);
     this.state={
       editgenres:false,
-      submitted:false
+      submitted:false,
+      genrearray:[]
     }
   }
   submit(e){
     e.preventDefault();
+    if(this.state.uid ===''){
+      this.setState({
+        submitted:true,
+        modaltext:'You gotta log in first.'
+      });
+      return;
+    }
     let title= this.refs.title.value;
     let lyrics= this.refs.lyrics.value;
     let artist= this.refs.artist.value;
-    this.props.submit(title,lyrics,artist);
+    let genres = this.state.genrearray;
+    this.props.submit(title,lyrics,artist,genres);
   }
   componentWillMount(){
     console.log('moods: ',this.props.genres);
@@ -46,12 +55,18 @@ class SongEditForm extends Component{
       submitted:false
     });
   }
+  updateGenres(genres){
+    console.log('updating genres to: ',genres);
+    this.setState({
+      genrearray:genres
+    })
+  }
  render(){
     let please_login = (this.state.submitted) ? (<SubmitModal text={this.state.modaltext} hide={this.hideModal.bind(this)}/>) : '';
     let moods = this.state.moods;
     let genrearray = this.state.genrearray;
     let currentgenres = genrearray.join(', ');
-    let genres = (this.state.editgenres) ? (<EditGenres cancel={this.cancelGenreEdit.bind(this)} genrearray={genrearray} moods={moods} />)
+    let genres = (this.state.editgenres) ? (<EditGenres cancel={this.cancelGenreEdit.bind(this)} updateGenres = {this.updateGenres.bind(this)} genrearray={genrearray} moods={moods} />)
     :(<button onClick={this.editGenres.bind(this)} className="btn-xs btn-primary">Edit Genres</button>);
 
     return(

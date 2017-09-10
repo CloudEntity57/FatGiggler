@@ -8,6 +8,9 @@ html{
   -ms-overflow-style: -ms-autohiding-scrollbar;
 }
 
+::-webkit-scrollbar {
+    display: none;
+}
 body{
   padding:0px;
   /*brown*/
@@ -18,7 +21,40 @@ body{
   /*burnt sienna*/
   /*background-color: #673b0e;*/
   /*muted blue*/
+
+  font-family: 'Trebuchet MS';
   background-color: black;
+}
+input, textarea{
+  background-color:#343e4c!important;
+  color:lightgrey !important;
+  border:none !important;
+}
+input:focus, textarea:focus{
+  outline: none;
+  /*box-shadow:none !important;*/
+}
+.song-form textarea{
+  margin: 0px 10px 0px 5px;
+}
+#tour{
+  color:rgb(255, 250, 205);
+}
+#tour:hover{
+  text-decoration: none;
+  color:#bb966c;
+}
+/*.song-form div{
+  padding:0px;
+}*/
+.navbar-toggle{
+  z-index: 200;
+  position: absolute !important;
+  top:0px;
+  right:0px;
+}
+.navbar-toggle span{
+  color:white;
 }
 .intro{
   position: absolute;
@@ -70,8 +106,14 @@ body{
   margin-top:.75em;
   color: #909aa2;
 }
-textarea, input{
+/*textarea, input{
   background-color: #dcdcdc !important;
+}*/
+.mui-header{
+  /*padding-top:20px;*/
+  padding: 0px 25px;
+  background-color:#14274a !important;
+  font-family: inherit !important;
 }
 header{
 /*light brown */
@@ -81,9 +123,7 @@ header{
 /*dark blue*/
   height:100px;
   padding: 0px 25px;
-}
-header{
-  background-color:#14274a;
+  background-color:#14274a !important;
 }
 .usertab{
   height:5vh;
@@ -135,8 +175,14 @@ header{
   background-size:cover;
   background-attachment: fixed;
   background-position: center;
+  z-index: 3000;
 }
-
+.view_shift{
+  position:absolute;
+  top:15px;
+  right:15px;
+  opacity:.6;
+}
 .landing_overlay{
   padding:0em 2em;
   z-index: 3;
@@ -222,8 +268,9 @@ header{
 .title{
   font-size: 3em;
   color:lightgray;
-  display:flex;
-  justify-content: space-between;
+  height:55px;
+  /*display:flex;
+  justify-content: space-between;*/
 }
 .landing_title{
   font-size: 3em;
@@ -234,15 +281,30 @@ header{
 .active a{
   color: tomato;
 }
+#logo img{
+  height:60px;
+}
+#logo_orange{
+  padding-bottom:20px;
+}
+#header-pic{
+  display: flex;
+  height: 100%;
+  flex-direction: column !important;
+  justify-content: space-around;
+}
 .user-pic{
   height:40px;
-  margin-top:auto;
+  border-radius:45px;
 }
 .main_nav a:hover{
   color:#633f12;
 }
 .main_nav{
-  float: right;
+  /*float: right;*/
+  /*position: absolute;*/
+  margin-top:18px !important;
+  z-index: 100;
 }
 .main_nav a{
   color:#ffd29b;
@@ -256,15 +318,22 @@ header{
 }
 .container{
 }
-.set_list, .gig-form, .gig-display{
+.gig-display{
   background-color: #1c1c1d;
   color:#9a5601;
-  height:85vh;
+}
+.gig-display,.gig-preview{
+  height:90vh;
+}
+.set_list, .gig-form{
+  background-color: #1c1c1d;
+  color:#9a5601;
+  height:90vh;
 }
 .song-form{
   background-color: #1c1c1d;
   color:#9a5601;
-  height:100vh;
+  height:90vh;
 }
 .song-edit-form textarea{
   height:100%;
@@ -332,6 +401,14 @@ header{
 }*/
 .song-close{
   margin-top:1.5em;
+  margin-right:10px;
+}
+.song-close-x{
+  position: absolute;
+  top:5px;
+  right:35px;
+  cursor: pointer;
+  font-size: 2em;
 }
 .set_list{
   font-size: 1.25em;
@@ -350,18 +427,18 @@ header{
 }
 .time-entry{
   display:block;
+  padding:0px;
 }
 .time-entry *{
   float:left;
   display:inline-block;
-  max-width:40px;
 }
 .song-form, .gig-form{
   padding:15px;
 }
 .gig-display{
   font-size: 1.15em;
-  padding-top:1.5em;
+  /*padding-top:1.5em;*/
   overflow: scroll;
 }
 .gig-display a{
@@ -374,8 +451,12 @@ header{
 .gig-info{
   margin-top:1em;
 }
-.gig-preview-title{
+.gig-preview-title, .gig-preview-instructions{
   font-size: 2em;
+}
+.gig-preview-instructions{
+  margin-top:20vh;
+  text-align: center;
 }
 .gig-preview-header{
   display:flex;
@@ -445,11 +526,15 @@ header{
   background-image:url(http://res.cloudinary.com/middle-renaissance-realty-llc/image/upload/c_scale,w_1161/v1491269134/pexels-photo-196652_hgmrkg.jpg);
   background-size:cover;
   background-position: center;
-  height:85vh;
   padding-left: 0px;
   color:lightgrey;
   z-index: 2;
   overflow: scroll;
+}
+@media(max-width:765px){
+  .gig-preview{
+    margin-top:50px;
+  }
 }
 .gig-preview h2, .gig-preview h3, .gig-preview li, .gig-preview h1,.gig-preview p{
   margin-left:1em;
@@ -492,8 +577,20 @@ header{
 .song-form input,.song-form .btn, .song-form label{
   margin:5px;
 }
+.song-form-container{
+  margin:0px 10vw;
+}
+.song-form h1{
+  margin-left:5px;
+}
+.song-form img{
+  width:100%;
+}
 .time-enter{
-  color:#555;
+  /*color:#555;*/
+  padding:6px 12px;
+  width:80px;
+  border-radius: 4px;
 }
 .submitModal{
   position: fixed;
@@ -517,7 +614,7 @@ header{
   width:80%;
   padding:0px;
   overflow:scroll;
-  height:85vh;
+  height:90vh;
 }
 .scroll_area{
   width:10%;
@@ -562,6 +659,9 @@ header{
 }
 .song-titlebar{
   text-align: center;
+}
+.song-titlebar h1{
+  margin-bottom:.65em;
 }
 .song{
   text-align: center;

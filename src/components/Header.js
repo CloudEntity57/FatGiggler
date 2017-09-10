@@ -43,10 +43,10 @@ componentWillMount(){
 
   sessionButton() {
     if (firebase.auth().currentUser) {
-      return <LogoutButton>Logout</LogoutButton>;
+      return <LogoutButton>Log out</LogoutButton>;
     }else{
       return(
-        <a onClick={this.signUp.bind(this)}>Sign In</a>
+        <a onClick={this.signUp.bind(this)}>Log In</a>
       );
     }
   }
@@ -62,26 +62,40 @@ componentWillMount(){
   render(){
     let pic ='';
     if(this.props.pic){
-      pic = (<img className="user-pic" alt="" src={this.props.pic} />)
+      pic = (
+        <span className="pull-right hidden-xs" id="header-pic">
+          <img className="user-pic" alt="" src={this.props.pic} />
+        </span>
+      )
     }
+    const phoneMenu = (
+      <button type="button" name="button" data-toggle="collapse" data-target=".navbar-collapse" className="navbar-toggle pull-right">
+        <span className="icon-bar"></span>
+        <span className="icon-bar"></span>
+        <span className="icon-bar"></span>
+      </button>
+    );
     return(
       <header>
         <div className="title">
-          SmartSet
-          {/* <div className="click-meter">Number of clicks: {this.state.clicks} </div> */}
+          <span id="logo">
+            <img id="logo_orange" src="../images/orange.png" alt="logo" />
+          </span>
+          <span>SmartSet</span>
           { pic }
         </div>
-        <ul className="main_nav">
+        <ul className="main_nav collapse navbar-collapse">
 
           <li><NavLink to="/" onlyActiveOnIndex>{this.sessionButton()}</NavLink></li>
           {/* <li><NavLink to="/community"><a onClick={this.makeActive.bind(this)} href="#">Community</a></NavLink></li> */}
-          <li><NavLink to="/dashboard"><a onClick={this.makeActive.bind(this)} href="#">Now Playing</a></NavLink></li>
-          <li><NavLink to="/addgig"><a onClick={this.makeActive.bind(this)} href="#">Add Gig</a></NavLink></li>
-          <li><NavLink to="/addsong"><a onClick={this.makeActive.bind(this)} href="#">Add Song</a></NavLink></li>
           <li><NavLink to="/songs"><a onClick={this.makeActive.bind(this)} href="#">Songs</a></NavLink></li>
           <li><NavLink to="/gigs"><a onClick={this.makeActive.bind(this)} href="#">Gigs</a></NavLink></li>
+          <li><NavLink to="/addsong"><a onClick={this.makeActive.bind(this)} href="#">Add Song</a></NavLink></li>
+          <li><NavLink to="/addgig"><a onClick={this.makeActive.bind(this)} href="#">Add Gig</a></NavLink></li>
+          <li><NavLink to="/dashboard"><a onClick={this.makeActive.bind(this)} href="#">Now Playing</a></NavLink></li>
 
         </ul>
+        { phoneMenu }
       </header>
     );
   }

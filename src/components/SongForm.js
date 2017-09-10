@@ -4,7 +4,8 @@ import { hashHistory } from 'react-router';
 import moment from 'moment';
 import SubmitModal from './SubmitModal';
 import jQuery from 'jquery';
-
+import  xmltojson  from 'xmltojson';
+console.log('xml: ',xmltojson);
 
 class SongForm extends Component{
   constructor(props){
@@ -171,6 +172,19 @@ class SongForm extends Component{
       submitted:false
     });
   }
+  searchLyrics(e){
+    e.preventDefault();
+    let title = this.refs.songtitle.value;
+    let artist = this.refs.artist.value;
+    const url = "http://api.chartlyrics.com/apiv1.asmx/SearchLyricDirect?artist="+artist+'&song='+title;
+    console.log(url);
+    fetch(url).then(
+      (val)=>{
+        // val=xmltojson.parseString(val);
+        console.log(val);
+      }
+    );
+  }
   render(){
     let lnk = "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTuXHksRLoduQ-_f8EGSEIsvCCIXKgtEhpQHm-Y3pTMrK5I86kD";
     let image = (<img className="img-responsive" src={lnk} />);
@@ -180,24 +194,24 @@ class SongForm extends Component{
       <div>
         <div className="row">
           <div className="col-sm-1 col-md-2 hidden-xs"></div>
-            <div className="col-sm-10 col-md-8">
+            <div className="wrapper container">
               <form className="song-form form form-default" action="#" >
                 <h1>Add a Song</h1>
                 <div className="form-group">
                   <div className="row">
                     <div className="col-xs-6">
-                    <div className="col-sm-12">
+                    <div>
                       <label for="title-input">Song Title</label>
                       <input id="title-input" ref="songtitle" placeholder="Add song title" type="text" className="form-control">
 
                       </input>
                     </div>
-                    <div className="col-sm-12">
+                    <div>
                       <label for="artist-input">Artist</label>
-                      <input id="artist-input" ref="artist" placeholder="Add artist" type="text" className="form-control">
+                      <input onKeyUp={this.searchLyrics.bind(this)} id="artist-input" ref="artist" placeholder="Add artist" type="text" className="form-control">
                       </input>
                     </div>
-                    <div className="col-sm-12">
+                    <div>
                     <label>Song Length</label>
                     </div>
                     <div className="col-sm-12 time-entry">
@@ -215,12 +229,14 @@ class SongForm extends Component{
                 <div className="form-group clearfix">
 
                 </div>
-                <div className="form-group row">
+                <div className="form-group">
+                  <div className="row">
                   <div className="col-sm-12">
-                  <label for="lyrics-input">Lyrics</label>
-                  <textarea id="lyrics-input" placeholder="Add lyrics" ref="lyrics" type="text" className="form-control">
-                  </textarea>
+                    <label for="lyrics-input">Lyrics</label>
+                    <textarea id="lyrics-input" placeholder="Add lyrics" ref="lyrics" type="text" className="form-control">
+                    </textarea>
                   </div>
+                </div>
                 </div>
 
                 <div className="form-group genres">
