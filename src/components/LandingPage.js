@@ -42,7 +42,6 @@ class LandingPage extends Component {
       <div className="landing_page">
       <header className="landing_header clearfix">
         <div className="landing_background">
-
         </div>
         <div className="landing_overlay">
             <div className="landing_title">SmartSet</div>

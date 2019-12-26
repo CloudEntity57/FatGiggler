@@ -5,9 +5,9 @@ import { firebase } from '../utils/firebase';
 class GoogleLoginBtn extends Component {
   handleClick(e) {
     e.preventDefault();
-    const provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider);
-
+      const provider = new firebase.auth.GoogleAuthProvider();
+      console.log('provider - ',provider)
+      firebase.auth().signInWithPopup(provider).catch((err) => console.log('err!! - ',err));
   }
 
   render() {
