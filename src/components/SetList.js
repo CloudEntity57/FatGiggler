@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Song from './Song';
 import { firebase } from '../utils/firebase';
 import {renderGig} from './NewUserFilter';
+import HttpService from '../services/http';
 
 class SetList extends Component {
   constructor(props){
@@ -10,6 +11,7 @@ class SetList extends Component {
       isplaying:false,
       uid:this.props.id
     }
+    this.http = new HttpService();
   }
   componentDidMount(){
     let theGig=this.props.gig;
@@ -90,13 +92,11 @@ class SetList extends Component {
         let songs = [];
         let uid = this.state.uid;
         sets.forEach((obj)=>{
-          let id = obj.id;
+          let id = (obj) ? obj.id : '';
           console.log('id: ',id);
-          firebase.database()
-          .ref(uid+'/songs/'+id)
-          .on('value',(data)=>{
-            let result=data.val();
-            console.log('result: ',result);
+          this.http.get(uid+'/songs/'+id)
+          .then((data) => {
+            let result= (data.val()) ? data.val() : {};
             result.id=id;
             songs.push(result);
           });

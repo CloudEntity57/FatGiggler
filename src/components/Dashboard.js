@@ -10,6 +10,7 @@ import makesets from '../utils/makesets';
 import Default from './DefaultGig';
 import DefaultSongs from './DefaultSongs'
 import { findLyrics } from './ArtistQuery';
+import AsyncService from '../services/http';
 // import { musixMatch } from './MusixMatch';
 dotenv.config({silent:true});
 
@@ -22,33 +23,12 @@ class Dashboard extends Component {
       uid:0,
       showdefault:true,
       genres:['rock','pop','Singer/Songwriter'],
-      playing:this.props.playing
+      playing:props.playing
     }
+    this.http = new AsyncService();
   }
 
   componentWillMount(){
-    //log site visit
-    // var today = new Date();
-    //   var dd = today.getDate();
-    //   var mm = today.getMonth()+1; //January is 0!
-    //   var yyyy = today.getFullYear();
-    //
-    //   if(dd<10) {
-    //       dd='0'+dd
-    //   }
-    //
-    //   if(mm<10) {
-    //       mm='0'+mm
-    //   }
-    //
-    //   today = mm+'/'+dd+'/'+yyyy;
-    //   console.log('date: ',today);
-    //   firebase.database()
-    //   .ref('/site_visits')
-    //   .push({
-    //     date:today
-    //   });
-    //========================
 
   let defaultgig = Default.defaultgig;
   console.log('defaultshow: ',defaultgig);
@@ -57,10 +37,8 @@ class Dashboard extends Component {
       user => {
         let uid=0;
         if(user){
-          // console.log('user: ',user);
           this.setState({
             uid:user.uid
-            // userpic:user.photoURL
           });
           uid=user.uid;
           //------------------------------------------filter for new users
@@ -70,61 +48,11 @@ class Dashboard extends Component {
             userpic:user.photoURL
           });
           this.checkUserStatus(newuser,uid,user);
-
           //------------------------------------------repeat user entry to DB
-          let playing ='';
-  //retrieve all existing gigs from the database:
 
-              firebase.database()
-              .ref('/'+uid)
-              .on('value',(data)=>{
-                    let snapshot = data.val();
-                    let user = firebaseListToArray(snapshot);
-                    console.log('user: ',user);
-                    let gigs = firebaseListToArray(snapshot.gigs);
-                    let songs = firebaseListToArray(snapshot.songs);
-                    // console.log('the gigs we are working with are: ',gigs);
-                    // Compile a single array of all the songs in the user's default gig:
-                    let usr_default_gig = [];
-                    playing = this.props.playing;
-                    if(!playing) {
-                      console.log('no default!');
-                      usr_default_gig = Default.defaultgig;
-                    }else{
-                          gigs.forEach((val)=>{
-                            console.log('val.id: ',val.id,' playing: ',playing);
-                            // console.log('playing: ',playing);
+          //retrieve all existing gigs from the database:
+          this.getGigs(uid);
 
-                                if(playing===val.id){
-                                  // console.log('match!!!!!');
-                                  console.log('this gig is: ',val.gig);
-                                  usr_default_gig = val.gig;
-
-                                }
-                          });
-                    }
-                    // console.log('the default gig we are working with is: ',usr_default_gig);
-                    let usr_default = [];
-                    usr_default_gig.sets.forEach((val)=>{
-                      for(let i=0; i<songs.length; i++){
-                        if(songs[i].id===val.id){
-                          usr_default.push(songs[i]);
-                        }
-                      }
-                    });
-                    // usr_default = DefaultSongs.songs;
-                    console.log('usr_default: ',usr_default);
-                    // Pass both the song and set arrays to the state:
-                    // if(usr_default.length===0){
-                    //   console.log("it's empty");
-                    //   usr_default=usr_default_gig.sets;
-                    // }
-                    this.setState({
-                      songs:usr_default,
-                      gig:usr_default_gig
-                    });
-                    // console.log('the Dash CWM songs: ',this.state.songs);
-              });
         }else{
           let songs=defaultgig.sets;
           let gig=Default.defaultgig;
@@ -133,19 +61,70 @@ class Dashboard extends Component {
             gig:gig
           });
         }
-        // else{
-        //   hashHistory.push('/');
-        // }
-  //       // console.log('user is logged as: ',this.state.uid);
-
       });
 
   }
 
+  componentDidMount(){
+    let hrs = 4;
+    let min = 35;
+    let sec = 23;
+    let newmin = 30;
+    newmin = moment.duration({minutes:newmin})._milliseconds;
+    hrs = moment.duration({hours:hrs})._milliseconds;
+    min = moment.duration({minutes:min})._milliseconds;
+    sec = moment.duration({seconds:sec})._milliseconds;
+    let final = hrs + min + sec;
+    final+=newmin;
+    let full = moment.duration(final);
+    let y = full.hours() + ':'+ full.minutes() + ':' + full.seconds();
+}
+
+  getGigs(uid){
+    this.http.get('/'+uid)
+    .then((data)=>{
+        let snapshot = data.val();
+        console.log('snapshot - ',snapshot)
+        let user = snapshot;
+        console.log('user: ',user)
+        let gigs = firebaseListToArray(user.gigs);
+        let songs = firebaseListToArray(user.songs);
+        // Compile a single array of all the songs in the user's default gig:
+        let usr_default_gig = [];
+        let playing = this.props.playing;
+        if(!playing) {
+          console.log('no default!');
+          usr_default_gig = Default.defaultgig;
+        }else{
+            gigs.forEach((val)=>{
+                if(playing===val.id){
+                  console.log('this gig is: ',val.gig);
+                  usr_default_gig = val.gig;
+                }
+            });
+        }
+        // console.log('the default gig we are working with is: ',usr_default_gig);
+        let usr_default = [];
+        usr_default_gig.sets.forEach((val)=>{
+          for(let i=0; i<songs.length; i++){
+            if(songs[i].id===val.id){
+              usr_default.push(songs[i]);
+            }
+          }
+        });
+        // usr_default = DefaultSongs.songs;
+        console.log('usr_default: ',usr_default);
+        // Pass both the song and set arrays to the state:
+        this.setState({
+          songs:usr_default,
+          gig:usr_default_gig
+        });
+    });
+  }
+
   checkUserStatus(newuser,uid,user){
-    firebase.database()
-    .ref('/users/loggedin')
-    .on('value',(val)=>{
+    this.http.get('/users/loggedin')
+    .then((val)=>{
       val = val.val();
       val = firebaseListToArray(val);
       console.log('vals to filter for new users: ',val);
@@ -154,11 +133,8 @@ class Dashboard extends Component {
   }
   filterNewUser(val,newuser,uid,name,user){
     val.forEach((i)=>{
-      // i=firebaseListToArray(i);
-      console.log('i.id: ',i.id);
       if(i.id===uid){
         newuser=false;
-        console.log('user exists');
         firebase.database()
         .ref('/users/loggedin/'+uid)
         .set({
@@ -194,40 +170,6 @@ class Dashboard extends Component {
       });
 }
 
-  componentDidMount(){
-
-    // let totaltime = 163520000;
-    // console.log('totaltime: ',totaltime);
-    // totaltime = moment(totaltime).format("m:ss");
-    // console.log('total: ',totaltime);
-
-
-    let hrs = 4;
-    let min = 35;
-    let sec = 23;
-
-    let newmin = 30;
-    newmin = moment.duration({minutes:newmin})._milliseconds;
-    // let sec = 23;
-    hrs = moment.duration({hours:hrs})._milliseconds;
-    min = moment.duration({minutes:min})._milliseconds;
-    sec = moment.duration({seconds:sec})._milliseconds;
-    // sec = moment.duration({seconds: sec})._milliseconds;
-    console.log('hrs: ',hrs);
-    console.log('min: ',min);
-    console.log('sec: ',sec);
-    let final = hrs + min + sec;
-    console.log('final: ',final);
-    final+=newmin;
-    // console.log('sec: ',sec);
-    // let full = hrs+sec;
-    let full = moment.duration(final);
-    let y = full.hours() + ':'+ full.minutes() + ':' + full.seconds();
-    // hrs = moment(hrs).format("h:mm:ss");
-    // full = moment(full).format("m:ss");
-    console.log('final hrs: ',y);
-
-}
   navigate(id){
     this.setState({
       target:id
