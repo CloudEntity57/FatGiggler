@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import jQuery from 'jquery';
 
-// import MakeSet from './MakeSet';
-
 class SongArea extends Component{
 
   constructor(props){
@@ -18,50 +16,32 @@ class SongArea extends Component{
   }
   componentWillMount(){
     let theSongs=this.props.songs;
-
-    // console.log('songarea CWM songs: ',theSongs);
     this.setState({
       songs:theSongs
     });
-
-  //       });
-  //
-  //     });
-  //
   }
-  //
   componentDidMount(){
-    let theSongs=this.state.songs;
-      let target=this.props.target;
-    // console.log('current songs in CDM database: ',theSongs);
-
-    // jQuery('.gig-preview').css('http://travel.home.sndimg.com/content/dam/images/travel/fullset/2015/08/03/top-florida-beaches/key-west-beach-florida.jpg.rend.hgtvcom.966.725.suffix/1491580836931.jpeg');
+    const { songs } = this.state;
+    let { target } = this.props;
     let results = [];
     let navs = {};
-    theSongs.forEach((val)=>{
+    songs.forEach((val)=>{
       let target = '#'+val.id;
-      // console.log('target: ',target);
       let pos = jQuery(target).position().top;
       results.push(pos);
-    }
-  );
-  theSongs.forEach((val)=>{
-    let target = '#'+val.id;
-    // console.log('target: ',target);
-    let pos = jQuery(target).position().top;
-    navs[target]=pos;
-  });
-  // console.log('navs: ',navs);
-    // console.log('array: ',results);
-      this.setState({
-        navIndexes:navs,
-        scrollIndexes:results,
-        target:target
-      });
+    });
+    songs.forEach((val)=>{
+      let target = '#'+val.id;
+      let pos = jQuery(target).position().top;
+      navs[target]=pos;
+    });
+    this.setState({
+      navIndexes:navs,
+      scrollIndexes:results,
+      target:target
+    });
   }
   componentDidUpdate(){
-    // console.log('the target in Songarea: ',this.props.target);
-    // console.log('the navs in Songarea: ',this.state.navIndexes);
     jQuery('.song_scroll').stop().animate({
         'scrollTop': this.state.navIndexes['#'+this.props.target]
     }, 900, 'swing');
@@ -76,7 +56,6 @@ class SongArea extends Component{
     let pic = photos[indx];
     indx++;
     let url = 'url(./images/'+pic+')';
-    // jQuery('.gig-preview').css('background-color','blue');
     jQuery('.gig-preview').css('background-image',url);
     console.log(url);
     indx = (indx<photos.length) ? indx++ : 0
@@ -109,18 +88,12 @@ class SongArea extends Component{
           jQuery('.song_scroll').stop().animate({
               'scrollTop': this.state.scrollIndexes[this.state.index]
           }, 900, 'swing');
-
-          // window.location = jQuery(this).attr('href');
         };
     };
 
 
   render(){
-    // console.log('songarea render song value: ',this.state.songs);
-    // console.log('songarea render scrollIndexes value: ',this.state.scrollIndexes);
-
     let html = this.state.songs.map((val)=>{
-      // console.log('the vals id: ',val.id);
       return(
       <div className="song">
         <div className="song-top">

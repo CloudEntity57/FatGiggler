@@ -11,6 +11,7 @@ import Default from './DefaultGig';
 import DefaultSongs from './DefaultSongs'
 import { findLyrics } from './ArtistQuery';
 import AsyncService from '../services/http';
+import { fetchGigSongs } from '../services/gigsService';
 // import { musixMatch } from './MusixMatch';
 dotenv.config({silent:true});
 
@@ -23,7 +24,9 @@ class Dashboard extends Component {
       uid:0,
       showdefault:true,
       genres:['rock','pop','Singer/Songwriter'],
-      playing:props.playing
+      playing:props.playing,
+      newuser:false,
+      userpic:''
     }
     this.http = new AsyncService();
   }
@@ -90,35 +93,41 @@ class Dashboard extends Component {
         let gigs = firebaseListToArray(user.gigs);
         let songs = firebaseListToArray(user.songs);
         // Compile a single array of all the songs in the user's default gig:
-        let usr_default_gig = [];
-        let playing = this.props.playing;
-        if(!playing) {
+        let gig_now_playing = [];
+        let playingID = this.props.playing;
+        if(!playingID) {
           console.log('no default!');
-          usr_default_gig = Default.defaultgig;
+          gig_now_playing = Default.defaultgig;
         }else{
-            gigs.forEach((val)=>{
-                if(playing===val.id){
-                  console.log('this gig is: ',val.gig);
-                  usr_default_gig = val.gig;
+            gigs.forEach((gig)=>{
+                if(playingID===gig.id){
+                  console.log('this gig is: ',gig);
+                  gig_now_playing = gig.gig;
                 }
             });
         }
-        // console.log('the default gig we are working with is: ',usr_default_gig);
-        let usr_default = [];
-        usr_default_gig.sets.forEach((val)=>{
+        // console.log('the default gig we are working with is: ',gig_now_playing);
+        let filtered_songs = [];
+        gig_now_playing.sets.forEach((song)=>{
           for(let i=0; i<songs.length; i++){
-            if(songs[i].id===val.id){
-              usr_default.push(songs[i]);
+            console.log('gig-now-playing song ',songs[i], song)
+
+            if(songs[i].id===song.id){
+              filtered_songs.push(songs[i]);
             }
           }
         });
-        // usr_default = DefaultSongs.songs;
-        console.log('usr_default: ',usr_default);
+        // filtered_songs = DefaultSongs.songs;
+        console.log('filtered_songs: ',filtered_songs);
         // Pass both the song and set arrays to the state:
+      fetchGigSongs(gig_now_playing.sets,uid).then((songs)=>{
+        console.log('THE OUTPUT - ',songs)
+        gig_now_playing.sets = songs;
         this.setState({
-          songs:usr_default,
-          gig:usr_default_gig
+          songs:filtered_songs,
+          gig:gig_now_playing
         });
+      })
     });
   }
 
@@ -171,6 +180,7 @@ class Dashboard extends Component {
 }
 
   navigate(id){
+    console.log('navigating to ',id)
     this.setState({
       target:id
     });
@@ -183,20 +193,13 @@ class Dashboard extends Component {
   }
 
   render(){
-    //create JSX for songs to pass to SongArea:
-    let mysongs = this.state.songs;
-    let target = this.state.target;
-    let intro = (this.state.newuser) ? (
+    let { songs, gig, target, newuser } = this.state;
+    let intro = (newuser) ? (
       <div onClick={this.hideIntro.bind(this)} className="intro">
 
       </div>
     ) : '';
-    // let intro = (
-    //   <div onClick={this.hideIntro.bind(this)} className="intro">
-    //
-    //   </div>
-    // );
-    let introText = (this.state.newuser) ? (
+    let introText = (newuser) ? (
       <div className="intro-text lead">
         <a href="#"><div onClick={this.hideIntro.bind(this)} className="closeX">x</div></a>
         <p><h3>Welcome to SmartSet!</h3> To help you get started, we've loaded some example songs into your account. The site is simple:
@@ -212,18 +215,14 @@ class Dashboard extends Component {
       </div>
     ): '';
 
-    // console.log('target in render: ',target);
-    console.log('songs being passed to SongArea: ',mysongs);
+    console.log('songs being passed to SongArea: ',songs);
     //create JSX for separate set lists to pass to SetList:
-    let mygig = this.state.gig;
-    let html = (mysongs && mygig) ?
+    let html = (songs && gig) ?
     <div className="row">
-    <SetList songs={mysongs} scroll={this.navigate.bind(this)} id={this.state.uid} gig={mygig}/>
-    <SongArea songs={mysongs} target={target}/>
+    <SetList songs={songs} scroll={this.navigate.bind(this)} id={this.state.uid} gig={gig}/>
+    <SongArea songs={songs} target={target}/>
     </div>
     : '';
-    // console.log('dashboard render gig: ',mygig);
-    // let songs = this.state.songs;
 
 
     return(

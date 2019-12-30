@@ -8,7 +8,9 @@ import Default from './DefaultGig';
 import jQuery from 'jquery';
 import SongEditForm from './SongEditForm';
 import GigView from './GigView';
-import { renderGig } from './NewUserFilter';
+import GigList from './gig-components/GigList';
+import HttpService from '../services/http';
+import { fetchGigSongs } from '../services/gigsService';
 
 class Gigs extends Component{
   constructor(props){
@@ -22,6 +24,7 @@ class Gigs extends Component{
       submitted:false,
       photo_index:1
     }
+    this.http = new HttpService();
   }
 
   componentDidMount(){
@@ -43,9 +46,96 @@ class Gigs extends Component{
     if(user !==null){
       this.gigReset(uid);
     }else{
-      this.postGig(this.state.gigs,gig_id);
+      this.initGigs(this.state.gigs,gig_id);
     }
   }
+
+  initGigs(gigs,id){
+    console.log('posting');
+    //Display default gig if no gigs saved:
+    if(!gigs){
+      gigs=Default.defaultgig;
+      gigs = [{gig:gigs,id:1}];
+      id=1;
+      console.log('gigs id is: ',gigs[0].id);
+        console.log('default gig 217 is: ',gigs);
+    }
+
+    gigs.forEach((gig)=>{
+      let { songmanage, songedit } = this.state;
+      let gigid = gig.id;
+      console.log('title: ',gig.gig.title);
+      if(gigid===id){
+        console.log('our gig to preview: ',gig);
+        // let frame = [];
+        let deleteButton = (<a href='#' id={gigid} onClick={this.deleteSong.bind(this)}><i className='fa fa-minus-circle' aria-hidden="true"></i></a>);
+        let editButton = (<a href='#' onClick={this.editSong.bind(this)}><i className='fa fa-pencil' aria-hidden="true"></i></a>);
+
+        let maxsets = parseInt(gig.gig.setnum);
+        console.log('maxsets: ',maxsets);
+        let gigSongs = gig.gig.sets;
+        console.log('gigSongs: ', gigSongs);
+        //create an array of the latest songs from the database:
+        let uid = this.state.uid;
+
+        fetchGigSongs(gigSongs,uid).then((gigSongArray)=>{
+          console.log('the songs ARE: ',gigSongArray);
+          let gigListData = {
+            gigSongs,
+            gigSongArray,
+            maxsets,
+            // callback,
+            editButton,
+            deleteButton,
+            songmanage,
+            showSong:this.showSong.bind(this),
+            type:'gigs'
+          }
+          let frame = [];
+          const gigViewData = {
+            id:gig.id,
+            songs:gigSongArray,
+            time:gig.gig.time,
+            title:gig.gig.title,
+            frame:(<div><GigList {...gigListData}/></div>),
+            playGig:this.playGig.bind(this),
+            editSongs:this.manageSongs.bind(this),
+            done:this.done.bind(this)
+          }
+          let gigview2= (!songedit) ? (
+            <GigView {...gigViewData}/>
+          )
+          :
+          (<Song id={this.state.uid} cancel={this.cancelSong.bind(this)} song={this.state.song} />);
+
+          this.setState({
+            gigview:gigview2
+          });
+        });
+
+        if(!this.state.gigs){
+          gigSongs=gigSongs;
+        }
+      }
+    });
+  }
+
+  // fetchGigSongs(gigSongs,uid){
+  //   return new Promise((res,rej)=>{
+  //     let gigSongArray = [];
+  //     this.http.get(uid+'/songs/').then((songs)=>{
+  //       const allSongs = firebaseListToArray(songs.val());
+  //       console.log('allsongs ',allSongs, 'gigSongs: ',gigSongs)
+  //       res(allSongs.filter((song)=>{
+  //         if(song && gigSongs.find(val=>val.id===song.id)){
+  //             song.set = gigSongs.find(val=>val.id===song.id).set;
+  //             console.log('FILTAH - ',song)
+  //             return song;
+  //         }
+  //       }));
+  //     });
+  //   });
+  // }
   gigReset(uid){
     firebase.database()
     .ref('/'+uid+'/gigs')
@@ -57,7 +147,7 @@ class Gigs extends Component{
         gigs:gigs
       });
       console.log('gigreset: ',gigs[0].gig);
-      this.postGig(gigs);
+      this.initGigs(gigs);
       return gigs;
   });
 }
@@ -85,7 +175,7 @@ class Gigs extends Component{
       let reset = ()=>{
         let gigs=this.state.gigs;
         this.gigReset(uid);
-        this.postGig(gigs,gigid);
+        this.initGigs(gigs,gigid);
       }
         if(confirm('Are you sure?')){
           data.ref.remove();
@@ -100,22 +190,18 @@ class Gigs extends Component{
     this.setState({
       showing:false
     });
-
   }
 
   displayGig(e,id){
     e.preventDefault();
     id = e.target.id || id;
-    // console.log('you clicked: ',id);
+    console.log('you clicked: ',id);
     let gigs = this.state.gigs;
-    this.postGig(gigs,id);
+    this.initGigs(gigs,id);
     this.setState({
       gigshowing:id,
       showing:true
     });
-
-
-
   }
   playGig(e){
     e.preventDefault();
@@ -124,7 +210,8 @@ class Gigs extends Component{
       hashHistory.push('dashboard');
     }
     // console.log('you clicked the gig: ',gigid);
-    firebase.database().ref('users/' + this.state.uid+'/').set({
+    // firebase.database().ref('users/' + this.state.uid+'/').set({
+    this.http.post('users/' + this.state.uid+'/',{
       playing:gigid
     }).then((data)=>{
       console.log('success!');
@@ -157,7 +244,7 @@ class Gigs extends Component{
     setTimeout(()=>{
       let gigid=this.state.gigshowing;
       let gigs=this.state.gigs;
-      this.postGig(gigs,gigid);
+      this.initGigs(gigs,gigid);
     },100);
   }
   editSong(e){
@@ -178,12 +265,11 @@ class Gigs extends Component{
     setTimeout(()=>{
       let gigid=this.state.gigshowing;
       let gigs=this.state.gigs;
-      this.postGig(gigs,gigid);
+      this.initGigs(gigs,gigid);
     },200);
   }
-  showSong(e){
-    e.preventDefault();
-    let songid= e.target.id;
+  showSong(song){
+    let songid= song.id;
     console.log('songs id is: ',songid);
     this.setState({
       song:songid,
@@ -192,21 +278,30 @@ class Gigs extends Component{
     setTimeout(()=>{
       let gigid=this.state.gigshowing;
       let gigs=this.state.gigs;
-      this.postGig(gigs,gigid);
+      this.initGigs(gigs,gigid);
     },200);
   }
   submit(title,lyrics,artist){
     let songid = this.state.songid;
     let uid = this.state.uid;
-    firebase.database()
-    .ref('/'+uid+'/songs/'+songid)
-    .ref.update({
-      title:title,
-      lyrics:lyrics,
-      artist:artist
-    });
-    this.setState({
-      songedit:false
+    // firebase.database()
+    // .ref('/'+uid+'/songs/'+songid)
+    // .ref.update({
+    //   title:title,
+    //   lyrics:lyrics,
+    //   artist:artist
+    // });
+    // this.setState({
+    //   songedit:false
+    // });
+    this.http.put('/'+uid+'/songs/'+songid,{
+       title:title,
+       lyrics:lyrics,
+       artist:artist
+    }).then((res)=>{
+     this.setState({
+       songedit:false
+     });
     });
   }
   deleteGigTarget(e){
@@ -241,71 +336,8 @@ class Gigs extends Component{
     setTimeout(()=>{
       let gigid=this.state.gigshowing;
       let gigs=this.state.gigs;
-      this.postGig(gigs,gigid);
+      this.initGigs(gigs,gigid);
     },100);
-  }
-  postGig(gigs,id){
-    console.log('posting');
-    if(!gigs){
-      gigs=Default.defaultgig;
-      gigs = [{gig:gigs,id:1}];
-      id=1;
-      console.log('gigs id is: ',gigs[0].id);
-        console.log('default gig 217 is: ',gigs);
-    }
-    gigs.forEach((val)=>{
-      let gigid = val.id;
-      console.log('title: ',val.gig.title);
-      if(gigid===id){
-        console.log('our gig to preview: ',val.id);
-        let frame = [];
-        let setnum = 1;
-        let deleteButton = (this.state.songmanage) ? (<a href='#' id={gigid} onClick={this.deleteSong.bind(this)}><i className='fa fa-minus-circle' aria-hidden="true"></i></a>)
-        :'';
-        let editButton = (this.state.songmanage) ? (<a href='#' onClick={this.editSong.bind(this)}><i className='fa fa-pencil' aria-hidden="true"></i></a>)
-        :'';
-
-        let maxsets = parseInt(val.gig.setnum);
-        console.log('maxsets: ',maxsets);
-        let sets = val.gig.sets;
-        console.log('sets: ', sets);
-        //create an array of the latest songs from the database:
-        let songs = [];
-        let uid = this.state.uid;
-        sets.forEach((obj)=>{
-          let id = obj.id;
-          firebase.database()
-          .ref(uid+'/songs/'+id)
-          .on('value',(data)=>{
-            let result=data.val();
-            result.id=id;
-            songs.push(result);
-          });
-        });
-        if(!this.state.gigs){
-          songs=sets;
-        }
-
-        console.log('the songs are: ',songs);
-
-        //=======================================================
-        let renderSets = (tune,goods)=>{
-          goods.push(<div className="gig-item-contain"><a href="#"><li onClick={this.showSong.bind(this)} id={tune.id}>{tune.title}</li></a><div className="gig-item">{deleteButton} {editButton}</div></div>)
-        };
-        renderGig(sets,setnum,songs,maxsets,frame,renderSets);
-
-
-      let gigview2= (!this.state.songedit) ? (<GigView id={val.id} songs={songs} time={val.gig.time} title={val.gig.title} frame={frame} playGig={this.playGig.bind(this)} editSongs={this.manageSongs.bind(this)} done={this.done.bind(this)} />)
-      :
-      (<Song id={this.state.uid} cancel={this.cancelSong.bind(this)} song={this.state.song} />);
-
-        this.setState({
-          gigview:gigview2
-        });
-        return;
-      }
-
-    });
   }
 
   hideModal(){
@@ -332,52 +364,52 @@ class Gigs extends Component{
     });
   }
   render(){
-
-    let gigsInfo = '';
-    let username = this.state.username;
-    let apostrophe = (this.state.username) ? "'s " : '';
-    let deleteButton = (this.state.gigedit) ? (<a href='#' onClick={this.deleteGigTarget.bind(this)}><i className='fa fa-minus-circle' aria-hidden="true"></i></a>)
-    : '';
-    let gigs;
-    if(this.state.gigs){
-      gigs = this.state.gigs;
-      console.log('this state gigs is',gigs);
-    }else{
-      gigs = Default.defaultgig;
-      gigs = [{gig:gigs}];
-      console.log('this iteration of gigs is: ',gigs);
+    let { gigedit, username, gigs, gigview, showing } = this.state;
+    let apostrophe = (username) ? "'s " : '';
+    if(!gigs){
+      gigs = [{gig:Default.defaultgig}];
     }
 
-      console.log('this state gigs');
+    console.log('the gigs in Gigs.js: ',gigs);
 
-      console.log('the gigs in Gigs.js: ',gigs);
-        let frame=[];
-        // console.log('our sets saved in state: ',this.state.sets);
-        gigs.forEach((val)=>{
-          let gig = val.gig;
-                frame.push(
-                  <div className="gig-item-contain"><a onMouseEnter={this.handleFocus.bind(this)} href="#" id={val.id}><li onClick= {this.displayGig.bind(this)} id={val.id}>{gig.title} </li></a><div data-subject={val.id} id={val.id+'animate'} className="gig-item">{deleteButton}</div></div>
-                );
-        });
+    //render gig songs:
 
-      gigsInfo = (
+    let gigsInfo = (
       <div className="col-sm-6 gig-display">
       <div className="gig-buttons">
-        <button onClick={this.editGigs.bind(this)} className="btn btn-primary">Manage</button>
+        <button onClick={this.editGigs.bind(this)} className={"btn"+(gigedit ? " btn-warning" : "  btn-primary")}>{gigedit ? 'Cancel' : 'Manage'}</button>
       </div>
         <h3>{username}{apostrophe}Gigs</h3>
         <ul>
-          { frame }
+          {
+            gigs.map((val)=>{
+            let gig = val.gig;
+              return(
+                <div className="gig-item-contain">
+                  <a onMouseEnter={this.handleFocus.bind(this)} href="#" id={val.id}>
+                    <li onClick= {this.displayGig.bind(this)} id={val.id}>{gig.title} </li>
+                  </a>
+                  {gigedit && (
+                    <div data-subject={val.id} id={val.id+'animate'} className="gig-item">
+                      <a href='#' onClick={this.deleteGigTarget.bind(this)}><i className='fa fa-minus-circle' aria-hidden="true"></i></a>
+                    </div>
+                  )}
+                </div>
+              );
+            })
+          }
         </ul>
       </div>
     );
 
 
 
-    let gigmodal = (this.state.showing) ? (<div className="gig-preview gigmodal col-sm-6">
-      <div className="gig-cover"></div>
-      {this.state.gigview}
-    </div>)
+    let gigmodal = (showing) ? (
+      <div className="gig-preview gigmodal col-sm-6">
+        <div className="gig-cover"></div>
+        {gigview}
+      </div>)
+
     : '';
     let please_login = (this.state.submitted) ? (<SubmitModal text={this.state.modaltext} hide={this.hideModal.bind(this)} />) : '';
     return(

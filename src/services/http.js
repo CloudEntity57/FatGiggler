@@ -7,5 +7,19 @@ export default function HttpService(){
         res(data);
       });
     });
+  };
+  this.post = (url,data) => {
+    return new Promise((res,rej)=>{
+      firebase.database().ref(url).set(data).then((data)=>{
+        res(data);
+      });
+    });
+  };
+  this.put = (url,data) => {
+    return new Promise((res,rej)=>{
+      firebase.database().ref(url).ref.update(data).then((data)=>{
+        res(data);
+      });
+    });
   }
 }

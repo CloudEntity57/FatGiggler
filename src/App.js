@@ -37,7 +37,7 @@ class App extends Component {
           .ref('/users/'+uid+'/playing/')
           .on('value',(data)=>{
             let result = data.val();
-            // console.log('now actually playing: ',result);
+            console.log('now actually playing: ',result);
             if(result){
               this.setState({
                 playing:result,

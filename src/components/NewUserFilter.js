@@ -54,39 +54,4 @@ module.exports = {
         playing:''
       });
     },
-    renderGig(sets,setnum,songs,maxsets,frame,callback){
-      for(let x=0; x<maxsets; x++){
-        let  goods=[];
-        // go through every song in the gig:
-        for (var int =0; int<sets.length; int++) {
-          // console.log('the song to iterate through: ',sets[song]);
-          if (sets.hasOwnProperty(int)) {
-          // check if song has current gig number
-          let tune = [];
-            if(sets[int].set===setnum){
-              //grab the matching song from our updated array 'songs'
-              for(let i=0; i<songs.length; i++){
-                if(songs[i].id===sets[int].id){
-                  tune = songs[i];
-                  // console.log('the tune is: ',tune);
-                  break;
-                }
-              }
-              if(tune=='')break;
-               callback(tune,goods);
-            }
-          }
-        }
-        frame.push(
-          <div className="set">
-          <h3>Set {setnum}</h3>
-          <ul>
-            {goods}
-          </ul>
-        </div>
-        );
-        //increase the set number
-        setnum++;
-      }
-    }
 };

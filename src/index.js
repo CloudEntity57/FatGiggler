@@ -18,7 +18,7 @@ ReactDOM.render(
   <MuiThemeProvider>
   <Router history={ hashHistory }>
     <Route path="/" component={ App }>
-      <IndexRoute component={ LandingPage } />
+      <IndexRoute component={ Gigs } />
       <Route path="/dashboard" component={ Dashboard } />
       <Route path="/addsong" component={ SongForm } />
       <Route path="/addgig" component={ GigForm } />

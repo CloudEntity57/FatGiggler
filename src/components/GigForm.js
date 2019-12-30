@@ -296,7 +296,7 @@ class GigForm extends Component {
      let timefiltered = this.sortByTime(moodfiltered,minutes);
     //  console.log('after time filter: ',timefiltered);
      let setfiltered = this.filterBySets(timefiltered,sets);
-    //  console.log('after set filter: ',setfiltered);
+    //console.log('after set filter: ',setfiltered);
      let newgig={
        title:title,
        genres:genres,
@@ -337,6 +337,7 @@ class GigForm extends Component {
       return;
     }
     // if form not filled:
+    //** PLEASE FIX THIS AND UPDATE TO HTML5 FORM VALIDATION
     if(
       !gig.hasOwnProperty('title') ||
       !gig.hasOwnProperty('maxminutes') ||
